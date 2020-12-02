@@ -14,7 +14,8 @@ import {colors} from "../colors";
 import AuthInput from "../components/AuthInput";
 import * as authActions from "../store/actions/authAction"
 
-import { useDispatch} from "react-redux";
+import {useDispatch} from "react-redux";
+
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -41,7 +42,7 @@ const formReducer = (state, action) => {
     return state;
 };
 
-export const AuthScreen = props => {
+export const AuthScreen = ({  navigation }) => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
@@ -82,7 +83,7 @@ export const AuthScreen = props => {
         setIsLoading(true);
         try {
             await dispatch(action);
-            props.navigation.navigate('Main');
+            navigation.navigate('Main');
         } catch (err) {
             setError(err.message);
             setIsLoading(false);
@@ -100,6 +101,7 @@ export const AuthScreen = props => {
         },
         [dispatchFormState]
     );
+
 
     return (
         <View style={styles.screen} >

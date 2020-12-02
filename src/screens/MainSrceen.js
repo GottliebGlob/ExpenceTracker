@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, FlatList, Alert, StatusBar, ActivityIndicator} from 'react-native'
+import {View, Text, StyleSheet, FlatList, Alert, StatusBar, ActivityIndicator, TouchableOpacity} from 'react-native'
 import {useDispatch, useSelector} from "react-redux";
+
 
 import Header from "../components/Header";
 import AccountInfo from "../components/AccountInfo";
@@ -15,10 +16,12 @@ import moment from 'moment';
 import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
 
 
+
 export const MainScreen = ({navigation}) => {
     const [isLoading, setIsLoading]= useState(false)
     const dispatch = useDispatch()
     const allSpends = useSelector(state => state.main.main)
+    const lastMonthSpends = allSpends.filter(e => moment(e.date).month() == moment().month())
 
     useEffect(() => {
        const loadSpends = async () => {
@@ -30,7 +33,7 @@ export const MainScreen = ({navigation}) => {
     }, [])
 
     const [modalVisible, setModalVisible] = useState(false)
-
+    const [flatInfo, setFlatInfo] = useState(true)
 
 
     const mainStateHandler = (enteredText, enteredCost, cat) => {
@@ -75,12 +78,15 @@ export const MainScreen = ({navigation}) => {
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
     <Header firstText="НАЛИЧНЫЕ" secondText="КАРТЫ" active='cash' nav={navigation.navigate}/>
-    <AccountInfo navigation={navigation}/>
+    <AccountInfo navigation={navigation} />
             <View style={styles.wrapper}>
                 <View style={{paddingHorizontal: '10%'}}>
                     <View style={styles.mainContent}>
-                        <Text style={{...styles.text, fontSize: 22}}> Потрачно за месяц: </Text>
-                        <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>{allSpends.map(e => Number(e.cost)).reduce((t, a) => t + a, 0)} р.</Text>
+                        <Text style={{...styles.text, fontSize: 22}}> Потрачно зa</Text>
+                       <TouchableOpacity style={styles.flatInfo} onPress={() => setFlatInfo(!flatInfo)}>
+                           <Text style={styles.flatInfoText}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                       </TouchableOpacity>
+                        <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>{((!flatInfo) ? allSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)} р.</Text>
                     </View>
     <Text style={styles.text}>Траты:</Text>
             <AddButton show={showModalHandler}/>
@@ -88,7 +94,7 @@ export const MainScreen = ({navigation}) => {
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
                 <FlatList
                     keyExtractor={(item, index) => item.id}
-                    data={allSpends}
+                    data={(!flatInfo) ? allSpends : lastMonthSpends}
                     renderItem={itemData => (
                       <Item text={itemData.item.value} cat={itemData.item.cat} date={itemData.item.date} cost={itemData.item.cost} id={itemData.item.id} removeHandler={removeHandler}/>
                     )}
@@ -125,5 +131,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    flatInfo: {
+        borderBottomColor: colors.dark,
+        borderBottomWidth: 1,
+        height: 45
+    },
+    flatInfoText: {
+        paddingTop: 10,
+        fontWeight: 'bold',
+        fontSize: 22
     }
 })

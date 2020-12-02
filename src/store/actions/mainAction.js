@@ -1,6 +1,7 @@
 export const ADD ='ADD'
 export const DEL = 'DEL'
 export const SET = 'SET'
+export const CLEAR = 'CLEAR'
 
 export const addMain = (NewItem) => {
     const {value, cost, cat, date} = NewItem
@@ -33,8 +34,9 @@ export const addMain = (NewItem) => {
 export const removeMain = (id) => {
     return async (dispatch, getState) => {
         const token = getState().auth.token;
+        const userId = getState().auth.userId;
         await fetch(
-            `https://expensetracker-b3547.firebaseio.com/main/${id}.json?auth=${token}`,
+            `https://expensetracker-b3547.firebaseio.com/${userId}.json?auth=${token}`,
             {
                 method: 'DELETE'
             }
@@ -86,3 +88,10 @@ export const fetchMain = () => {
     };
 };
 
+
+export const clearState = () => {
+    return dispatch => {
+        // Your code here...
+        dispatch({ type: CLEAR });
+    };
+}

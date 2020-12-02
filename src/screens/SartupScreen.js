@@ -28,7 +28,6 @@ export const StartupScreen = props => {
                 props.navigation.navigate('AuthScreen');
                 return;
             }
-            console.log('hi')
             props.navigation.navigate('Main');
             dispatch(authActions.authenticate(userId, token));
         };

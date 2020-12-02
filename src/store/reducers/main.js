@@ -1,5 +1,5 @@
 
-import {ADD, DEL, SET} from "../actions/mainAction";
+import {ADD, DEL, SET, CLEAR} from "../actions/mainAction";
 
 const initialState = {
    main: []
@@ -21,6 +21,11 @@ const mainReducer = (state = initialState, action) => {
             return {
                 ...state,
                 main: state.main.filter(e => e.id !== action.payload)
+            }
+        case CLEAR:
+            return {
+                ...state,
+                main: state.main = []
             }
         default:
             return state
