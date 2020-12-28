@@ -21,7 +21,9 @@ export const MainScreen = ({navigation}) => {
     const [isLoading, setIsLoading]= useState(false)
     const dispatch = useDispatch()
     const allSpends = useSelector(state => state.main.main)
-    const lastMonthSpends = allSpends.filter(e => moment(e.date).month() == moment().month())
+    const sortedAllSpends  = allSpends.sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
+    console.log(sortedAllSpends)
+    const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
 
     useEffect(() => {
        const loadSpends = async () => {
@@ -86,7 +88,7 @@ export const MainScreen = ({navigation}) => {
                        <TouchableOpacity style={styles.flatInfo} onPress={() => setFlatInfo(!flatInfo)}>
                            <Text style={styles.flatInfoText}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
-                        <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>{((!flatInfo) ? allSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)} р.</Text>
+                        <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>{((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)} р.</Text>
                     </View>
     <Text style={styles.text}>Траты:</Text>
             <AddButton show={showModalHandler}/>
@@ -94,7 +96,7 @@ export const MainScreen = ({navigation}) => {
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
                 <FlatList
                     keyExtractor={(item, index) => item.id}
-                    data={(!flatInfo) ? allSpends : lastMonthSpends}
+                    data={(!flatInfo) ? sortedAllSpends : lastMonthSpends}
                     renderItem={itemData => (
                       <Item text={itemData.item.value} cat={itemData.item.cat} date={itemData.item.date} cost={itemData.item.cost} id={itemData.item.id} removeHandler={removeHandler}/>
                     )}
@@ -102,7 +104,7 @@ export const MainScreen = ({navigation}) => {
 
     </View>
             <View style={styles.statistics}>
-                <StatisticButton navigation={navigation}/>
+                <StatisticButton navigation={navigation} data={sortedAllSpends}/>
             </View>
     </View>
     )
