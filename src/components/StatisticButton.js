@@ -5,9 +5,10 @@ import {Ionicons} from "@expo/vector-icons";
 
 const StatisticButton = props => {
     const data = props.data
+    const monthData = props.monthData
     return (
         <View>
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Statistics', {data: data})}>
+            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData})}>
                 <Text style={styles.text}>СТАТИСТИКА</Text>
                 <Ionicons name='ios-stats' size={30} style={{paddingLeft: 15, paddingVertical: 2, color: '#fff'}}/>
             </TouchableOpacity>

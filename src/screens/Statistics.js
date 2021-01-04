@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import { Dimensions } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
@@ -10,10 +10,27 @@ import moment from 'moment';
 
 export const Statistics = ({route, navigation}) => {
     const screenWidth = Dimensions.get("window").width;
-    const { data } = route.params;
+    const { data, monthData } = route.params;
 
 
-    const lineLabels = data.map(e => moment(e.date).month()).filter((v, i, a) => a.indexOf(v) === i ).map(e => moment().month(e).format('MMMM'))
+    const [dataPieState, setDataPieState] = useState({
+        general: 0,
+        house: 0,
+        transport: 0,
+        food: 0,
+        people: 0,
+        entertainment: 0,
+        education: 0,
+        health: 0,
+        appearance: 0,
+        hobby: 0,
+    })
+
+    useEffect(() => {
+       dataPieStateHandler()
+    }, [])
+
+    const lineLabels = data.slice(-6).map(e => moment(e.date).month()).filter((v, i, a) => a.indexOf(v) === i ).map(e => moment().month(e).format('MMMM'))
     const linePrices = [];
 
     const summedUpDates = [];
@@ -24,7 +41,7 @@ export const Statistics = ({route, navigation}) => {
 
     const sumUpDate = (date) => {
         let sum = 0;
-        data.forEach(t => {
+        data.slice(-6).forEach(t => {
             if(t.date.substring(0, 7) === date.substring(0, 7)) {
                 sum += parseInt(t.cost);
             }
@@ -33,7 +50,7 @@ export const Statistics = ({route, navigation}) => {
         linePrices.push(sum);
     }
 
-    data.forEach(t => {
+    data.slice(-6).forEach(t => {
         if(!isDateSummedUp(t.date)) {
             sumUpDate(t.date);
         }
@@ -57,73 +74,147 @@ export const Statistics = ({route, navigation}) => {
             color: (opacity = 255) => `rgba(60, 60, 60, ${opacity})`,
     }
 
+    const dataPieStateHandler = () => {
+        monthData.map(e => {
+            switch (e.cat) {
+                    case "general": {
+                        let general = dataPieState.general += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            general: general
+                        }))
+                        break;}
+                    case "house":{
+                         let house = dataPieState.house += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            house: house
+                        }))
+                        break;}
+                    case "transport": { let transport = dataPieState.transport += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            transport: transport
+                        }))
+                        break;}
+                    case "food": {
+                        console.log('food here')
+                        let food = dataPieState.food += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            food: food
+                        }))
+                        break;}
+                    case "people": {  let people = dataPieState.people += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            people: people
+                        }))
+                        break;}
+                    case "entertainment": {  let entertainment = dataPieState.entertainment += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            entertainment: entertainment
+                        }))
+                        break;}
+                    case "education": {  let education = dataPieState.education += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            education: education
+                        }))
+                        break;}
+                    case "health": {  let health = dataPieState.health += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            health: health
+                        }))
+                        break;}
+                    case "appearance": {  let appearance = dataPieState.appearance += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            appearance: appearance
+                        }))
+                        break;}
+                    case "hobby": {  let hobby = dataPieState.hobby += e.cost
+                        setDataPieState(prev => ({
+                            ...prev,
+                            hobby: hobby
+                        }))
+                        break;}
+                    default: return undefined;
+            }
+        })
+    }
+
+
     const dataPie = [
         {
             name: "Общие",
-            population: 1045,
+            population: dataPieState.general,
             color: colors.cats.general.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Дом",
-            population: 870,
+            population: dataPieState.house,
             color: colors.cats.house.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Транстпорт",
-            population: 560,
+            population: dataPieState.transport,
             color: colors.cats.transport.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
+
         {
             name: "Еда",
-            population: 2100,
+            population: dataPieState.food,
             color: colors.cats.food.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Люди",
-            population: 870,
+            population: dataPieState.people,
             color: colors.cats.people.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Развлечения",
-            population: 1200,
+            population: dataPieState.entertainment,
             color: colors.cats.entertainment.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Образоввание",
-            population: 1356,
+            population: dataPieState.education,
             color: colors.cats.education.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Здоровье",
-            population: 0,
+            population: dataPieState.health,
             color: colors.cats.health.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Внешний вид",
-            population: 460,
+            population: dataPieState.appearance,
             color: colors.cats.appearance.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
             name: "Хобби",
-            population: 230,
+            population: dataPieState.hobby,
             color: colors.cats.hobby.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14

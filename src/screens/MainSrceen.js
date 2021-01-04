@@ -22,7 +22,6 @@ export const MainScreen = ({navigation}) => {
     const dispatch = useDispatch()
     const allSpends = useSelector(state => state.main.main)
     const sortedAllSpends  = allSpends.sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
-    console.log(sortedAllSpends)
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
 
     useEffect(() => {
@@ -104,7 +103,7 @@ export const MainScreen = ({navigation}) => {
 
     </View>
             <View style={styles.statistics}>
-                <StatisticButton navigation={navigation} data={sortedAllSpends}/>
+                <StatisticButton navigation={navigation} data={sortedAllSpends} monthData={lastMonthSpends}/>
             </View>
     </View>
     )
