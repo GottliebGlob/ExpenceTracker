@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { firebase } from '../../firebase/config'
 
 export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
@@ -10,89 +10,61 @@ export const authenticate = (userId, token) => {
 
 
 export const signup = (email, password) => {
-    return async dispatch => {
-        const response = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBpTWcltr9IlgsrkaxMOMILUgckiQaGMMI',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    returnSecureToken: true
-                })
-            }
-        );
+    return async () => {
+        await  firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((response) => {
+                const uid = response.user.uid
+                const data = {
+                    id: uid,
+                    email,
+                };
+                const usersRef = firebase.firestore().collection('users')
+                usersRef
+                    .doc(uid)
+                    .set(data)
+                    .then(() => {
 
-        if (!response.ok) {
-            const errorResData = await response.json();
-            const errorId = errorResData.error.message;
-            let message = 'Упс! Что-то пошло не так!';
-            if (errorId === 'EMAIL_EXISTS') {
-                message = 'Данный email уже существует!';
-            }
-            throw new Error(message);
-        }
+                    })
+                    .catch((error) => {
+                        alert(error)
+                    });
+            })
+            .catch((error) => {
+                alert(error)
+            });
+    }
 
-        const resData = await response.json();
-        console.log(resData);
-        dispatch(authenticate(resData.localId, resData.idToken));
-        const expirationDate = new Date(
-            new Date().getTime() + parseInt(resData.expiresIn) * 1000
-        );
-        saveDataToStorage(resData.idToken, resData.localId, expirationDate);
-    };
+
 };
 
 
 export const login = (email, password) => {
-    return async dispatch => {
-        const response = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBpTWcltr9IlgsrkaxMOMILUgckiQaGMMI',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    returnSecureToken: true
-                })
-            }
-        );
+    return async () => {
+        await firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then((response) => {
+                const uid = response.user.uid
+                const usersRef = firebase.firestore().collection('users')
+                usersRef
+                    .doc(uid)
+                    .get()
+                    .then(firestoreDocument => {
+                        if (!firestoreDocument.exists) {
+                            alert("User does not exist anymore.")
+                            return;
+                        }
 
-        if (!response.ok) {
-            const errorResData = await response.json();
-            const errorId = errorResData.error.message;
-            let message = 'Упс! Что-то пошло не так!';
-            if (errorId === 'EMAIL_NOT_FOUND') {
-                message = 'Указанный email не найден!';
-            } else if (errorId === 'INVALID_PASSWORD') {
-                message = 'Неверный пароль!';
-            }
-            throw new Error(message);
-        }
-
-        const resData = await response.json();
-        console.log(resData);
-        dispatch(authenticate(resData.localId, resData.idToken));
-        const expirationDate = new Date(
-            new Date().getTime() + parseInt(resData.expiresIn) * 1000
-        );
-        saveDataToStorage(resData.idToken, resData.localId, expirationDate);
-    };
+                    })
+                    .catch(error => {
+                        alert(error)
+                    });
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }
 };
 
-const saveDataToStorage = (token, userId, expirationDate) => {
-    AsyncStorage.setItem(
-        'userData',
-        JSON.stringify({
-            token: token,
-            userId: userId,
-            expiryDate: expirationDate.toISOString()
-        })
-    );
-};

@@ -83,7 +83,7 @@ export const AuthScreen = ({  navigation }) => {
         setIsLoading(true);
         try {
             await dispatch(action);
-            navigation.navigate('Main');
+            navigation.navigate('Main')
         } catch (err) {
             setError(err.message);
             setIsLoading(false);
@@ -116,32 +116,35 @@ export const AuthScreen = ({  navigation }) => {
                             required
                             email
                             autoCapitalize="none"
-                            errorText="Please enter a valid email address."
+                            errorText="Пожалуйста, используйте существующий e-mail."
                             onInputChange={inputChangeHandler}
                             initialValue=""
                         />
                         <AuthInput
                             id="password"
-                            label="Password"
+                            label="Пароль"
                             keyboardType="default"
                             secureTextEntry
                             required
                             minLength={5}
                             autoCapitalize="none"
-                            errorText="Please enter a valid password."
+                            errorText="Пожалуйста, используйте корректный пароль."
                             onInputChange={inputChangeHandler}
                             initialValue=""
                         />
+
+
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button2} onPress={authHandler}>
-                                <Text style={{...styles.text, color: 'black'}}>{isSignup ? 'ПРИНЯТЬ' : 'ВОЙТИ'}</Text>
+                            <TouchableOpacity style={styles.button1} onPress={authHandler}>
+                                <Text style={styles.text}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
                                 {isLoading ? (
-                                        <ActivityIndicator size="small" color={colors.dark} />
-                                    ) : (<View></View>) }
+                                    <ActivityIndicator size="small" color={colors.dark} />
+                                ) : (<View></View>) }
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.button1} onPress={() => {setIsSignup(prevState => !prevState)}}>
-                                <Text style={styles.text}>{` ${isSignup ? 'НАЗАД' : 'РЕГИСТРАЦИЯ'}`}</Text>
-                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.footerView}>
+                        <Text style={styles.footerText}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '} <Text onPress={() => {setIsSignup(prevState => !prevState)}}
+                                                                                     style={styles.footerLink}>{isSignup ? 'Войти' : 'Зарегистрироваться'}</Text></Text>
                         </View>
                     </ScrollView>
         </View>
@@ -150,34 +153,40 @@ export const AuthScreen = ({  navigation }) => {
 
 
 const styles = StyleSheet.create({
+    footerText: {
+        fontSize: 16,
+        color: colors.dark
+    },
+    footerLink: {
+        fontWeight: "bold",
+        fontSize: 16,
+        color: 'black'
+    },
+    footerView: {
+        flex: 1,
+        alignItems: "center",
+        marginTop: 20
+    },
     screen: {
         flex: 1,
         justifyContent: 'center',
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        marginVertical: 20
+        marginVertical: 20,
+       paddingHorizontal: '5%'
     },
     button1: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'black',
         height: 45,
-        width: 120,
-
-    },
-    button2: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 6,
-        borderColor: '#5d5c61',
-        borderWidth: 2,
-        height: 45,
-        width: 120,
+        width: '100%',
         flexDirection: "row"
     },
+
     text: {
         color: '#fff',
         fontWeight: 'bold'

@@ -222,7 +222,32 @@ export const Statistics = ({route, navigation}) => {
     ];
 
 
+    if(data.length === 0) {
+        return (
+            <View style={styles.main}>
+                    <View style={styles.headerWrapper}>
+                        <TouchableOpacity style={styles.goBackIcon} onPress={() => navigation.navigate('Main')}>
+                            <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: '#fff'}}/>
+                        </TouchableOpacity>
+                        <View style={styles.mainTextContainer}>
+                            <Text style={{...styles.text, fontSize: 16}}>СТАТИСТИКА</Text>
+                        </View>
+                    </View>
+                <View style={styles.screen}>
+                    <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10}}/>
+                <Text style={styles.h1text}>
+                    Увы, пока нечего вам показать!
+                </Text>
+                    <View style={{height: '5%'}}>
+                    </View>
+                <Text style={styles.h2text}>
+                    попробуйте добавить хотя бы одну трату
+                </Text>
 
+                </View>
+            </View>
+        )
+    }
 
     return(
         <View style={styles.main}>
@@ -276,6 +301,12 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       alignItems: 'center'
     },
+    screen: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginTop: '60%'
+    },
     text: {
         color: '#fff',
         fontWeight: 'bold'
@@ -305,7 +336,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         paddingLeft: 10
     },
-
+    h1text: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    h2text: {
+        fontSize: 14,
+        color: colors.dark
+    }
 })
 
 

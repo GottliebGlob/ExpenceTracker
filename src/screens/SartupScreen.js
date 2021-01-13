@@ -1,40 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     View,
     ActivityIndicator,
     StyleSheet,
-    AsyncStorage
+
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+
 
 import {colors} from "../colors";
-import * as authActions from '../store/actions/authAction';
 
-export const StartupScreen = props => {
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-        const tryLogin = async () => {
-            const userData = await AsyncStorage.getItem('userData');
-            if (!userData) {
-                props.navigation.navigate('AuthScreen');
-                return;
-            }
-            const transformedData = JSON.parse(userData);
-            const { token, userId, expiryDate } = transformedData;
-            const expirationDate = new Date(expiryDate);
-
-            if (expirationDate <= new Date() || !token || !userId) {
-                props.navigation.navigate('AuthScreen');
-                return;
-            }
-            props.navigation.navigate('Main');
-            dispatch(authActions.authenticate(userId, token));
-        };
-
-        tryLogin();
-    }, [dispatch]);
-
+export const StartupScreen = () => {
     return (
         <View style={styles.screen}>
             <ActivityIndicator size="large" color={colors.dark} />
