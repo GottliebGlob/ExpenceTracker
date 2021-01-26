@@ -12,6 +12,7 @@ import {
 import {colors} from "../colors";
 
 import AuthInput from "../components/AuthInput";
+import PassInput from "../components/PassInput";
 import * as authActions from "../store/actions/authAction"
 
 import {useDispatch} from "react-redux";
@@ -83,11 +84,13 @@ export const AuthScreen = ({  navigation }) => {
         setIsLoading(true);
         try {
             await dispatch(action);
-            navigation.navigate('Main')
+            setIsLoading(false);
+           return;
         } catch (err) {
             setError(err.message);
             setIsLoading(false);
         }
+        navigation.navigate('Main')
     };
 
     const inputChangeHandler = useCallback(
@@ -120,11 +123,10 @@ export const AuthScreen = ({  navigation }) => {
                             onInputChange={inputChangeHandler}
                             initialValue=""
                         />
-                        <AuthInput
+                        <PassInput
                             id="password"
                             label="Пароль"
                             keyboardType="default"
-                            secureTextEntry
                             required
                             minLength={5}
                             autoCapitalize="none"
@@ -137,6 +139,8 @@ export const AuthScreen = ({  navigation }) => {
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.button1} onPress={authHandler}>
                                 <Text style={styles.text}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
+                                <View style={{width: 10}}>
+                                </View>
                                 {isLoading ? (
                                     <ActivityIndicator size="small" color={colors.dark} />
                                 ) : (<View></View>) }

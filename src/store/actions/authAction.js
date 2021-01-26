@@ -1,12 +1,6 @@
 import { firebase } from '../../firebase/config'
-
-export const SIGNUP = 'SIGNUP';
-export const LOGIN = 'LOGIN';
 export const AUTHENTICATE = 'AUTHENTICATE';
 
-export const authenticate = (userId, token) => {
-    return { type: AUTHENTICATE, userId: userId, token: token };
-};
 
 
 export const signup = (email, password) => {
@@ -25,7 +19,7 @@ export const signup = (email, password) => {
                     .doc(uid)
                     .set(data)
                     .then(() => {
-
+                        //navigation.navigate("Main");
                     })
                     .catch((error) => {
                         alert(error)
@@ -56,7 +50,7 @@ export const login = (email, password) => {
                             alert("User does not exist anymore.")
                             return;
                         }
-
+                       // navigation.navigate("Main");
                     })
                     .catch(error => {
                         alert(error)
@@ -66,5 +60,6 @@ export const login = (email, password) => {
                 alert(error)
             })
     }
+
 };
 

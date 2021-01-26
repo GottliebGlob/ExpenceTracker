@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {View, Text, StyleSheet, FlatList, Alert, StatusBar, ActivityIndicator, TouchableOpacity} from 'react-native'
 import {useDispatch, useSelector} from "react-redux";
+import { firebase } from '../firebase/config'
 
 
 import Header from "../components/Header";
@@ -23,6 +24,14 @@ export const MainScreen = ({navigation}) => {
     const allSpends = useSelector(state => state.main.main)
     const sortedAllSpends  = allSpends.sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+         // console.log('user is here' + user.uid)
+        } else {
+            console.log('no user')
+        }
+    });
 
     useEffect(() => {
        const loadSpends = async () => {
