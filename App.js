@@ -19,16 +19,14 @@ import {StartupScreen} from "./src/screens/SartupScreen"
 import {createStackNavigator} from "@react-navigation/stack";
 
 import mainReducer from "./src/store/reducers/main";
-import authReducer from "./src/store/reducers/auth"
 
 
 
 const rootReducer = combineReducers({
     main: mainReducer,
-    auth: authReducer
 })
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
+export const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 export default function App() {
     const Stack = createStackNavigator();
@@ -89,8 +87,3 @@ export default function App() {
     );
 }
 
-
-// <Stack.Screen name="StartupScreen" component={StartupScreen} />
-//                 <Stack.Screen name="AuthScreen" component={AuthScreen} />
-//                 <Stack.Screen name="Main" component={MainScreen} />
-//                 <Stack.Screen name="Statistics" component={Statistics} />

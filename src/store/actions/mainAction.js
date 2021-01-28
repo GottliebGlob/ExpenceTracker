@@ -3,31 +3,39 @@ export const DEL = 'DEL'
 export const SET = 'SET'
 export const CLEAR = 'CLEAR'
 
+import { firebase } from '../../firebase/config'
+
+
+
 export const addMain = (NewItem) => {
     const {value, cost, cat, date} = NewItem
-    return async (dispatch, getState) => {
-        const token = getState().auth.token;
-        const userId = getState().auth.userId;
-        const response = await fetch(`https://expensetracker-b3547.firebaseio.com/${userId}.json?auth=${token}`, {
-            method: 'POST',
-            hearers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-               value,
-                cost,
-                cat,
-                date
-            })
-        })
-        const resData = await response.json()
+    return async (dispatch) => {
+        const entityRef = firebase.firestore().collection('data')
+        const user = firebase.auth().currentUser;
+        const userId = user.uid
+        const extraId = {id: null}
 
-        const payl = {...NewItem, id: resData.name}
-        dispatch({
-            type: ADD,
-            payload: payl
-        })
-
+        const data = {
+            value,
+            cost,
+            cat,
+            date,
+            authorID: userId,
+        }
+        entityRef
+            .add(data)
+            .then(docRef => {
+                extraId.id = docRef.id
+                const payl = {...NewItem, id: extraId.id}
+                    dispatch({
+                    type: ADD,
+                    payload: payl
+                })
+                }
+            )
+            .catch((error) => {
+                alert(error)
+            });
     }
 }
 
@@ -59,33 +67,28 @@ class NewItem {
 
 
 export const fetchMain = () => {
-    return async (dispatch, getState) => {
-        const userId = getState().auth.userId;
-        try {
-            const response = await fetch(
-                `https://expensetracker-b3547.firebaseio.com/${userId}.json`
-            );
+    const user = firebase.auth().currentUser;
+    const userId = user.uid
+    const loaded = []
+    return async (dispatch) => {
+        const mainRef = firebase.firestore().collection('data').where("authorID", "==", userId).orderBy('date', 'desc')
+        const mainSnapshot = await mainRef.get()
 
-            const resData = await response.json();
-            const loaded = []
-
-
-            for (const key in resData) {
+        mainSnapshot.forEach(doc => {
+                const entity = doc.data()
+                entity.id = doc.id
+                console.log('query')
                 loaded.push(new NewItem(
-                    key,
-                    resData[key].value,
-                    resData[key].cost,
-                    resData[key].cat,
-                    resData[key].date
+                    entity.id,
+                    entity.value,
+                    entity.cost,
+                    entity.cat,
+                    entity.date
                     )
                 )
-
-            }
-            dispatch({type: SET, payload: loaded});
-        } catch (err) {
-            throw err
-        }
-    };
+            })
+        dispatch({type: SET, payload: loaded})
+    }
 };
 
 
