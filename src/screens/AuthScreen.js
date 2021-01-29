@@ -9,6 +9,7 @@ import {
     Alert
 } from 'react-native';
 
+
 import {colors} from "../colors";
 
 import AuthInput from "../components/AuthInput";
@@ -60,6 +61,7 @@ export const AuthScreen = ({  navigation }) => {
         },
         formIsValid: false
     });
+
 
     useEffect(() => {
         if (error) {
@@ -145,6 +147,7 @@ export const AuthScreen = ({  navigation }) => {
                                     <ActivityIndicator size="small" color={colors.dark} />
                                 ) : (<View></View>) }
                             </TouchableOpacity>
+
                         </View>
                         <View style={styles.footerView}>
                         <Text style={styles.footerText}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '} <Text onPress={() => {setIsSignup(prevState => !prevState)}}

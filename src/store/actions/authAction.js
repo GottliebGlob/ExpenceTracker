@@ -1,6 +1,7 @@
 import { firebase } from '../../firebase/config'
 
 
+
 export const signup = (email, password) => {
     return async () => {
         await  firebase
@@ -57,3 +58,19 @@ export const login = (email, password) => {
 
 };
 
+export const google = () => {
+    return async () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await firebase
+            .auth()
+            .signInWithRedirect(provider)
+            .then((result) => {
+                const user = result.user
+                console.log(user)
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }
+
+};

@@ -6,7 +6,6 @@ export const CLEAR = 'CLEAR'
 import { firebase } from '../../firebase/config'
 
 
-
 export const addMain = (NewItem) => {
     const {value, cost, cat, date} = NewItem
     return async (dispatch) => {
@@ -40,16 +39,14 @@ export const addMain = (NewItem) => {
 }
 
 export const removeMain = (id) => {
-    return async (dispatch, getState) => {
-        const token = getState().auth.token;
-        const userId = getState().auth.userId;
-        await fetch(
-            `https://expensetracker-b3547.firebaseio.com/${userId}.json?auth=${token}`,
-            {
-                method: 'DELETE'
-            }
-        );
-        dispatch({ type: DEL, payload: id })
+    return async (dispatch) => {
+     firebase.firestore().collection('data')
+         .doc(id)
+         .delete()
+         .then(dispatch({ type: DEL, payload: id }))
+         .catch((error) => {
+         alert(error)
+     });
     }
 }
 
@@ -72,12 +69,13 @@ export const fetchMain = () => {
     const loaded = []
     return async (dispatch) => {
         const mainRef = firebase.firestore().collection('data').where("authorID", "==", userId).orderBy('date', 'desc')
-        const mainSnapshot = await mainRef.get()
+        const mainSnapshot = await mainRef.get().catch((error) => {
+            alert(error)
+        });
 
         mainSnapshot.forEach(doc => {
                 const entity = doc.data()
                 entity.id = doc.id
-                console.log('query')
                 loaded.push(new NewItem(
                     entity.id,
                     entity.value,
