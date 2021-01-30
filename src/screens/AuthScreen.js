@@ -17,6 +17,8 @@ import PassInput from "../components/PassInput";
 import * as authActions from "../store/actions/authAction"
 
 import {useDispatch} from "react-redux";
+import {firebase} from "../firebase/config";
+
 
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
@@ -85,14 +87,16 @@ export const AuthScreen = ({  navigation }) => {
         setError(null);
         setIsLoading(true);
         try {
-            await dispatch(action);
+            await dispatch(action)
             setIsLoading(false);
-           return;
         } catch (err) {
             setError(err.message);
             setIsLoading(false);
         }
+        const user = firebase.auth().currentUser;
+        if(user) {
         navigation.navigate('Main')
+        }
     };
 
     const inputChangeHandler = useCallback(
@@ -148,6 +152,7 @@ export const AuthScreen = ({  navigation }) => {
                                 ) : (<View></View>) }
                             </TouchableOpacity>
 
+
                         </View>
                         <View style={styles.footerView}>
                         <Text style={styles.footerText}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '} <Text onPress={() => {setIsSignup(prevState => !prevState)}}
@@ -179,7 +184,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonContainer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
         marginVertical: 20,

@@ -15,6 +15,7 @@ import {colors} from "../colors";
 
 import moment from 'moment';
 import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
+import { firebase } from '../firebase/config'
 
 
 
@@ -26,11 +27,19 @@ export const MainScreen = ({navigation}) => {
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
 
 
+    const user = firebase.auth().currentUser;
+    let email;
+
+    if (user != null) {
+        email = user.email;
+    }
+
+
     useEffect(() => {
         const loadSpends = async () => {
             if(allSpends.length === 0) {
                 setIsLoading(true)
-                await dispatch(fetchMain()).then( setIsLoading(false))
+                await dispatch(fetchMain()).then(setIsLoading(false))
             }
         }
         loadSpends()
@@ -83,7 +92,7 @@ export const MainScreen = ({navigation}) => {
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
     <Header firstText="НАЛИЧНЫЕ" secondText="КАРТЫ" active='cash' nav={navigation.navigate}/>
-    <AccountInfo navigation={navigation} />
+    <AccountInfo navigation={navigation} email={email} />
             <View style={styles.wrapper}>
                 <View style={{paddingHorizontal: '10%'}}>
                     <View style={styles.mainContent}>

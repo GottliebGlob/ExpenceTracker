@@ -29,6 +29,13 @@ export const signup = (email, password) => {
     }
 };
 
+export const signOut = () => {
+    return async () => {
+        firebase.auth().signOut().catch((error) => {
+            alert(error)
+        });
+    }
+}
 
 export const login = (email, password) => {
     return async () => {
@@ -59,6 +66,7 @@ export const login = (email, password) => {
 };
 
 export const google = () => {
+    console.log('hello')
     return async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         await firebase

@@ -19,6 +19,7 @@ import {StartupScreen} from "./src/screens/SartupScreen"
 import {createStackNavigator} from "@react-navigation/stack";
 
 import mainReducer from "./src/store/reducers/main";
+import StackNavigator from "@react-navigation/stack/src/navigators/createStackNavigator";
 
 
 
@@ -71,6 +72,7 @@ export default function App() {
                         {props => <MainScreen {...props} extraData={user} />}
                     </Stack.Screen>
                         <Stack.Screen name="Statistics" component={Statistics} />
+                        <Stack.Screen name="LogOut" component={AuthScreen} />
                     </>
                 ) : (
                     <>
