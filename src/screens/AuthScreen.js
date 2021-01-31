@@ -52,14 +52,17 @@ export const AuthScreen = ({  navigation }) => {
     const [error, setError] = useState();
     const [isSignup, setIsSignup] = useState(false);
 
+
     const [formState, dispatchFormState] = useReducer(formReducer, {
         inputValues: {
             email: '',
-            password: ''
+            password: '',
+            name: ''
         },
         inputValidities: {
             email: false,
-            password: false
+            password: false,
+            name: true
         },
         formIsValid: false
     });
@@ -76,7 +79,8 @@ export const AuthScreen = ({  navigation }) => {
         if (isSignup) {
             action = authActions.signup(
                 formState.inputValues.email,
-                formState.inputValues.password
+                formState.inputValues.password,
+                formState.inputValues.name,
             );
         } else {
             action = authActions.login(
@@ -112,12 +116,25 @@ export const AuthScreen = ({  navigation }) => {
     );
 
 
+
     return (
         <View style={styles.screen} >
             <View style={styles.mainTextContainer}>
                 <Text style={{...styles.text, fontSize: 18}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
             </View>
                     <ScrollView style={{marginTop: '30%'}}>
+
+                        {isSignup ? <AuthInput
+                            id="name"
+                            label="Имя"
+                            keyboardType="default"
+                            minLength={2}
+                            required
+                            errorText="Пожалуйста, введите настоящее имя."
+                            onInputChange={inputChangeHandler}
+                            initialValue=""
+                        /> : null}
+
                         <AuthInput
                             id="email"
                             label="E-Mail"

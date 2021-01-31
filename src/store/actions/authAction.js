@@ -1,8 +1,9 @@
 import { firebase } from '../../firebase/config'
+import {DEL} from "./mainAction";
 
 
 
-export const signup = (email, password) => {
+export const signup = (email, password, name) => {
     return async () => {
         await  firebase
             .auth()
@@ -12,6 +13,7 @@ export const signup = (email, password) => {
                 const data = {
                     id: uid,
                     email,
+                    name
                 };
                 const usersRef = firebase.firestore().collection('users')
                 usersRef

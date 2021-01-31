@@ -141,6 +141,18 @@ export const Statistics = ({route, navigation}) => {
                             hobby: hobby
                         }))
                         break;}
+                case "payments": {  let payments = dataPieState.payments += e.cost
+                    setDataPieState(prev => ({
+                        ...prev,
+                        payments: payments
+                    }))
+                    break;}
+                case "gifts": {  let gifts = dataPieState.gifts += e.cost
+                    setDataPieState(prev => ({
+                        ...prev,
+                        gifts: gifts
+                    }))
+                    break;}
                     default: return undefined;
             }
         })
@@ -149,21 +161,21 @@ export const Statistics = ({route, navigation}) => {
 
     const dataPie = [
         {
-            name: "Общие",
+            name: colors.cats.general.name,
             population: dataPieState.general,
             color: colors.cats.general.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Дом",
+            name: colors.cats.house.name,
             population: dataPieState.house,
             color: colors.cats.house.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Транстпорт",
+            name: colors.cats.transport.name,
             population: dataPieState.transport,
             color: colors.cats.transport.color,
             legendFontColor: "#7F7F7F",
@@ -171,51 +183,65 @@ export const Statistics = ({route, navigation}) => {
         },
 
         {
-            name: "Еда",
+            name: colors.cats.food.name,
             population: dataPieState.food,
             color: colors.cats.food.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Люди",
+            name: colors.cats.people.name,
             population: dataPieState.people,
             color: colors.cats.people.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Развлечения",
+            name: colors.cats.entertainment.name,
             population: dataPieState.entertainment,
             color: colors.cats.entertainment.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Образоввание",
+            name: colors.cats.education.name,
             population: dataPieState.education,
             color: colors.cats.education.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Здоровье",
+            name: colors.cats.health.name,
             population: dataPieState.health,
             color: colors.cats.health.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Внешний вид",
+            name: colors.cats.appearance.name,
             population: dataPieState.appearance,
             color: colors.cats.appearance.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },
         {
-            name: "Хобби",
+            name: colors.cats.hobby.name,
             population: dataPieState.hobby,
             color: colors.cats.hobby.color,
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 14
+        },
+        {
+            name: colors.cats.payments.name,
+            population: dataPieState.payments,
+            color: colors.cats.payments.color,
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 14
+        },
+        {
+            name: colors.cats.gifts.name,
+            population: dataPieState.gifts,
+            color: colors.cats.gifts.color,
             legendFontColor: "#7F7F7F",
             legendFontSize: 14
         },

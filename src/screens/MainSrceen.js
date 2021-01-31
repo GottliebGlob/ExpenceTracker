@@ -25,14 +25,19 @@ export const MainScreen = ({navigation}) => {
     const allSpends = useSelector(state => state.main.main)
     const sortedAllSpends  = allSpends.sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
+    const [name, setName] = useState('')
 
 
     const user = firebase.auth().currentUser;
-    let email;
+    const userId = user.uid
+    firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
+        if (documentSnapshot.exists) {
+            const data = documentSnapshot.data()
+           setName(data.name)
+        }
+        else (console.log('error'))
+    });
 
-    if (user != null) {
-        email = user.email;
-    }
 
 
     useEffect(() => {
@@ -92,7 +97,7 @@ export const MainScreen = ({navigation}) => {
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
     <Header firstText="НАЛИЧНЫЕ" secondText="КАРТЫ" active='cash' nav={navigation.navigate}/>
-    <AccountInfo navigation={navigation} email={email} />
+    <AccountInfo navigation={navigation} name={name} />
             <View style={styles.wrapper}>
                 <View style={{paddingHorizontal: '10%'}}>
                     <View style={styles.mainContent}>

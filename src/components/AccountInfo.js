@@ -32,14 +32,14 @@ const AccountInfo = props => {
         <View>
         <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
             <Text style={styles.text}>
-                {props.email}
+                {props.name}
             </Text>
             <TextAvatar
                 backgroundColor={'black'}
                 textColor={'white'}
                 size={55}
                 type={'circle'} // optional
-            >{props.email}</TextAvatar>
+            >{props.name}</TextAvatar>
         </TouchableOpacity>
         </View>
     )
@@ -48,7 +48,7 @@ const AccountInfo = props => {
 const styles = StyleSheet.create({
     text: {
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 20,
         textDecorationLine: 'underline',
 
     },
