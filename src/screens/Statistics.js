@@ -24,6 +24,8 @@ export const Statistics = ({route, navigation}) => {
         health: 0,
         appearance: 0,
         hobby: 0,
+        payments: 0,
+        gifts: 0
     })
 
     useEffect(() => {
@@ -307,7 +309,17 @@ export const Statistics = ({route, navigation}) => {
                     ТРАТЫ ЗА ПОСЛЕДНИЙ МЕСЯЦ
                 </Text>
             </View>
-            <PieChart
+            { !Object.values(dataPieState).find(e => e > 0) ?
+                <View style={{alignItems: 'center', justifyContent: 'flex-start', flex: 1, marginTop: '10%'}}>
+                    <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.dark}}/>
+                    <Text style={{...styles.headersText, color: colors.dark}}>
+                        Увы, в этом месяце пока не было трат!
+                    </Text>
+                    <View style={{height: '5%'}}>
+                    </View>
+                </View>
+                :
+                <PieChart
                 data={dataPie}
                 width={screenWidth - screenWidth * 0.05}
                 height={220}
@@ -316,7 +328,8 @@ export const Statistics = ({route, navigation}) => {
                 backgroundColor={"transparent"}
                 center={[10, 10]}
                 absolute
-            />
+            />}
+
         </View>
     )
 }

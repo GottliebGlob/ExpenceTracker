@@ -1,12 +1,14 @@
 import React, { useReducer, useCallback, useState, useEffect } from 'react';
 import {
-    ScrollView,
+    Keyboard,
     View,
     StyleSheet,
     TouchableOpacity,
     Text,
     ActivityIndicator,
-    Alert
+    Alert,
+    StatusBar,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 
@@ -18,6 +20,7 @@ import * as authActions from "../store/actions/authAction"
 
 import {useDispatch} from "react-redux";
 import {firebase} from "../firebase/config";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 
 
@@ -118,11 +121,16 @@ export const AuthScreen = ({  navigation }) => {
 
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.screen} >
+            <StatusBar barStyle="light-content" backgroundColor='black' />
             <View style={styles.mainTextContainer}>
                 <Text style={{...styles.text, fontSize: 18}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
             </View>
-                    <ScrollView style={{marginTop: '30%'}}>
+            <KeyboardAwareScrollView
+                style={{ flex: 1, width: '100%',}}
+                keyboardShouldPersistTaps="always">
+                <View style={{paddingVertical: '15%'}}> </View>
 
                         {isSignup ? <AuthInput
                             id="name"
@@ -175,8 +183,9 @@ export const AuthScreen = ({  navigation }) => {
                         <Text style={styles.footerText}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '} <Text onPress={() => {setIsSignup(prevState => !prevState)}}
                                                                                      style={styles.footerLink}>{isSignup ? 'Войти' : 'Зарегистрироваться'}</Text></Text>
                         </View>
-                    </ScrollView>
+            </KeyboardAwareScrollView>
         </View>
+        </TouchableWithoutFeedback>
     );
 };
 
