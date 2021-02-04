@@ -1,21 +1,23 @@
-import React, { useState} from 'react';
+import React from 'react';
 
 import {
     View,
-    Button,
     StyleSheet,
     Modal,
-    TouchableWithoutFeedback,
     Text,
     StatusBar,
-    FlatList, ActivityIndicator, TouchableOpacity
+    FlatList,
 } from 'react-native';
 
-import {colors} from "../colors";
+
 import CatItem from "../components/CatItem";
+import {defaultColors} from "../colors";
+import {useTheme} from "@react-navigation/native";
 
 const CatModal = props => {
-    const cats = colors.cats
+    const { colors } = useTheme();
+
+    const cats = defaultColors.cats
 
     const transformedCats = []
 
@@ -26,9 +28,9 @@ const CatModal = props => {
 
     return (
         <Modal visible={props.catModalVisible} animationType="slide">
-<View style={styles.main}>
-    <StatusBar barStyle="dark-content" backgroundColor='#fff' />
-    <Text style={styles.text}>
+<View style={{...styles.main, backgroundColor: colors.background}}>
+    <StatusBar barStyle="light-content" backgroundColor={colors.dark} />
+    <Text style={{...styles.text, color: colors.text}}>
         Выберите категорию
     </Text>
     <FlatList

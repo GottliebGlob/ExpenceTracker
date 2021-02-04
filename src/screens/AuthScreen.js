@@ -12,8 +12,6 @@ import {
 } from 'react-native';
 
 
-import {colors} from "../colors";
-
 import AuthInput from "../components/AuthInput";
 import PassInput from "../components/PassInput";
 import * as authActions from "../store/actions/authAction"
@@ -21,6 +19,7 @@ import * as authActions from "../store/actions/authAction"
 import {useDispatch} from "react-redux";
 import {firebase} from "../firebase/config";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {useTheme} from "@react-navigation/native";
 
 
 
@@ -50,10 +49,13 @@ const formReducer = (state, action) => {
 };
 
 export const AuthScreen = ({  navigation }) => {
+    const { colors } = useTheme();
+
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
     const [isSignup, setIsSignup] = useState(false);
+    const [isButton, setIsButton] = useState(false)
 
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -78,6 +80,7 @@ export const AuthScreen = ({  navigation }) => {
     }, [error]);
 
     const authHandler = async () => {
+
         let action;
         if (isSignup) {
             action = authActions.signup(
@@ -118,19 +121,33 @@ export const AuthScreen = ({  navigation }) => {
         [dispatchFormState]
     );
 
+    const onTouch = () => {
+        Keyboard.dismiss()
+            inputChangeHandler()
+           setIsButton(!isButton)
+    }
+
+    useEffect(() => {
+        if(isButton) {
+            if (formState.inputValues.password && formState.inputValues.email) {
+                setIsButton(!isButton)
+        authHandler()
+            }}
+    }, [formState]);
 
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
         <View style={styles.screen} >
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <View style={styles.mainTextContainer}>
-                <Text style={{...styles.text, fontSize: 18}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
+                <Text style={{...styles.text, fontSize: 18, color: colors.headertext}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
             </View>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%',}}
                 keyboardShouldPersistTaps="always">
-                <View style={{paddingVertical: '15%'}}> </View>
+                <View style={{paddingVertical: '15%'}}>
+                </View>
 
                         {isSignup ? <AuthInput
                             id="name"
@@ -168,20 +185,20 @@ export const AuthScreen = ({  navigation }) => {
 
 
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button1} onPress={authHandler}>
-                                <Text style={styles.text}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
+                            <TouchableOpacity style={styles.button1} onPress={() => onTouch()}>
+                                <Text style={{...styles.text, color: colors.headertext}}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
                                 <View style={{width: 10}}>
                                 </View>
                                 {isLoading ? (
-                                    <ActivityIndicator size="small" color={colors.dark} />
+                                    <ActivityIndicator size="small" color={colors.headertext} />
                                 ) : (<View></View>) }
                             </TouchableOpacity>
 
 
                         </View>
                         <View style={styles.footerView}>
-                        <Text style={styles.footerText}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '} <Text onPress={() => {setIsSignup(prevState => !prevState)}}
-                                                                                     style={styles.footerLink}>{isSignup ? 'Войти' : 'Зарегистрироваться'}</Text></Text>
+                        <Text style={{...styles.footerText, color: colors.text}}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '} <Text onPress={() => {setIsSignup(prevState => !prevState)}}
+                                                                                     style={{...styles.footerLink, color: colors.sign}}>{isSignup ? 'Войти' : 'Зарегистрироваться'}</Text></Text>
                         </View>
             </KeyboardAwareScrollView>
         </View>
@@ -193,7 +210,6 @@ export const AuthScreen = ({  navigation }) => {
 const styles = StyleSheet.create({
     footerText: {
         fontSize: 16,
-        color: colors.dark
     },
     footerLink: {
         fontWeight: "bold",

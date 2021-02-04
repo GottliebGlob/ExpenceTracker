@@ -1,10 +1,10 @@
 import React, {useReducer, useEffect} from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
+import {useTheme} from "@react-navigation/native";
 
 const INPUT_CHANGE = 'INPUT_CHANGE'
 const INPUT_BLUR = 'INPUT_BLUR'
 
-import {colors} from "../colors";
 
 const inputReducer = (state, action) => {
 switch (action.type) {
@@ -25,7 +25,9 @@ switch (action.type) {
 }
 
 const AuthInput = props => {
-const [inputState, dispatch] = useReducer(inputReducer, {
+    const { colors } = useTheme();
+
+    const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue ? props.initialValue: '',
     isValid: props.initiallyValid,
     touched: false
@@ -66,10 +68,10 @@ const [inputState, dispatch] = useReducer(inputReducer, {
 
     return (
         <View style={styles.main}>
-            <Text style={styles.label}>{props.label}</Text>
+            <Text style={{...styles.label, color: colors.text}}>{props.label}</Text>
         <TextInput
             {...props}
-            style={styles.input}
+            style={{...styles.input, borderBottomColor: colors.accent, color: colors.text}}
             value={inputState.value}
             onChangeText={textChangeHandler}
             onBlur={lostFocusHandler}
@@ -79,7 +81,7 @@ const [inputState, dispatch] = useReducer(inputReducer, {
             />
             {!inputState.isValid && inputState.touched && (
                 <View>
-                    <Text style={styles.errorText}>{props.errorText}</Text>
+                    <Text style={{...styles.errorText, color: colors.error,}}>{props.errorText}</Text>
                 </View>
             )}
     </View>
@@ -88,7 +90,6 @@ const [inputState, dispatch] = useReducer(inputReducer, {
 const styles = StyleSheet.create({
     input: {
         width: '90%',
-        borderBottomColor: colors.primary,
         borderBottomWidth: 2,
         marginVertical: 5,
         height: 50,
@@ -107,7 +108,6 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     errorText: {
-        color: colors.error,
         fontSize: 13
     }
 })

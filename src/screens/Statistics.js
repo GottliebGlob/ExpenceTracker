@@ -2,13 +2,17 @@ import React, {useState, useEffect} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import { Dimensions } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
-import {colors} from "../colors";
 import {Ionicons} from "@expo/vector-icons";
 import 'moment/locale/ru'
 import moment from 'moment';
+import {useTheme} from "@react-navigation/native";
+import {defaultColors} from "../colors";
 
 
 export const Statistics = ({route, navigation}) => {
+
+    const { colors } = useTheme();
+
     const screenWidth = Dimensions.get("window").width;
     const { data, monthData } = route.params;
 
@@ -69,11 +73,12 @@ export const Statistics = ({route, navigation}) => {
         ], // optional
     };
 
+
     const  chartConfig= {
-            backgroundGradientFrom: '#eff3ff',
-            backgroundGradientTo: '#efefef',
+            backgroundGradientFrom: colors.background,
+            backgroundGradientTo: colors.background,
             decimalPlaces: 0, // optional, defaults to 2dp
-            color: (opacity = 255) => `rgba(60, 60, 60, ${opacity})`,
+            color: () => colors.text,
     }
 
     const dataPieStateHandler = () => {
@@ -100,7 +105,6 @@ export const Statistics = ({route, navigation}) => {
                         }))
                         break;}
                     case "food": {
-                        console.log('food here')
                         let food = dataPieState.food += e.cost
                         setDataPieState(prev => ({
                             ...prev,
@@ -163,88 +167,88 @@ export const Statistics = ({route, navigation}) => {
 
     const dataPie = [
         {
-            name: colors.cats.general.name,
+            name: defaultColors.cats.general.name,
             population: dataPieState.general,
-            color: colors.cats.general.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.general.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.house.name,
+            name: defaultColors.cats.house.name,
             population: dataPieState.house,
-            color: colors.cats.house.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.house.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.transport.name,
+            name: defaultColors.cats.transport.name,
             population: dataPieState.transport,
-            color: colors.cats.transport.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.transport.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
 
         {
-            name: colors.cats.food.name,
+            name: defaultColors.cats.food.name,
             population: dataPieState.food,
-            color: colors.cats.food.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.food.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.people.name,
+            name: defaultColors.cats.people.name,
             population: dataPieState.people,
-            color: colors.cats.people.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.people.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.entertainment.name,
+            name: defaultColors.cats.entertainment.name,
             population: dataPieState.entertainment,
-            color: colors.cats.entertainment.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.entertainment.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.education.name,
+            name: defaultColors.cats.education.name,
             population: dataPieState.education,
-            color: colors.cats.education.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.education.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.health.name,
+            name: defaultColors.cats.health.name,
             population: dataPieState.health,
-            color: colors.cats.health.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.health.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.appearance.name,
+            name: defaultColors.cats.appearance.name,
             population: dataPieState.appearance,
-            color: colors.cats.appearance.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.appearance.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.hobby.name,
+            name: defaultColors.cats.hobby.name,
             population: dataPieState.hobby,
-            color: colors.cats.hobby.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.hobby.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.payments.name,
+            name: defaultColors.cats.payments.name,
             population: dataPieState.payments,
-            color: colors.cats.payments.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.payments.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
         {
-            name: colors.cats.gifts.name,
+            name: defaultColors.cats.gifts.name,
             population: dataPieState.gifts,
-            color: colors.cats.gifts.color,
-            legendFontColor: "#7F7F7F",
+            color: defaultColors.cats.gifts.color,
+            legendFontColor: colors.text,
             legendFontSize: 14
         },
     ];
@@ -255,20 +259,20 @@ export const Statistics = ({route, navigation}) => {
             <View style={styles.main}>
                     <View style={styles.headerWrapper}>
                         <TouchableOpacity style={styles.goBackIcon} onPress={() => navigation.navigate('Main')}>
-                            <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: '#fff'}}/>
+                            <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.headertext}}/>
                         </TouchableOpacity>
                         <View style={styles.mainTextContainer}>
-                            <Text style={{...styles.text, fontSize: 16}}>СТАТИСТИКА</Text>
+                            <Text style={{...styles.text, fontSize: 16, color: colors.headertext}}>СТАТИСТИКА</Text>
                         </View>
                     </View>
                 <View style={styles.screen}>
-                    <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10}}/>
-                <Text style={styles.h1text}>
+                    <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
+                <Text style={{...styles.h1text, color: colors.text}}>
                     Увы, пока нечего вам показать!
                 </Text>
                     <View style={{height: '5%'}}>
                     </View>
-                <Text style={styles.h2text}>
+                <Text style={{...styles.h2text,  color: colors.text}}>
                     попробуйте добавить хотя бы одну трату
                 </Text>
 
@@ -281,18 +285,19 @@ export const Statistics = ({route, navigation}) => {
         <View style={styles.main}>
             <View style={styles.headerWrapper}>
                 <TouchableOpacity style={styles.goBackIcon} onPress={() => navigation.navigate('Main')}>
-            <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: '#fff'}}/>
+            <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.headertext}}/>
                 </TouchableOpacity>
             <View style={styles.mainTextContainer}>
-                <Text style={{...styles.text, fontSize: 16}}>СТАТИСТИКА</Text>
+                <Text style={{...styles.text, fontSize: 16, color: colors.headertext}}>СТАТИСТИКА</Text>
             </View>
             </View>
             <View style={{marginTop: 20}}>
-                <Text style={styles.headersText}>
+                <Text style={{...styles.headersText, color: colors.text}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
                 </Text>
             </View>
             <LineChart
+                fromZero={true}
                 data={dataLine}
                 width={screenWidth - screenWidth * 0.05}
                 height={220}
@@ -305,14 +310,14 @@ export const Statistics = ({route, navigation}) => {
 
             />
             <View style={{marginTop: 20}}>
-                <Text style={styles.headersText}>
+                <Text style={{...styles.headersText, color: colors.text}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЙ МЕСЯЦ
                 </Text>
             </View>
             { !Object.values(dataPieState).find(e => e > 0) ?
                 <View style={{alignItems: 'center', justifyContent: 'flex-start', flex: 1, marginTop: '10%'}}>
-                    <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.dark}}/>
-                    <Text style={{...styles.headersText, color: colors.dark}}>
+                    <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
+                    <Text style={{...styles.headersText, color: colors.text}}>
                         Увы, в этом месяце пока не было трат!
                     </Text>
                     <View style={{height: '5%'}}>
@@ -322,7 +327,7 @@ export const Statistics = ({route, navigation}) => {
                 <PieChart
                 data={dataPie}
                 width={screenWidth - screenWidth * 0.05}
-                height={220}
+                height={250}
                 chartConfig={chartConfig}
                 accessor={"population"}
                 backgroundColor={"transparent"}
@@ -381,7 +386,7 @@ const styles = StyleSheet.create({
     },
     h2text: {
         fontSize: 14,
-        color: colors.dark
+
     }
 })
 

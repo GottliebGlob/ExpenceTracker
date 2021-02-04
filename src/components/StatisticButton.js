@@ -1,16 +1,20 @@
 import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native"
 import {Ionicons} from "@expo/vector-icons";
+import {useTheme} from "@react-navigation/native";
 
 
 const StatisticButton = props => {
+
+    const { colors } = useTheme();
+
     const data = props.data
     const monthData = props.monthData
     return (
         <View>
             <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData})}>
-                <Text style={styles.text}>СТАТИСТИКА</Text>
-                <Ionicons name='ios-stats' size={30} style={{paddingLeft: 15, paddingVertical: 2, color: '#fff'}}/>
+                <Text style={{...styles.text, color: colors.headertext}}>СТАТИСТИКА</Text>
+                <Ionicons name='ios-stats' size={30} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
         </View>
     )
@@ -28,7 +32,6 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingVertical: 10,
-        color: '#fff',
         fontWeight: 'bold'
     }
 })

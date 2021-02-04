@@ -1,25 +1,30 @@
 import React, {useState, useEffect} from 'react';
 
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
+import { firebase } from './src/firebase/config'
+
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
+import mainReducer from "./src/store/reducers/main";
 
 import {decode, encode} from 'base-64'
 if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 
-import { firebase } from './src/firebase/config'
-
 import {MainScreen} from "./src/screens/MainSrceen";
 import {Statistics} from "./src/screens/Statistics";
 import {AuthScreen} from "./src/screens/AuthScreen";
 import {StartupScreen} from "./src/screens/SartupScreen"
-import {createStackNavigator} from "@react-navigation/stack";
 
-import mainReducer from "./src/store/reducers/main";
-import StackNavigator from "@react-navigation/stack/src/navigators/createStackNavigator";
+
+import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator} from "@react-navigation/stack";
+import {Appearance, useColorScheme, AppearanceProvider} from "react-native-appearance";
+import {DarkTheme, LightTheme} from "./src/colors";
+
+
+
 
 
 
@@ -30,6 +35,10 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 export default function App() {
+
+    let colorScheme = useColorScheme()
+
+
     const Stack = createStackNavigator();
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -63,7 +72,8 @@ export default function App() {
 
     return (
         <Provider store={store} >
-        <NavigationContainer>
+            <AppearanceProvider>
+        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : LightTheme}>
             <Stack.Navigator
                 screenOptions={{ headerShown: false}}>
                 { user ? (
@@ -85,6 +95,7 @@ export default function App() {
                 )}
             </Stack.Navigator>
         </NavigationContainer>
+            </AppearanceProvider>
             </Provider>
     );
 }

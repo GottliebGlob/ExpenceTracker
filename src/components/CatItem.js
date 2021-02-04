@@ -1,9 +1,11 @@
 import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native"
 import RenderIcon from "./RenderIcon";
+import {useTheme} from "@react-navigation/native";
 
 
 const CatItem = props => {
+    const { colors } = useTheme();
 
     return (
         <TouchableOpacity onPress={() => props.catHandler(props.cat)}>
@@ -12,7 +14,7 @@ const CatItem = props => {
                 <RenderIcon category={props.cat} style={1} />
             </View>
                 <View style={{alignItems: 'center'}}>
-                <Text style={styles.text}>
+                <Text style={{...styles.text, color: colors.text}}>
                     {props.name}
                 </Text>
             </View>

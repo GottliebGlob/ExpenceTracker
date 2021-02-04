@@ -5,12 +5,12 @@ import {
     StyleSheet,
 
 } from 'react-native';
-
-
-import {colors} from "../colors";
+import {useTheme} from "@react-navigation/native";
 
 
 export const StartupScreen = () => {
+    const { colors } = useTheme();
+
     return (
         <View style={styles.screen}>
             <ActivityIndicator size="large" color={colors.dark} />

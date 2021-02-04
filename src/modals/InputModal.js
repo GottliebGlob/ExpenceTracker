@@ -15,11 +15,13 @@ import {
 
 
 
-import {colors} from "../colors";
+
 import CatModal from "./CatModal";
 import RenderIcon from "../components/RenderIcon";
+import {useTheme} from "@react-navigation/native";
 
 const InputModal = props => {
+    const { colors } = useTheme();
     const [enteredText, setEnteredText] = useState('');
     const [enteredCost, setEnteredCost] = useState(0)
     const [enteredCat, setEnteredCat] = useState('general')
@@ -50,7 +52,6 @@ const InputModal = props => {
     const catHandler = (cat) => {
         setCatModalVisible(!catModalVisible)
         setEnteredCat(cat)
-        console.log(cat)
     }
 
     const cancelHandler = () => {
@@ -69,22 +70,22 @@ const InputModal = props => {
             <TouchableWithoutFeedback onPress={() => {
                 Keyboard.dismiss();
             }}>
-                <View style={styles.main}>
-                    <StatusBar barStyle="dark-content" backgroundColor='#fff' />
+                <View style={{...styles.main, backgroundColor: colors.background}}>
+                    <StatusBar barStyle="dark-content" backgroundColor={colors.dark} />
             <View style={styles.inputContainer}>
-                <Text style={styles.textAlign}>Введите трату: </Text>
+                <Text style={{...styles.textAlign, color: colors.text}}>Введите трату: </Text>
                 <TextInput
                     placeholder="Новая трата..."
-                    style={styles.input}
+                    style={{...styles.input, color: colors.text}}
                     onChangeText={InputHandler}
                     value={enteredText}
                     maxLenth={25}
                     blurOnSubmit
                 />
-                <Text style={styles.textAlign}>Введите сумму траты: </Text>
+                <Text style={{...styles.textAlign, color: colors.text}}>Введите сумму траты: </Text>
                 <TextInput
                     placeholder="Сумма траты..."
-                    style={styles.input}
+                    style={{...styles.input, color: colors.text}}
                     onChangeText={InputCostHandler}
                     value={enteredCost}
                     keyboardType="number-pad"
@@ -95,7 +96,7 @@ const InputModal = props => {
 
 
                     <TouchableOpacity onPress={() => modalCatHandler()} style={styles.modal}>
-                        <Text style={styles.textAlign}>Выберите категорию: </Text>
+                        <Text style={{...styles.textAlign, color: colors.text}}>Выберите категорию: </Text>
                         <RenderIcon category={enteredCat} />
                     </TouchableOpacity>
 

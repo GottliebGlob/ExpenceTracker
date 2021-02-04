@@ -2,12 +2,15 @@ import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity, Alert} from "react-native"
 import TextAvatar from 'react-native-text-avatar'
 
-import {colors} from "../colors";
+
 import {useDispatch} from "react-redux";
 import {signOut} from "../store/actions/authAction";
+import {useTheme} from "@react-navigation/native";
 
 const AccountInfo = props => {
     const dispatch = useDispatch();
+
+    const { colors } = useTheme();
 
     const signOutModalHandler = () => {
         Alert.alert("Вы хотите сменить аккаунт?", '', [
@@ -30,13 +33,13 @@ const AccountInfo = props => {
 
     return (
         <View>
-        <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
-            <Text style={styles.text}>
+        <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => {signOutModalHandler()}}>
+            <Text style={{...styles.text, color: colors.text}}>
                 {props.name}
             </Text>
             <TextAvatar
-                backgroundColor={'black'}
-                textColor={'white'}
+                backgroundColor={colors.light}
+                textColor={colors.text}
                 size={55}
                 type={'circle'} // optional
             >{props.name}</TextAvatar>
@@ -59,10 +62,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         borderBottomWidth: 1,
-        borderBottomColor: colors.dark,
         height: 80,
-        backgroundColor: colors.primary
-
     },
 })
 

@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {View, Text, StyleSheet, FlatList, Alert, StatusBar, ActivityIndicator, TouchableOpacity} from 'react-native'
-import {useDispatch, useSelector} from "react-redux";
 
+
+import {useDispatch, useSelector} from "react-redux";
+import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
+import { firebase } from '../firebase/config'
 
 
 import Header from "../components/Header";
@@ -11,12 +14,11 @@ import StatisticButton from "../components/StatisticButton";
 import Item from "../components/Item";
 import InputModal from "../modals/InputModal"
 
-import {colors} from "../colors";
+
+import { useTheme } from '@react-navigation/native';
+
 
 import moment from 'moment';
-import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
-import { firebase } from '../firebase/config'
-
 
 
 export const MainScreen = ({navigation}) => {
@@ -27,6 +29,7 @@ export const MainScreen = ({navigation}) => {
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
     const [name, setName] = useState('')
 
+    const { colors } = useTheme();
 
     const user = firebase.auth().currentUser;
     const userId = user.uid
@@ -88,7 +91,7 @@ export const MainScreen = ({navigation}) => {
     if (isLoading) {
         return <View style={styles.load}>
             <View>
-            <ActivityIndicator size='large' color={colors.dark}/>
+            <ActivityIndicator size='large' color={colors.accent}/>
         </View>
         </View>
     }
@@ -96,18 +99,18 @@ export const MainScreen = ({navigation}) => {
     return(
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-    <Header firstText="НАЛИЧНЫЕ" secondText="КАРТЫ" active='cash' nav={navigation.navigate}/>
+    <Header firstText="НАЛИЧНЫЕ" secondText="НАСТРОЙКИ" active='cash' nav={navigation.navigate}/>
     <AccountInfo navigation={navigation} name={name} />
-            <View style={styles.wrapper}>
+            <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '10%'}}>
                     <View style={styles.mainContent}>
-                        <Text style={{...styles.text, fontSize: 22}}> Потрачно зa</Text>
-                       <TouchableOpacity style={styles.flatInfo} onPress={() => setFlatInfo(!flatInfo)}>
-                           <Text style={styles.flatInfoText}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                        <Text style={{...styles.text, fontSize: 22, color: colors.text}}> Потрачно зa</Text>
+                       <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.accent}} onPress={() => setFlatInfo(!flatInfo)}>
+                           <Text style={{...styles.flatInfoText, color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
                         <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>{((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)} р.</Text>
                     </View>
-    <Text style={styles.text}>Траты:</Text>
+    <Text style={{...styles.text, color: colors.text}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
                 </View>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
@@ -130,7 +133,7 @@ export const MainScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     wrapper: {
         alignItems: 'flex-start',
-        flex: .9
+        flex: .92
     },
     text: {
         paddingVertical: 10,
@@ -152,7 +155,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     flatInfo: {
-        borderBottomColor: colors.dark,
         borderBottomWidth: 1,
         height: 45
     },

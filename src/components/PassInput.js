@@ -1,11 +1,11 @@
 import React, {useReducer, useEffect} from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import InputPasswordToggle from 'react-native-toggle-password-visibility';
+import {useTheme} from "@react-navigation/native";
 
 const INPUT_CHANGE = 'INPUT_CHANGE'
 const INPUT_BLUR = 'INPUT_BLUR'
 
-import {colors} from "../colors";
 
 const inputReducer = (state, action) => {
     switch (action.type) {
@@ -26,6 +26,9 @@ const inputReducer = (state, action) => {
 }
 
 const PassInput = props => {
+    const { colors } = useTheme();
+
+
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.initialValue ? props.initialValue: '',
         isValid: props.initiallyValid,
@@ -65,12 +68,15 @@ const PassInput = props => {
         dispatch({ type: INPUT_BLUR})
     }
 
+
     return (
         <View style={styles.main}>
-            <Text style={styles.label}>{props.label}</Text>
+            <Text style={{...styles.label, color: colors.text}}>{props.label}</Text>
             <InputPasswordToggle
                 {...props}
-                style={styles.input}
+                style={{...styles.input, borderBottomColor: colors.accent,}}
+                inputStyle={{ color: colors.text}}
+                iconColor={colors.text}
                 value={inputState.value}
                 onChangeText={textChangeHandler}
                 onBlur={lostFocusHandler}
@@ -80,7 +86,7 @@ const PassInput = props => {
             />
             {!inputState.isValid && inputState.touched && (
                 <View>
-                    <Text style={styles.errorText}>{props.errorText}</Text>
+                    <Text style={{...styles.errorText, color: colors.error,}}>{props.errorText}</Text>
                 </View>
             )}
         </View>
@@ -89,7 +95,6 @@ const PassInput = props => {
 const styles = StyleSheet.create({
     input: {
         width: '90%',
-        borderBottomColor: colors.primary,
         borderBottomWidth: 2,
         marginVertical: 5,
         height: 50,
@@ -108,7 +113,6 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     errorText: {
-        color: colors.error,
         fontSize: 13
     }
 })

@@ -2,6 +2,7 @@
   "expo": {
     "name": "ExpenceTracker",
     "slug": "ExpenceTracker",
+    "android": { "userInterfaceStyle": "automatic" },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

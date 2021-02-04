@@ -1,9 +1,5 @@
 
-export const colors = {
-    confirm: '#008b00',
-    error: '#B00020',
-    dark: '#8d8d8d',
-    primary: '#cfcfcf',
+export const defaultColors = {
     white: '#fff',
     cats: {
         general: {color: '#212121', icon: "ios-cart", name: "Общие" },
@@ -19,8 +15,41 @@ export const colors = {
         payments: {color: '#4e342e', icon: "ios-wallet", name: "Платежи"},
         gifts: {color: '#64b5f6', icon: "ios-gift", name: "Подарки"}
 
-    }
+    },
+
 
 }
 
+export const DarkTheme = {
+    dark: true,
+    colors: {
+        confirm: '#32cb00',
+        error: '#CF6679',
+        dark: '#1b1b1b',
+        primary: '#373737',
+        light: '#616161',
+        text: '#dadada',
+        white: '#fff',
+        accent: '#494949',
+        background: '#616161',
+        headertext: '#dadada',
+        sign: '#1b1b1b',
+    },
+};
 
+export const LightTheme = {
+    dark: false,
+    colors: {
+        confirm: '#008b00',
+        error: '#B00020',
+        dark: '#8d8d8d',
+        primary: '#cfcfcf',
+        text: '#000000',
+        light: '#fff',
+        white: '#fff',
+        accent: '#cfcfcf',
+        background: '#fff',
+        headertext: '#fff',
+        sign: '#000000',
+    },
+};

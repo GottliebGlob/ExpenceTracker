@@ -1,16 +1,17 @@
 import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {colors} from "../colors";
+import {useTheme} from "@react-navigation/native";
 
 const Header = props => {
+    const { colors } = useTheme();
 return (
     <View style={styles.wrapper}>
 <TouchableOpacity style={styles.container}>
-    <Text style={[props.active === 'cash' ? styles.active : styles.inactive]}>{props.firstText} </Text>
+    <Text style={{color: colors.headertext}}>{props.firstText} </Text>
 </TouchableOpacity>
-        <View style={styles.slash} />
+        <View style={{...styles.slash, borderRightColor: colors.light}} />
 <TouchableOpacity style={styles.container}>
-    <Text style={[props.active === 'card' ? styles.active : styles.inactive]}> {props.secondText} </Text>
+    <Text style={{color: colors.headertext}}> {props.secondText} </Text>
 </TouchableOpacity>
     </View>
 )
@@ -23,9 +24,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '50%',
     },
-    text: {
-      color: '#fff'
-    },
+
     wrapper: {
         padding: 20,
         flexDirection: 'row',
@@ -37,14 +36,8 @@ const styles = StyleSheet.create({
         height: '100%',
         width: 1,
         borderRightWidth: 1,
-        borderRightColor: '#fff'
     },
-    active : {
-        color: '#fff'
-    },
-    inactive: {
-        color: colors.dark
-    }
+
 });
 
 export default Header;
