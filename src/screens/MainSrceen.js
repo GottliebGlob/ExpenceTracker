@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {View, Text, StyleSheet, FlatList, Alert, StatusBar, ActivityIndicator, TouchableOpacity} from 'react-native'
 
-
 import {useDispatch, useSelector} from "react-redux";
 import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
 import { firebase } from '../firebase/config'
-
 
 import Header from "../components/Header";
 import AccountInfo from "../components/AccountInfo";
@@ -14,9 +12,7 @@ import StatisticButton from "../components/StatisticButton";
 import Item from "../components/Item";
 import InputModal from "../modals/InputModal"
 
-
 import { useTheme } from '@react-navigation/native';
-
 
 import moment from 'moment';
 
@@ -99,7 +95,7 @@ export const MainScreen = ({navigation}) => {
     return(
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-    <Header firstText="НАЛИЧНЫЕ" secondText="НАСТРОЙКИ" active='cash' nav={navigation.navigate}/>
+    <Header firstText="НАЛИЧНЫЕ" secondText="НАСТРОЙКИ" active='cash' navigation={navigation}/>
     <AccountInfo navigation={navigation} name={name} />
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '10%'}}>

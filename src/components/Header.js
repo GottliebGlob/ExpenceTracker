@@ -2,15 +2,18 @@ import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 
+
 const Header = props => {
     const { colors } = useTheme();
+
+
 return (
     <View style={styles.wrapper}>
 <TouchableOpacity style={styles.container}>
     <Text style={{color: colors.headertext}}>{props.firstText} </Text>
 </TouchableOpacity>
         <View style={{...styles.slash, borderRightColor: colors.light}} />
-<TouchableOpacity style={styles.container}>
+<TouchableOpacity onPress={() => props.navigation.navigate('Settings')} style={styles.container}>
     <Text style={{color: colors.headertext}}> {props.secondText} </Text>
 </TouchableOpacity>
     </View>
