@@ -67,7 +67,7 @@ export const AuthScreen = ({  navigation }) => {
         inputValidities: {
             email: false,
             password: false,
-            name: true
+            name: false
         },
         formIsValid: false
     });
@@ -129,10 +129,17 @@ export const AuthScreen = ({  navigation }) => {
 
     useEffect(() => {
         if(isButton) {
+            if (isSignup) {
+            if (formState.inputValues.name  && formState.inputValues.password && formState.inputValues.email) {
+                setIsButton(!isButton)
+                authHandler()
+            }}
+            else {
             if (formState.inputValues.password && formState.inputValues.email) {
                 setIsButton(!isButton)
         authHandler()
             }}
+        }
     }, [formState]);
 
 
@@ -154,10 +161,12 @@ export const AuthScreen = ({  navigation }) => {
                             label="Имя"
                             keyboardType="default"
                             minLength={2}
+                            autoCapitalize="words"
                             required
                             errorText="Пожалуйста, введите настоящее имя."
                             onInputChange={inputChangeHandler}
                             initialValue=""
+                            initiallyValid={false}
                         /> : null}
 
                         <AuthInput

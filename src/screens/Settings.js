@@ -4,6 +4,7 @@ import {useTheme} from "@react-navigation/native";
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from "react-redux";
 import {toggleTheme} from "../store/actions/themeAction";
+import AsideHeader from "../components/AsideHeader";
 
 export const Settings = ({route, navigation}) => {
     const dispatch = useDispatch();
@@ -26,13 +27,36 @@ export const Settings = ({route, navigation}) => {
 
 
 return (
-    <View>
+    <View style={styles.main}>
+        <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ"/>
+        <View style={styles.rows}>
+            <Text style={{fontWeight: 'bold', fontSize: 22, color: colors.text}}>
+                Темная тема:
+            </Text>
         <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={isDark ? "#f5dd4b" : "#f4f3f4"}
+            trackColor={{ false: colors.accent, true: colors.accent }}
+            thumbColor={colors.dark}
             onValueChange={toggle}
             value={isDark}
+            style={{ transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }], marginTop: 5, marginLeft: 5 }}
         />
+        </View>
+
     </View>
 )
 }
+
+const styles = StyleSheet.create({
+    main: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start'
+    },
+    rows: {
+        flexDirection: 'row',
+        marginLeft: '5%',
+        paddingVertical: 15,
+        justifyContent: 'flex-start',
+        height: 60
+    }
+})

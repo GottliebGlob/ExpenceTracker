@@ -1,6 +1,7 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 import {useTheme} from "@react-navigation/native";
+import {Ionicons} from "@expo/vector-icons";
 
 
 const Header = props => {
@@ -9,12 +10,11 @@ const Header = props => {
 
 return (
     <View style={styles.wrapper}>
-<TouchableOpacity style={styles.container}>
-    <Text style={{color: colors.headertext}}>{props.firstText} </Text>
-</TouchableOpacity>
-        <View style={{...styles.slash, borderRightColor: colors.light}} />
+<View style={styles.container}>
+    <Text style={{color: colors.headertext, fontSize: 20, fontWeight: "bold"}}>ExpenceTracker </Text>
+</View>
 <TouchableOpacity onPress={() => props.navigation.navigate('Settings')} style={styles.container}>
-    <Text style={{color: colors.headertext}}> {props.secondText} </Text>
+    <Ionicons name='ios-settings' size={25} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
 </TouchableOpacity>
     </View>
 )
@@ -25,21 +25,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '50%',
-    },
 
+    },
     wrapper: {
         padding: 20,
         flexDirection: 'row',
-        justifyContent: 'space-around',
         backgroundColor: 'black',
         height: 60,
+        justifyContent: 'space-between'
     },
-    slash: {
-        height: '100%',
-        width: 1,
-        borderRightWidth: 1,
-    },
+
 
 });
 

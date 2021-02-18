@@ -7,6 +7,7 @@ import 'moment/locale/ru'
 import moment from 'moment';
 import {useTheme} from "@react-navigation/native";
 import {defaultColors} from "../colors";
+import AsideHeader from "../components/AsideHeader";
 
 
 export const Statistics = ({route, navigation}) => {
@@ -257,14 +258,7 @@ export const Statistics = ({route, navigation}) => {
     if(data.length === 0) {
         return (
             <View style={styles.main}>
-                    <View style={styles.headerWrapper}>
-                        <TouchableOpacity style={styles.goBackIcon} onPress={() => navigation.navigate('Main')}>
-                            <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.headertext}}/>
-                        </TouchableOpacity>
-                        <View style={styles.mainTextContainer}>
-                            <Text style={{...styles.text, fontSize: 16, color: colors.headertext}}>СТАТИСТИКА</Text>
-                        </View>
-                    </View>
+                   <AsideHeader navigation={navigation} placeholder="СТАТИСТИКА"/>
                 <View style={styles.screen}>
                     <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
                 <Text style={{...styles.h1text, color: colors.text}}>
@@ -283,14 +277,7 @@ export const Statistics = ({route, navigation}) => {
 
     return(
         <View style={styles.main}>
-            <View style={styles.headerWrapper}>
-                <TouchableOpacity style={styles.goBackIcon} onPress={() => navigation.navigate('Main')}>
-            <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.headertext}}/>
-                </TouchableOpacity>
-            <View style={styles.mainTextContainer}>
-                <Text style={{...styles.text, fontSize: 16, color: colors.headertext}}>СТАТИСТИКА</Text>
-            </View>
-            </View>
+            <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
             <View style={{marginTop: 20}}>
                 <Text style={{...styles.headersText, color: colors.text}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
@@ -359,27 +346,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15
     },
-    mainTextContainer: {
 
-        flexDirection: 'row',
-        width: '90%',
-        justifyContent: 'center',
-        backgroundColor: 'black',
-        paddingTop: 10,
-        paddingBottom: 15,
-        paddingRight: '10%'
-    },
-    headerWrapper: {
-        flexDirection: 'row',
-        width: '100%',
-    },
-    goBackIcon: {
-        width: '10%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black',
-        paddingLeft: 10
-    },
     h1text: {
         fontSize: 20,
         fontWeight: 'bold'

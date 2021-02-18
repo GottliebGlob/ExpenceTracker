@@ -50,7 +50,6 @@ export default () => {
 
     useEffect(() => {
         dispatch(setTheme(c))
-        console.log('Dispatch')
     },[])
 
     if (loading) {

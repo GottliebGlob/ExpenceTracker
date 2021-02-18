@@ -95,7 +95,7 @@ export const MainScreen = ({navigation}) => {
     return(
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-    <Header firstText="НАЛИЧНЫЕ" secondText="НАСТРОЙКИ" active='cash' navigation={navigation}/>
+    <Header navigation={navigation}/>
     <AccountInfo navigation={navigation} name={name} />
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '10%'}}>

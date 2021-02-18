@@ -12,7 +12,6 @@ export const setTheme = (c) => {
         try {
             const theme = await AsyncStorage.getItem('theme')
             if(theme !== null) {
-                console.log('action ' + theme)
                 dispatch({type: UPDATE, payload: theme})
             }
             else {
