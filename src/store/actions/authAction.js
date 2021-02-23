@@ -40,8 +40,12 @@ export const signOut = () => {
 }
 
 export const login = (email, password) => {
+
     return async () => {
-        await firebase
+        await
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                .then(() => {
+            firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
@@ -53,7 +57,6 @@ export const login = (email, password) => {
                     .then(firestoreDocument => {
                         if (!firestoreDocument.exists) {
                             alert("User does not exist anymore.")
-                            return;
                         }
                     })
                     .catch(error => {
@@ -63,6 +66,7 @@ export const login = (email, password) => {
             .catch(error => {
                 alert(error)
             })
+    })
     }
 
 };

@@ -6,13 +6,15 @@ export const CLEAR = 'CLEAR'
 import { firebase } from '../../firebase/config'
 
 
+
 export const addMain = (NewItem) => {
     const {value, cost, cat, date} = NewItem
     return async (dispatch) => {
-        const entityRef = firebase.firestore().collection('data')
+        const entityRef = firebase.firestore().collection('data').doc()
         const user = firebase.auth().currentUser;
         const userId = user.uid
         const extraId = {id: null}
+        const docId = entityRef.id
 
         const data = {
             value,
@@ -21,21 +23,20 @@ export const addMain = (NewItem) => {
             date,
             authorID: userId,
         }
-        entityRef
-            .add(data)
-            .then(docRef => {
-                extraId.id = docRef.id
+
+                extraId.id = docId
                 const payl = {...NewItem, id: extraId.id}
-                    dispatch({
+                dispatch({
                     type: ADD,
                     payload: payl
                 })
-                }
-            )
-            .catch((error) => {
-                alert(error)
-            });
-    }
+
+                entityRef
+                    .set(data)
+                    .catch((error) => {
+                        alert(error)
+                    });
+            }
 }
 
 export const removeMain = (id) => {
