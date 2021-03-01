@@ -13,7 +13,8 @@ export const signup = (email, password, name) => {
                 const data = {
                     id: uid,
                     email,
-                    name
+                    name,
+                    value: 'RU'
                 };
                 const usersRef = firebase.firestore().collection('users')
                 usersRef

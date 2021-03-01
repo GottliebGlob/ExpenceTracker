@@ -21,7 +21,7 @@ const Item = props => {
             <RenderIcon category={props.cat} />
                 <View style={styles.textRight}>
             <Text style={{...styles.cost, color: colors.text}}>
-                {`${props.cost} р.`}
+                {`${props.cost} ${props.value === 'RU' ? ' р. ' : ' грн. '}`}
             </Text>
                 </View>
                     </View>

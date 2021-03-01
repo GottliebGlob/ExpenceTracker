@@ -13,7 +13,7 @@ return (
 <View style={styles.container}>
     <Text style={{color: colors.headertext, fontSize: 20, fontWeight: "bold"}}>ExpenceTracker </Text>
 </View>
-<TouchableOpacity onPress={() => props.navigation.navigate('Settings')} style={styles.container}>
+<TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value})} style={styles.container}>
     <Ionicons name='ios-settings' size={25} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
 </TouchableOpacity>
     </View>

@@ -15,7 +15,7 @@ export const Statistics = ({route, navigation}) => {
     const { colors } = useTheme();
 
     const screenWidth = Dimensions.get("window").width;
-    const { data, monthData } = route.params;
+    const { data, monthData, value } = route.params;
 
 
     const [dataPieState, setDataPieState] = useState({
@@ -289,7 +289,7 @@ export const Statistics = ({route, navigation}) => {
                 width={screenWidth - screenWidth * 0.05}
                 height={220}
                 chartConfig={chartConfig}
-                yAxisSuffix={' р.'}
+                yAxisSuffix={value === 'RU' ? ' р. ' : ' грн. '}
                 style={{
                     marginVertical: 25,
 

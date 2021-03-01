@@ -12,7 +12,7 @@ import StatisticButton from "../components/StatisticButton";
 import Item from "../components/Item";
 import InputModal from "../modals/InputModal"
 
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 import moment from 'moment';
 
@@ -24,22 +24,26 @@ export const MainScreen = ({navigation}) => {
     const sortedAllSpends  = allSpends.sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
     const [name, setName] = useState('')
+    const [value, setValue] = useState('')
 
     const { colors } = useTheme();
 
     const user = firebase.auth().currentUser;
     const userId = user.uid
-    firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
-        if (documentSnapshot.exists) {
-            const data = documentSnapshot.data()
-           setName(data.name)
-        }
-        else (console.log('error'))
-    });
 
-
+    useFocusEffect(() => {
+        firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
+            if (documentSnapshot.exists) {
+                const data = documentSnapshot.data()
+                setName(data.name)
+                setValue(data.value)
+            }
+            else (console.log('error'))
+        });
+    })
 
     useEffect(() => {
+
         const loadSpends = async () => {
             if(allSpends.length === 0) {
                 setIsLoading(true)
@@ -95,7 +99,7 @@ export const MainScreen = ({navigation}) => {
     return(
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-    <Header navigation={navigation}/>
+    <Header navigation={navigation} userId={userId} value={value}/>
     <AccountInfo navigation={navigation} name={name} />
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '10%'}}>
@@ -104,7 +108,10 @@ export const MainScreen = ({navigation}) => {
                        <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.accent}} onPress={() => setFlatInfo(!flatInfo)}>
                            <Text style={{...styles.flatInfoText, color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
-                        <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>{((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)} р.</Text>
+                        <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>
+                            {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
+                            {value === 'RU' ? ' р. ' : ' грн. '}
+                        </Text>
                     </View>
     <Text style={{...styles.text, color: colors.text}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
@@ -114,13 +121,19 @@ export const MainScreen = ({navigation}) => {
                     keyExtractor={(item, index) => item.id}
                     data={(!flatInfo) ? sortedAllSpends : lastMonthSpends}
                     renderItem={itemData => (
-                      <Item text={itemData.item.value} cat={itemData.item.cat} date={itemData.item.date} cost={itemData.item.cost} id={itemData.item.id} removeHandler={removeHandler}/>
+                      <Item text={itemData.item.value}
+                            cat={itemData.item.cat}
+                            date={itemData.item.date}
+                            cost={itemData.item.cost}
+                            id={itemData.item.id}
+                            value={value}
+                            removeHandler={removeHandler}/>
                     )}
                 />
 
     </View>
             <View style={styles.statistics}>
-                <StatisticButton navigation={navigation} data={sortedAllSpends} monthData={lastMonthSpends}/>
+                <StatisticButton navigation={navigation} data={sortedAllSpends} monthData={lastMonthSpends} value={value}/>
             </View>
     </View>
     )
