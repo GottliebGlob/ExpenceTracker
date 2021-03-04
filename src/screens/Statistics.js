@@ -80,6 +80,7 @@ export const Statistics = ({route, navigation}) => {
             backgroundGradientTo: colors.background,
             decimalPlaces: 0, // optional, defaults to 2dp
             color: () => colors.text,
+            justifyContent: 'center'
     }
 
     const dataPieStateHandler = () => {
@@ -290,8 +291,10 @@ export const Statistics = ({route, navigation}) => {
                 height={220}
                 chartConfig={chartConfig}
                 yAxisSuffix={value === 'RU' ? ' р. ' : ' грн. '}
+                yLabelsOffset={3}
                 style={{
                     marginVertical: 25,
+
 
                 }}
 
@@ -312,14 +315,15 @@ export const Statistics = ({route, navigation}) => {
                 </View>
                 :
                 <PieChart
-                data={dataPie}
+                data={dataPie.filter(e => e.population > 0)}
                 width={screenWidth - screenWidth * 0.05}
-                height={250}
+                height={220}
                 chartConfig={chartConfig}
                 accessor={"population"}
                 backgroundColor={"transparent"}
                 center={[10, 10]}
                 absolute
+
             />}
 
         </View>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text, View, StyleSheet, TouchableOpacity} from "react-native"
+import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native"
 import RenderIcon from "./RenderIcon";
 import 'moment/locale/ru'
 import moment from 'moment';
@@ -8,6 +8,25 @@ import {useTheme} from "@react-navigation/native";
 const Item = props => {
     const { colors } = useTheme();
 
+    const getRightMargin = () => {
+        let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
+        if (props.value === 'RU') {
+            return {  fontSize: 18, marginHorizontal: -65 + textMargin * 10, color: colors.text};
+        }
+        else {
+            return { fontSize: 18, marginHorizontal: -50 + textMargin * 10, color: colors.text };
+        }
+    }
+
+
+    const getRightTextLenght = () => {
+        const langMargin = props.value === 'RU' ? 15 : 0
+        const w = Math.round(Dimensions.get("window").width)
+        const numbersAvailable = Math.round((w - w * 0.08 - 110 + langMargin) / 12)
+        const newText = props.text.length > numbersAvailable ? props.text.substring(0,numbersAvailable) + '...' : props.text
+        return newText
+
+    }
 
     const m = moment(props.date)
      m.locale('ru')
@@ -30,8 +49,8 @@ const Item = props => {
                         </View>
                 </View>
                 <View style={{alignSelf: 'flex-start'}}>
-            <Text style={{...styles.text, color: colors.text}}>
-                {(props.text.length >= 23) ? props.text.substring(0,20) + '...' : props.text}
+            <Text style={getRightMargin()}>
+                {getRightTextLenght()}
             </Text>
                 </View>
             </View>
@@ -42,12 +61,13 @@ const Item = props => {
 
 const styles = StyleSheet.create({
     wrapper: {
-            paddingHorizontal: 10,
+
             width: '100%',
             alignItems: 'flex-end',
             flexDirection: 'row',
             justifyContent: 'space-around',
             borderBottomWidth: 2,
+            paddingBottom: 3,
             height: 70,
     },
     text: {
@@ -58,7 +78,8 @@ const styles = StyleSheet.create({
     cost: {
         fontWeight: 'bold',
         fontSize: 19,
-        paddingLeft: 10
+        paddingLeft: 10,
+
     },
     include: {
         width: '90%',
@@ -66,7 +87,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     textRight: {
-        width: 90
+        width: 110
     }
 })
 

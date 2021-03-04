@@ -1,11 +1,14 @@
-import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Switch} from 'react-native'
+import React, {useState, useCallback, useEffect} from 'react'
+import {View, Text, StyleSheet, TouchableOpacity, Switch, TextInput, Alert} from 'react-native'
 import {useTheme} from "@react-navigation/native";
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from "react-redux";
 import {toggleTheme} from "../store/actions/themeAction";
 import AsideHeader from "../components/AsideHeader";
 import {firebase} from "../firebase/config";
+import { useFocusEffect } from '@react-navigation/native';
+import {signOut} from "../store/actions/authAction";
+import TextAvatar from "react-native-text-avatar";
 
 export const Settings = ({route, navigation}) => {
 
@@ -28,7 +31,7 @@ export const Settings = ({route, navigation}) => {
 
 
    //Value block
-    const { userId, value } = route.params;
+    const { userId, value, aim } = route.params;
     const [curValue, setCurValue] = useState(value)
     const toggleValue = () => {
         let newValue = curValue === 'RU' ? 'UA' : 'RU'
@@ -37,13 +40,44 @@ export const Settings = ({route, navigation}) => {
     }
 
 
+    //Limits block
+    const [limit, setLimit] = useState(aim)
 
+    const handleLimit = limit => {
+        setLimit(limit.replace(/[^0-9]/g, ''));
+    }
+        useEffect(() => {
+                if (limit > 0) {
+                    firebase.firestore().collection('users').doc(userId).update({aim: limit})
+                }
+        }, [limit]);
+
+    //Sign out block
+
+    const signOutModalHandler = () => {
+        Alert.alert("Вы хотите выйти?", '', [
+                {
+                    text: "ОТМЕНИТЬ",
+                    style: "cancel"
+                },
+                { text: "ПРИНЯТЬ", onPress: () => {signOutHandler()}
+                }
+            ],
+            { cancelable: false });
+    }
+
+    const signOutHandler = () => {
+        dispatch(signOut())
+        navigation.navigate('LogOut')
+
+    }
 
 
 
 return (
     <View style={styles.main}>
         <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ"/>
+
         <View style={styles.rows}>
             <Text style={{...styles.rowText, color: colors.text}}>
                 Темная тема:
@@ -56,6 +90,7 @@ return (
             style={{ transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }], marginTop: 5, marginLeft: 5 }}
         />
         </View>
+
         <View style={styles.rows}>
             <Text style={{...styles.rowText, color: colors.text}}>
                 Предпочитаемая валюта:
@@ -66,6 +101,28 @@ return (
                 </Text>
             </TouchableOpacity>
         </View>
+
+        <View style={styles.rows}>
+            <Text style={{...styles.rowText, color: colors.text}}>
+                Лимит трат на месяц:
+            </Text>
+            <TextInput
+                placeholder="лимит"
+                placeholderTextColor={colors.accent}
+                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark}}
+                onChangeText={handleLimit}
+                value={limit}
+                keyboardType="number-pad"
+                maxLenth={5}
+                blurOnSubmit
+            />
+
+        </View>
+
+        <TouchableOpacity style={styles.rows} onPress={() => {signOutModalHandler()}}>
+
+            <Text style={{...styles.rowText,color: colors.dark}}>ВЫХОД</Text>
+        </TouchableOpacity>
 
     </View>
 )
@@ -85,6 +142,15 @@ const styles = StyleSheet.create({
         height: 60
     },
     rowText: {
-        fontWeight: 'bold', fontSize: 20
-    }
+        fontWeight: 'bold',
+         fontSize: 20
+    },
+    input: {
+        width: 90,
+        borderBottomWidth: 1,
+        fontWeight: 'bold',
+        fontSize: 19,
+        height: 30,
+        paddingHorizontal: 10
+    },
 })

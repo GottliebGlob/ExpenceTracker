@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {View, Text, StyleSheet, FlatList, Alert, StatusBar, ActivityIndicator, TouchableOpacity} from 'react-native'
-
+//Redux
 import {useDispatch, useSelector} from "react-redux";
 import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
 import { firebase } from '../firebase/config'
-
+//Components
 import Header from "../components/Header";
-import AccountInfo from "../components/AccountInfo";
+import AimInfo from "../components/AimInfo";
 import AddButton from "../components/AddButton";
 import StatisticButton from "../components/StatisticButton";
 import Item from "../components/Item";
@@ -18,32 +18,48 @@ import moment from 'moment';
 
 
 export const MainScreen = ({navigation}) => {
+
+    const { colors } = useTheme();
     const [isLoading, setIsLoading]= useState(false)
     const dispatch = useDispatch()
+
+    //Data getters
     const allSpends = useSelector(state => state.main.main)
     const sortedAllSpends  = allSpends.sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
+    const maxNumber = Math.max(...allSpends.map(e => e.cost)).toString().length
+    const montMaxNumber = Math.max(...lastMonthSpends.map(e => e.cost)).toString().length
+
+
+
+
+    //Local state for firestore requests
     const [name, setName] = useState('')
     const [value, setValue] = useState('')
-
-    const { colors } = useTheme();
-
+    const [aim, setAim] = useState(0)
     const user = firebase.auth().currentUser;
     const userId = user.uid
 
+    //Modals state
+    const [modalVisible, setModalVisible] = useState(false)
+    const [flatInfo, setFlatInfo] = useState(true)
+
+
+    //Fetching user data
     useFocusEffect(() => {
         firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
             if (documentSnapshot.exists) {
                 const data = documentSnapshot.data()
                 setName(data.name)
                 setValue(data.value)
+                setAim(data.aim)
             }
             else (console.log('error'))
         });
     })
 
+    //Fetching spends
     useEffect(() => {
-
         const loadSpends = async () => {
             if(allSpends.length === 0) {
                 setIsLoading(true)
@@ -54,10 +70,8 @@ export const MainScreen = ({navigation}) => {
     }, [])
 
 
-    const [modalVisible, setModalVisible] = useState(false)
-    const [flatInfo, setFlatInfo] = useState(true)
 
-
+    //Spends handlers
     const mainStateHandler = (enteredText, enteredCost, cat) => {
         const NewItem = {
              value: enteredText, cost: enteredCost, cat: cat, date: moment().toISOString(),
@@ -80,13 +94,14 @@ export const MainScreen = ({navigation}) => {
 
     }
 
+    //Modal handlers
     const showModalHandler = () => {
         setModalVisible(true)
     }
-
     const hideModalHandler = () => {
         setModalVisible(false)
     }
+
 
     if (isLoading) {
         return <View style={styles.load}>
@@ -99,8 +114,8 @@ export const MainScreen = ({navigation}) => {
     return(
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-    <Header navigation={navigation} userId={userId} value={value}/>
-    <AccountInfo navigation={navigation} name={name} />
+    <Header navigation={navigation} name={name}/>
+    <AimInfo navigation={navigation} aim={aim} userId={userId} value={value} lastMonthSpends={lastMonthSpends}/>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '10%'}}>
                     <View style={styles.mainContent}>
@@ -127,13 +142,16 @@ export const MainScreen = ({navigation}) => {
                             cost={itemData.item.cost}
                             id={itemData.item.id}
                             value={value}
+                            floatInfo={flatInfo}
+                            maxNumber={maxNumber}
+                            montMaxNumber={montMaxNumber}
                             removeHandler={removeHandler}/>
                     )}
                 />
 
     </View>
             <View style={styles.statistics}>
-                <StatisticButton navigation={navigation} data={sortedAllSpends} monthData={lastMonthSpends} value={value}/>
+                <StatisticButton userId={userId} navigation={navigation} data={sortedAllSpends} monthData={lastMonthSpends} value={value} aim={aim}/>
             </View>
     </View>
     )

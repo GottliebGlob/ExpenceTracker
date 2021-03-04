@@ -32,12 +32,12 @@ const InputModal = props => {
         setEnteredText(enteredText);
     };
     const InputCostHandler = enteredCost => {
-        setEnteredCost(enteredCost.replace(/[^0-9]/g, ''));
+        setEnteredCost(enteredCost);
     };
 
     const confirmHandler = () => {
-        if (enteredText.trim().length >= 3 && enteredCost < 100000 && enteredCost > 0 && String(enteredCost).length < 7 && enteredText.trim().length <= 25) {
-            props.onMainStateChange(enteredText, parseInt(String(enteredCost)), enteredCat)
+        if (enteredText.trim().length >= 3 && enteredCost < 100000 && enteredCost > 1 && enteredCost.match(/[+-]?([0-9]*[.])?[0-9]+/) &&  String(enteredCost).length < 7 && enteredText.trim().length <= 25) {
+            props.onMainStateChange(enteredText, Math.round(parseFloat(String(enteredCost)) * 100) / 100, enteredCat)
             setEnteredText('')
             setEnteredCost(0)
             setEnteredCat('general')

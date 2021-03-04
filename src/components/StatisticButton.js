@@ -12,10 +12,13 @@ const StatisticButton = props => {
     const monthData = props.monthData
     const value = props.value
     return (
-        <View>
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData, value: value})}>
+        <View style={styles.button}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData, value: value})} style={styles.container1}>
                 <Text style={{...styles.text, color: colors.headertext}}>СТАТИСТИКА</Text>
                 <Ionicons name='ios-stats' size={30} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value, aim: props.aim})} style={styles.container2}>
+                <Ionicons name='ios-settings' size={28} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
         </View>
     )
@@ -34,7 +37,24 @@ const styles = StyleSheet.create({
     text: {
         paddingVertical: 10,
         fontWeight: 'bold'
-    }
+    },
+    container1: {
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '90%',
+        flexDirection: 'row',
+        paddingLeft: '15%'
+
+    },
+    container2: {
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '15%',
+        paddingRight: '5%'
+
+    },
 })
 
 export default StatisticButton

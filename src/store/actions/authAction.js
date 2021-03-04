@@ -14,7 +14,8 @@ export const signup = (email, password, name) => {
                     id: uid,
                     email,
                     name,
-                    value: 'RU'
+                    value: 'RU',
+                    aim: 0
                 };
                 const usersRef = firebase.firestore().collection('users')
                 usersRef
