@@ -12,12 +12,12 @@ import StatisticButton from "../components/StatisticButton";
 import Item from "../components/Item";
 import InputModal from "../modals/InputModal"
 
-import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { useTheme} from '@react-navigation/native';
 
 import moment from 'moment';
 
 
-export const MainScreen = ({navigation}) => {
+export const MainScreen = ({route, navigation}) => {
 
     const { colors } = useTheme();
     const [isLoading, setIsLoading]= useState(false)
@@ -40,30 +40,48 @@ export const MainScreen = ({navigation}) => {
     const user = firebase.auth().currentUser;
     const userId = user.uid
 
+    useEffect(
+        () => {
+            if (route.params) {
+                const { newAim, newValue } = route.params;
+                if (newValue !== 0 && newAim !== 0) {
+                    setValue(newValue)
+                    setAim(newAim)
+                }
+            }
+        },
+        [route.params],
+    );
+
+
     //Modals state
     const [modalVisible, setModalVisible] = useState(false)
     const [flatInfo, setFlatInfo] = useState(true)
 
 
     //Fetching user data
-    useFocusEffect(() => {
-        firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
-            if (documentSnapshot.exists) {
-                const data = documentSnapshot.data()
-                setName(data.name)
-                setValue(data.value)
-                setAim(data.aim)
-            }
-            else (console.log('error'))
-        });
-    })
+    useEffect(() => {
+        setIsLoading(true)
+            firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
+                setIsLoading(false)
+                if (documentSnapshot.exists) {
+                    const data = documentSnapshot.data()
+                    setName(data.name)
+                    setValue(data.value)
+                    setAim(data.aim)
+                }
+                else (console.log('error'))
+            });
+        }, []);
+
 
     //Fetching spends
     useEffect(() => {
         const loadSpends = async () => {
             if(allSpends.length === 0) {
                 setIsLoading(true)
-                await dispatch(fetchMain()).then(setIsLoading(false))
+                await dispatch(fetchMain())
+                    setIsLoading(false)
             }
         }
         loadSpends()
@@ -104,9 +122,10 @@ export const MainScreen = ({navigation}) => {
 
 
     if (isLoading) {
+
         return <View style={styles.load}>
             <View>
-            <ActivityIndicator size='large' color={colors.accent}/>
+            <ActivityIndicator size='large' color={colors.dark}/>
         </View>
         </View>
     }
@@ -179,7 +198,7 @@ const styles = StyleSheet.create({
     load: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     flatInfo: {
         borderBottomWidth: 1,

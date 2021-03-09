@@ -11,13 +11,14 @@ const StatisticButton = props => {
     const data = props.data
     const monthData = props.monthData
     const value = props.value
+    const aim = props.aim
     return (
         <View style={styles.button}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData, value: value})} style={styles.container1}>
                 <Text style={{...styles.text, color: colors.headertext}}>СТАТИСТИКА</Text>
                 <Ionicons name='ios-stats' size={30} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value, aim: props.aim})} style={styles.container2}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value, aim: aim})} style={styles.container2}>
                 <Ionicons name='ios-settings' size={28} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
         </View>

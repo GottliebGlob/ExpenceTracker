@@ -51,6 +51,7 @@ export const login = (email, password) => {
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
+                console.log('uid ' + response.user.uid)
                 const uid = response.user.uid
                 const usersRef = firebase.firestore().collection('users')
                 usersRef

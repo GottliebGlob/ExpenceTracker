@@ -66,7 +66,7 @@ if (props.aim === 0) {
             </Text>
 
             <Text style={getTextColor()}>
-                {`${moneyLeft} ${props.value === 'RU' ? ' р. ' : ' грн. '}`}
+                {`${Math.round(moneyLeft* 100)/100} ${props.value === 'RU' ? ' р. ' : ' грн. '}`}
             </Text>
             </View>
             <ProgressBar

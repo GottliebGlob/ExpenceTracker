@@ -5,10 +5,21 @@ import {useTheme} from "@react-navigation/native";
 
 const AsideHeader = props => {
     const { colors } = useTheme();
+    let aim = 0
+    let value = 0
+
+    const onNavigate = () => {
+        if(props.value && props.aim > 0) {
+            aim = props.aim
+            value = props.value
+            props.pushLimit(aim)
+        }
+        props.navigation.navigate('Main', {newAim: aim, newValue: value})
+    }
 
     return (
         <View style={styles.headerWrapper}>
-            <TouchableOpacity style={styles.goBackIcon} onPress={() => props.navigation.navigate('Main')}>
+            <TouchableOpacity style={styles.goBackIcon} onPress={onNavigate}>
                 <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
             <View style={styles.mainTextContainer}>

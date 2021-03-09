@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Switch, TextInput, Alert} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Switch, TextInput, Alert, BackHandler,} from 'react-native'
 import {useTheme} from "@react-navigation/native";
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from "react-redux";
@@ -8,7 +8,7 @@ import AsideHeader from "../components/AsideHeader";
 import {firebase} from "../firebase/config";
 import { useFocusEffect } from '@react-navigation/native';
 import {signOut} from "../store/actions/authAction";
-import TextAvatar from "react-native-text-avatar";
+
 
 export const Settings = ({route, navigation}) => {
 
@@ -42,18 +42,16 @@ export const Settings = ({route, navigation}) => {
 
     //Limits block
     const [limit, setLimit] = useState(aim)
-
     const handleLimit = limit => {
+        console.log('limit is ' + limit)
         setLimit(limit.replace(/[^0-9]/g, ''));
     }
-        useEffect(() => {
-                if (limit > 0) {
-                    firebase.firestore().collection('users').doc(userId).update({aim: limit})
-                }
-        }, [limit]);
+    const pushLimit = () => {
+        firebase.firestore().collection('users').doc(userId).update({aim: limit})
+    }
+
 
     //Sign out block
-
     const signOutModalHandler = () => {
         Alert.alert("Вы хотите выйти?", '', [
                 {
@@ -65,18 +63,33 @@ export const Settings = ({route, navigation}) => {
             ],
             { cancelable: false });
     }
-
     const signOutHandler = () => {
         dispatch(signOut())
         navigation.navigate('LogOut')
-
     }
 
 
+    //Handle go back
+    useFocusEffect(
+        useCallback(() => {
+            const onBackPress = () => {
+                pushLimit()
+                navigation.navigate('Main', {newAim: limit, newValue: value})
+                return true;
+            };
+            BackHandler.addEventListener(
+                'hardwareBackPress', onBackPress
+            );
+            return () =>
+                BackHandler.removeEventListener(
+                    'hardwareBackPress', onBackPress
+                );
+        }, [limit, value])
+    );
 
 return (
     <View style={styles.main}>
-        <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ"/>
+        <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ" aim={limit} value={curValue} pushLimit={pushLimit}/>
 
         <View style={styles.rows}>
             <Text style={{...styles.rowText, color: colors.text}}>
