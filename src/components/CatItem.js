@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     text: {
-        fontWeight: 'bold',
+        fontFamily: 'open-sans-bold',
         fontSize: 14
     }
 })

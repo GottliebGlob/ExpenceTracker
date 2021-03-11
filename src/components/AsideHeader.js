@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 
     text: {
         color: '#fff',
-        fontWeight: 'bold'
+        fontFamily: 'open-sans-bold',
     },
     mainTextContainer: {
         flexDirection: 'row',

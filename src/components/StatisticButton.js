@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingVertical: 10,
-        fontWeight: 'bold'
+        fontFamily: 'open-sans-bold',
     },
     container1: {
         textAlign: 'center',

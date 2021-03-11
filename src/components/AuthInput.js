@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     label: {
-        fontWeight: 'bold',
-        fontSize: 20,
+        fontFamily: 'open-sans-bold',
+        fontSize: 19,
         textAlign: 'left',
         alignSelf: 'stretch',
         paddingLeft: '5%',

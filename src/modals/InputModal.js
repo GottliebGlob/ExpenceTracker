@@ -87,7 +87,7 @@ const InputModal = props => {
                     placeholder="Сумма траты..."
                     style={{...styles.input, color: colors.text}}
                     onChangeText={InputCostHandler}
-                    value={enteredCost}
+                    value={enteredCost.toString()}
                     keyboardType="number-pad"
                     maxLenth={5}
                     blurOnSubmit
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     textAlign: {
         textAlign: 'left',
         alignSelf: 'stretch',
-        fontWeight: 'bold',
+        fontFamily: 'open-sans-bold',
         fontSize: 20,
         paddingRight: 10
     },

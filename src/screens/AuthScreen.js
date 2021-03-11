@@ -121,26 +121,64 @@ export const AuthScreen = ({  navigation }) => {
         [dispatchFormState]
     );
 
+    const alertHandler = () => {
+        if (formState.inputValues.password.length < 5) {
+            console.log('hi ' + formState.inputValues.password)
+            Alert.alert("Упс!", 'Пароль не может быть короче 5 символов!', [
+                { text: 'Принять', style: 'cancel' }
+            ]);
+        }
+        if (formState.inputValues.email.length < 4) {
+            Alert.alert("Упс!", 'Пожаулйста, укажите существующую почту!', [
+                { text: 'Принять', style: 'cancel' }
+            ]);
+        }
+        if (isSignup) {
+            if (formState.inputValues.name.length < 2) {
+                Alert.alert("Упс!", 'Пожалуйста, введите ваше настоящее имя!', [
+                    { text: 'Принять', style: 'cancel' }
+                ]);
+            }
+        }
+    }
+
+
+
     const onTouch = () => {
         Keyboard.dismiss()
-            inputChangeHandler()
-           setIsButton(!isButton)
+           setIsButton(true)
+        inputChangeHandler()
+    }
+
+    const onRandomTouch = () => {
+        Keyboard.dismiss()
+        inputChangeHandler()
+        console.log('hide')
     }
 
     useEffect(() => {
+        Keyboard.addListener("keyboardDidHide", onRandomTouch);
+        return () => {
+            Keyboard.removeListener("keyboardDidHide", onRandomTouch);
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log(formState.inputValues)
         if(isButton) {
             if (isSignup) {
-            if (formState.inputValues.name  && formState.inputValues.password && formState.inputValues.email) {
-                setIsButton(!isButton)
+            if (formState.inputValues.name.length > 1  && formState.inputValues.password.length > 5 && formState.inputValues.email.length > 5) {
                 authHandler()
             }}
             else {
-            if (formState.inputValues.password && formState.inputValues.email) {
-                setIsButton(!isButton)
+                console.log('hello ' + formState.inputValues.password.length)
+            if (formState.inputValues.password.length > 5 && formState.inputValues.email.length > 5) {
         authHandler()
             }}
+            alertHandler()
         }
-    }, [formState]);
+        setIsButton(false)
+    }, [formState.inputValues]);
 
 
     return (
@@ -148,7 +186,7 @@ export const AuthScreen = ({  navigation }) => {
         <View style={styles.screen} >
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <View style={styles.mainTextContainer}>
-                <Text style={{...styles.text, fontSize: 18, color: colors.headertext}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
+                <Text style={{...styles.text, fontSize: 17, color: colors.headertext}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
             </View>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%',}}
@@ -161,6 +199,7 @@ export const AuthScreen = ({  navigation }) => {
                             label="Имя"
                             keyboardType="default"
                             minLength={2}
+                            maxLength={15}
                             autoCapitalize="words"
                             required
                             errorText="Пожалуйста, введите настоящее имя."
@@ -173,6 +212,8 @@ export const AuthScreen = ({  navigation }) => {
                             id="email"
                             label="E-Mail"
                             keyboardType="email-address"
+                            minLength={5}
+                            maxLength={30}
                             required
                             email
                             autoCapitalize="none"
@@ -186,6 +227,7 @@ export const AuthScreen = ({  navigation }) => {
                             keyboardType="default"
                             required
                             minLength={5}
+                            maxLength={15}
                             autoCapitalize="none"
                             errorText="Пожалуйста, используйте корректный пароль."
                             onInputChange={inputChangeHandler}
@@ -219,9 +261,10 @@ export const AuthScreen = ({  navigation }) => {
 const styles = StyleSheet.create({
     footerText: {
         fontSize: 16,
+        fontFamily: 'open-sans',
     },
     footerLink: {
-        fontWeight: "bold",
+        fontFamily: 'open-sans-bold',
         fontSize: 16,
         color: 'black'
     },
@@ -252,7 +295,7 @@ const styles = StyleSheet.create({
 
     text: {
         color: '#fff',
-        fontWeight: 'bold'
+        fontFamily: 'open-sans-bold',
     },
     mainTextContainer: {
         alignItems: 'center',

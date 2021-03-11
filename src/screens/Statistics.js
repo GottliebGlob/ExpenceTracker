@@ -344,20 +344,20 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#fff',
-        fontWeight: 'bold'
+        fontFamily: 'open-sans-bold',
     },
     headersText: {
-        fontWeight: 'bold',
+        fontFamily: 'open-sans-bold',
         fontSize: 15
     },
 
     h1text: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontFamily: 'open-sans-bold',
     },
     h2text: {
         fontSize: 14,
-
+        fontFamily: 'open-sans',
     }
 })
 

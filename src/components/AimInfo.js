@@ -37,10 +37,10 @@ const AimInfo = props => {
 
     const getTextColor = () => {
         if (isLimitReached) {
-            return {fontWeight: 'bold', fontSize: 18, marginLeft: 5, color: colors.error };
+            return { fontFamily: 'open-sans-bold', fontSize: 18, marginLeft: 5, color: colors.error };
         }
         else {
-            return {fontWeight: 'bold', fontSize: 18, marginLeft: 5, color: colors.confirm };
+            return { fontFamily: 'open-sans-bold', fontSize: 18, marginLeft: 5, color: colors.confirm };
         }
     }
 
@@ -61,7 +61,7 @@ if (props.aim === 0) {
         <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => {signOutModalHandler()}}>
             <View style={{flexDirection: 'row'}}>
 
-            <Text style={{fontWeight: 'bold', fontSize: 18, color: colors.text}}>
+            <Text style={{ fontFamily: 'open-sans-bold', fontSize: 18, color: colors.text}}>
                 {isLimitReached ? 'Лимит был превышен на:' : 'Средств до лимита:'}
             </Text>
 
@@ -83,7 +83,7 @@ if (props.aim === 0) {
 
 const styles = StyleSheet.create({
     text: {
-        fontWeight: 'bold',
+        fontFamily: 'open-sans-bold',
         fontSize: 15,
         textDecorationLine: 'underline',
 

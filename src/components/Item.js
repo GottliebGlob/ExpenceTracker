@@ -73,11 +73,12 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         paddingHorizontal: 5,
+        fontFamily: 'open-sans',
 
     },
     cost: {
-        fontWeight: 'bold',
-        fontSize: 19,
+        fontFamily: 'open-sans-bold',
+        fontSize: 18,
         paddingLeft: 10,
 
     },

@@ -4,6 +4,7 @@ import {MainScreen} from "./src/screens/MainSrceen";
 import {Statistics} from "./src/screens/Statistics";
 import {AuthScreen} from "./src/screens/AuthScreen";
 import {Settings} from "./src/screens/Settings"
+import {StartupScreen} from "./src/screens/SartupScreen";
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,7 +14,7 @@ import {DarkTheme, LightTheme} from "./src/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {setTheme} from "./src/store/actions/themeAction";
 import {firebase} from "./src/firebase/config";
-import {StartupScreen} from "./src/screens/SartupScreen";
+import * as Font from 'expo-font';
 
 
 export default () => {
@@ -22,11 +23,10 @@ export default () => {
     const color = useSelector(state => state.theme.isDark) === 'false' ? 'light' : 'dark';
     let c = useColorScheme()
 
+    //User
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-
     useEffect(() => {
-
         const usersRef = firebase.firestore().collection('users');
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
@@ -35,9 +35,8 @@ export default () => {
                     .get()
                     .then((document) => {
                         const userData = document.data()
-                        setLoading(false)
                         setUser(userData)
-
+                        setLoading(false)
                     })
                     .catch((error) => {
                       console.log(error)
@@ -48,12 +47,21 @@ export default () => {
         });
     }, []);
 
+    //Fonts
+    const [fontsLoaded, setFontsLoaded] = useState(false);
+    useEffect(() => {
+        Font.loadAsync({
+            'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+            'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+        }).then(() => setFontsLoaded(true));
+    }, [])
 
+    //Theme
     useEffect(() => {
         dispatch(setTheme(c))
     },[])
 
-    if (loading) {
+    if (loading || !fontsLoaded) {
         return (
             <StartupScreen />
         )

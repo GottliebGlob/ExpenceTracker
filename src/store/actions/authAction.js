@@ -1,7 +1,25 @@
 import { firebase } from '../../firebase/config'
 import {DEL} from "./mainAction";
+import {Alert} from "react-native";
 
-
+const errorHandler = (error) => {
+    console.log('error' + error)
+    if (error == 'Error: The password is invalid or the user does not have a password.') {
+        Alert.alert("Ошибка!", 'Неправильный пароль.', [
+            { text: 'Принять', style: 'cancel' }
+        ]);
+    }
+    if (error == 'Error: There is no user record corresponding to this identifier. The user may have been deleted.'){
+        Alert.alert("Ошибка!", 'Такого пользователя нет.', [
+            { text: 'Принять', style: 'cancel' }
+        ]);
+    }
+    if (error == 'Error: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.') {
+        Alert.alert("Ошибка!", 'Слишком много попыток входа. Попробуйте через несколько секунд.', [
+            { text: 'Принять', style: 'cancel' }
+        ]);
+    }
+}
 
 export const signup = (email, password, name) => {
     return async () => {
@@ -45,13 +63,10 @@ export const login = (email, password) => {
 
     return async () => {
         await
-            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-                .then(() => {
             firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
-                console.log('uid ' + response.user.uid)
                 const uid = response.user.uid
                 const usersRef = firebase.firestore().collection('users')
                 usersRef
@@ -63,16 +78,17 @@ export const login = (email, password) => {
                         }
                     })
                     .catch(error => {
-                        alert(error)
+                        errorHandler(error)
                     });
             })
             .catch(error => {
-                alert(error)
+                errorHandler(error)
             })
-    })
     }
 
 };
+
+
 
 export const google = () => {
     console.log('hello')

@@ -1,14 +1,5 @@
 import React from 'react';
 
-import 'expo-firestore-offline-persistence'
-import {firebase} from "./src/firebase/config";
-
-firebase.firestore().enablePersistence().catch(function(err) {
-    if (err.code === 'unimplemented') {
-        // The current browser does not support all of the
-        // features required to enable persistence
-    }
-});
 
 import 'react-native-gesture-handler';
 

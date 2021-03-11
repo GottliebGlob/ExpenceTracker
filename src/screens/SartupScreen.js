@@ -12,7 +12,7 @@ export const StartupScreen = () => {
     const { colors } = useTheme();
 
     return (
-        <View style={styles.screen}>
+        <View style={{...styles.screen, backgroundColor: colors.background}}>
             <ActivityIndicator size="large" color={colors.dark} />
         </View>
     );

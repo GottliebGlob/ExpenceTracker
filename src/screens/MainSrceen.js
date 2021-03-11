@@ -136,18 +136,18 @@ export const MainScreen = ({route, navigation}) => {
     <Header navigation={navigation} name={name}/>
     <AimInfo navigation={navigation} aim={aim} userId={userId} value={value} lastMonthSpends={lastMonthSpends}/>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
-                <View style={{paddingHorizontal: '10%'}}>
+                <View style={{paddingHorizontal: '5%'}}>
                     <View style={styles.mainContent}>
-                        <Text style={{...styles.text, fontSize: 22, color: colors.text}}> Потрачно зa</Text>
+                        <Text style={{...styles.text, fontSize: 20, color: colors.text}}> Потрачно зa</Text>
                        <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.accent}} onPress={() => setFlatInfo(!flatInfo)}>
                            <Text style={{...styles.flatInfoText, color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
-                        <Text style={{...styles.text, fontSize: 22, color: colors.confirm}}>
+                        <Text style={{...styles.text, fontSize: 20, color: colors.confirm}}>
                             {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
                             {value === 'RU' ? ' р. ' : ' грн. '}
                         </Text>
                     </View>
-    <Text style={{...styles.text, color: colors.text}}>Траты:</Text>
+    <Text style={{...styles.text, color: colors.text,  paddingBottom: 10, paddingTop: 5}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
                 </View>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
@@ -183,14 +183,14 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingVertical: 10,
-        fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 16,
+        fontFamily: 'open-sans-bold'
     },
     mainContent: {
         flexDirection: 'row',
         justifyContent: 'center',
         width: '100%',
-        paddingTop: 10,
+        paddingTop: 5,
     },
     statistics: {
         width: '100%', position:'absolute', bottom: 0, flex: .1
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     flatInfoText: {
         paddingTop: 10,
-        fontWeight: 'bold',
-        fontSize: 22
+        fontSize: 20,
+        fontFamily: 'open-sans-bold'
     }
 })

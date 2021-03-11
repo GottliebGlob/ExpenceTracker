@@ -124,7 +124,7 @@ return (
                 placeholderTextColor={colors.accent}
                 style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark}}
                 onChangeText={handleLimit}
-                value={limit}
+                value={limit.toString()}
                 keyboardType="number-pad"
                 maxLenth={5}
                 blurOnSubmit
@@ -155,13 +155,13 @@ const styles = StyleSheet.create({
         height: 60
     },
     rowText: {
-        fontWeight: 'bold',
-         fontSize: 20
+        fontFamily: 'open-sans-bold',
+         fontSize: 18
     },
     input: {
         width: 90,
         borderBottomWidth: 1,
-        fontWeight: 'bold',
+        fontFamily: 'open-sans-bold',
         fontSize: 19,
         height: 30,
         paddingHorizontal: 10

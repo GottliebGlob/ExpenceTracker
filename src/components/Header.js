@@ -1,7 +1,6 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import {useTheme} from "@react-navigation/native";
-import {Ionicons} from "@expo/vector-icons";
 import TextAvatar from "react-native-text-avatar";
 import {signOut} from "../store/actions/authAction";
 import {useDispatch} from "react-redux";
@@ -33,7 +32,7 @@ const Header = props => {
     return (
     <View style={styles.wrapper}>
 <View style={styles.container}>
-    <Text style={{color: colors.headertext, fontSize: 20, fontWeight: "bold"}}>Spender </Text>
+    <Text style={{color: colors.headertext, fontSize: 20,    fontFamily: 'open-sans-bold'}}>Spender </Text>
 </View>
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 
@@ -64,12 +63,6 @@ const styles = StyleSheet.create({
         height: 60,
         justifyContent: 'space-between',
         width: '100%'
-    },
-    text: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        textDecorationLine: 'underline',
-
     },
 
 });

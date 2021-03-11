@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         paddingTop: 10
     },
     text: {
-        fontWeight: 'bold',
+        fontFamily: 'open-sans-bold',
         fontSize: 20,
         paddingBottom: 20
     },
