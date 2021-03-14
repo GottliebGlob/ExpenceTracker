@@ -3,22 +3,46 @@ import {DEL} from "./mainAction";
 import {Alert} from "react-native";
 
 const errorHandler = (error) => {
-    console.log('error' + error)
-    if (error == 'Error: The password is invalid or the user does not have a password.') {
-        Alert.alert("Ошибка!", 'Неправильный пароль.', [
-            { text: 'Принять', style: 'cancel' }
-        ]);
+
+    switch (error.toString()) {
+
+        case 'Error: The password is invalid or the user does not have a password.': {
+            Alert.alert("Ошибка!", 'Неправильный пароль.', [
+                {text: 'Принять', style: 'cancel'}
+            ]);
+            break
+        }
+        case 'Error: There is no user record corresponding to this identifier. The user may have been deleted.': {
+                Alert.alert("Ошибка!", 'Такого пользователя нет.', [
+                    {text: 'Принять', style: 'cancel'}
+                ]);
+            break
+            }
+        case 'Error: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.': {
+                Alert.alert("Ошибка!", 'Слишком много попыток входа. Попробуйте через несколько секунд.', [
+                    {text: 'Принять', style: 'cancel'}
+                ]);
+            break
+            }
+        case 'Error: The email address is already in use by another account.': {
+                Alert.alert("Ошибка!", 'Указанная почта уже используется другим аккаунтом.', [
+                    {text: 'Принять', style: 'cancel'}
+                ]);
+            break
+            }
+
+        default: {
+            Alert.alert("Ошибка!", 'Упс! Произошла неизвестная ошибка!', [
+                {text: 'Принять', style: 'cancel'}
+            ]);
+            break
+        }
     }
-    if (error == 'Error: There is no user record corresponding to this identifier. The user may have been deleted.'){
-        Alert.alert("Ошибка!", 'Такого пользователя нет.', [
-            { text: 'Принять', style: 'cancel' }
-        ]);
-    }
-    if (error == 'Error: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.') {
-        Alert.alert("Ошибка!", 'Слишком много попыток входа. Попробуйте через несколько секунд.', [
-            { text: 'Принять', style: 'cancel' }
-        ]);
-    }
+
+
+
+
+
 }
 
 export const signup = (email, password, name) => {
@@ -41,12 +65,12 @@ export const signup = (email, password, name) => {
                     .set(data)
                     .then(() => {
                     })
-                    .catch((error) => {
-                        alert(error)
+                    .catch(error => {
+                        errorHandler(error)
                     });
             })
-            .catch((error) => {
-                alert(error)
+            .catch(error => {
+                errorHandler(error)
             });
     }
 };

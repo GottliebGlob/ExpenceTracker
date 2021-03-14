@@ -8,6 +8,8 @@ import AsideHeader from "../components/AsideHeader";
 import {firebase} from "../firebase/config";
 import { useFocusEffect } from '@react-navigation/native';
 import {signOut} from "../store/actions/authAction";
+import {clearState} from "../store/actions/mainAction";
+import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 
 
 export const Settings = ({route, navigation}) => {
@@ -92,7 +94,7 @@ return (
         <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ" aim={limit} value={curValue} pushLimit={pushLimit}/>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text}}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: widthPercentageToDP('5%')}}>
                 Темная тема:
             </Text>
         <Switch
@@ -105,24 +107,24 @@ return (
         </View>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text}}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: widthPercentageToDP('4.6%')}}>
                 Предпочитаемая валюта:
             </Text>
             <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.accent}} onPress={toggleValue}>
-                <Text style={{...styles.rowText, color: colors.dark}}>
+                <Text style={{...styles.rowText, color: colors.dark, fontSize: widthPercentageToDP('4.6%')}}>
                     {curValue === 'RU' ? ' руб. \u20BD' : ' грн. \u20B4'}
                 </Text>
             </TouchableOpacity>
         </View>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text}}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: widthPercentageToDP('4.6%')}}>
                 Лимит трат на месяц:
             </Text>
             <TextInput
                 placeholder="лимит"
                 placeholderTextColor={colors.accent}
-                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark}}
+                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark, fontSize: widthPercentageToDP('4.6%')}}
                 onChangeText={handleLimit}
                 value={limit.toString()}
                 keyboardType="number-pad"
@@ -134,7 +136,7 @@ return (
 
         <TouchableOpacity style={styles.rows} onPress={() => {signOutModalHandler()}}>
 
-            <Text style={{...styles.rowText,color: colors.dark}}>ВЫХОД</Text>
+            <Text style={{...styles.rowText,color: colors.dark, fontSize: widthPercentageToDP('5%')}}>ВЫХОД</Text>
         </TouchableOpacity>
 
     </View>

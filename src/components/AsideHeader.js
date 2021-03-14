@@ -1,7 +1,8 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
+import {heightPercentageToDP} from "../flex";
 
 const AsideHeader = props => {
     const { colors } = useTheme();
@@ -23,7 +24,7 @@ const AsideHeader = props => {
                 <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
             <View style={styles.mainTextContainer}>
-                <Text style={{...styles.text, fontSize: 16, color: colors.headertext}}>{props.placeholder}</Text>
+                <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.3%') : heightPercentageToDP('2%'), color: colors.headertext}}>{props.placeholder}</Text>
             </View>
         </View>
     )

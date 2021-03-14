@@ -1,85 +1,82 @@
-import React, {useReducer, useEffect} from 'react'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import React, {useReducer, useEffect, useState} from 'react'
+import {View, Text, TextInput, StyleSheet, Alert} from 'react-native'
 import {useTheme} from "@react-navigation/native";
+import InputPasswordToggle from "react-native-toggle-password-visibility";
+import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 
-const INPUT_CHANGE = 'INPUT_CHANGE'
-const INPUT_BLUR = 'INPUT_BLUR'
 
-
-const inputReducer = (state, action) => {
-switch (action.type) {
-    case INPUT_CHANGE:
-        return {
-            ...state,
-            value: action.value,
-            isValid: action.isValid
-        }
-    case INPUT_BLUR:
-        return {
-            ...state,
-            touched: true
-        }
-    default:
-        return state
-}
-}
 
 const AuthInput = props => {
     const { colors } = useTheme();
+    const [enteredText, setEnteredText] = useState('')
+    const [error, setError] = useState(false)
 
-    const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue ? props.initialValue: '',
-    isValid: props.initiallyValid,
-    touched: false
-})
+    const { onInputChange, type } = props;
 
-    const { onInputChange, id } = props
-
-    useEffect(() => {
-        if (inputState.touched) {
-       onInputChange(id, inputState.value, inputState.isValid)
-        }
-    }, [inputState, onInputChange, id])
-
-    const textChangeHandler = text => {
+    const inputCheckHandler = text => {
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        let isValid = true;
         if (props.required && text.trim().length === 0) {
-            isValid = false;
+            setError(true)
         }
-        if (props.email && !emailRegex.test(text.toLowerCase())) {
-            isValid = false;
+        if (type === 'email' && !emailRegex.test(text.toLowerCase())) {
+            setError(true)
         }
         if (props.min != null && +text < props.min) {
-            isValid = false;
+            setError(true)
         }
         if (props.max != null && +text > props.max) {
-            isValid = false;
+            setError(true)
         }
         if (props.minLength != null && text.length < props.minLength) {
-            isValid = false;
+            setError(true)
         }
-        dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
     }
 
+
     const lostFocusHandler = () => {
-    dispatch({ type: INPUT_BLUR})
+        inputCheckHandler(enteredText)
     }
+
+    const inputHandler = enteredText => {
+        setEnteredText(enteredText);
+        onInputChange(enteredText)
+        if (error) {
+            setError(false)
+        }
+    };
+
+
 
     return (
         <View style={styles.main}>
-            <Text style={{...styles.label, color: colors.text}}>{props.label}</Text>
-        <TextInput
-            {...props}
-            style={{...styles.input, borderBottomColor: colors.accent, color: colors.text}}
-            value={inputState.value}
-            onChangeText={textChangeHandler}
-            onBlur={lostFocusHandler}
-            keyboardType="default"
-            autoCapitalize="none"
-            returnKeyType="next"
-            />
-            {!inputState.isValid && inputState.touched && (
+            <Text style={{...styles.label, color: colors.text, fontSize:  widthPercentageToDP('5%')}}>{props.label}</Text>
+            {type === 'password' ? (
+                <InputPasswordToggle
+
+                    {...props}
+                    style={{...styles.input, borderBottomColor: colors.accent,}}
+                    inputStyle={{ color: colors.text}}
+                    iconColor={colors.text}
+                    onChangeText={inputHandler}
+                    onBlur={lostFocusHandler}
+                    keyboardType="default"
+                    autoCapitalize="none"
+                    returnKeyType="next"
+
+                />
+            ) : (
+                <TextInput
+                    {...props}
+                    style={{...styles.input, borderBottomColor: colors.accent, color: colors.text}}
+                    onChangeText={inputHandler}
+                    onBlur={lostFocusHandler}
+                    keyboardType="default"
+                    autoCapitalize="none"
+                    returnKeyType="next"
+                />
+            ) }
+
+            {error && (
                 <View>
                     <Text style={{...styles.errorText, color: colors.error,}}>{props.errorText}</Text>
                 </View>
@@ -101,7 +98,6 @@ const styles = StyleSheet.create({
     },
     label: {
         fontFamily: 'open-sans-bold',
-        fontSize: 19,
         textAlign: 'left',
         alignSelf: 'stretch',
         paddingLeft: '5%',

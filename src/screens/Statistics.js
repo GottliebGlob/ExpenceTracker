@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, ScrollView} from 'react-native'
 import { Dimensions } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
 import {Ionicons} from "@expo/vector-icons";
@@ -279,6 +279,7 @@ export const Statistics = ({route, navigation}) => {
     return(
         <View style={styles.main}>
             <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
+            <ScrollView>
             <View style={{marginTop: 20}}>
                 <Text style={{...styles.headersText, color: colors.text}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
@@ -299,7 +300,7 @@ export const Statistics = ({route, navigation}) => {
                 }}
 
             />
-            <View style={{marginTop: 20}}>
+            <View>
                 <Text style={{...styles.headersText, color: colors.text}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЙ МЕСЯЦ
                 </Text>
@@ -325,7 +326,7 @@ export const Statistics = ({route, navigation}) => {
                 absolute
 
             />}
-
+            </ScrollView>
         </View>
     )
 }

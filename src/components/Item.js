@@ -4,6 +4,7 @@ import RenderIcon from "./RenderIcon";
 import 'moment/locale/ru'
 import moment from 'moment';
 import {useTheme} from "@react-navigation/native";
+import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 
 const Item = props => {
     const { colors } = useTheme();
@@ -11,7 +12,7 @@ const Item = props => {
     const getRightMargin = () => {
         let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
         if (props.value === 'RU') {
-            return {  fontSize: 18, marginHorizontal: -65 + textMargin * 10, color: colors.text};
+            return {  fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -65 + textMargin * 10, color: colors.text};
         }
         else {
             return { fontSize: 18, marginHorizontal: -50 + textMargin * 10, color: colors.text };
@@ -33,19 +34,22 @@ const Item = props => {
     return (
         <TouchableOpacity
         onLongPress={props.removeHandler.bind(this, props.id)}>
-        <View style={{...styles.wrapper, borderBottomColor: colors.accent}}>
+        <View style={{...styles.wrapper, height: heightPercentageToDP('8.3%'), borderBottomColor: colors.accent, }}>
             <View style={styles.include}>
                 <View style={{flexDirection: 'column'}}>
                     <View style={{flexDirection: 'row'}}>
             <RenderIcon category={props.cat} />
                 <View style={styles.textRight}>
-            <Text style={{...styles.cost, color: colors.text}}>
+            <Text style={{...styles.cost, color: colors.text,
+            fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%')
+            }}>
                 {`${props.cost} ${props.value === 'RU' ? ' р. ' : ' грн. '}`}
             </Text>
                 </View>
                     </View>
                         <View>
-                            <Text style={{color: colors.text}}> {m.format('DD.MM.YYYY')}</Text>
+                            <Text style={{color: colors.text,
+                                fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2%') : heightPercentageToDP('1.8%')}}> {m.format('DD.MM.YYYY')}</Text>
                         </View>
                 </View>
                 <View style={{alignSelf: 'flex-start'}}>

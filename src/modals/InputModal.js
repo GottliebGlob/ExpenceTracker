@@ -10,7 +10,7 @@ import {
     Text,
     Alert,
     StatusBar,
-    TouchableOpacity
+    TouchableOpacity, Dimensions
 } from 'react-native';
 
 
@@ -19,6 +19,7 @@ import {
 import CatModal from "./CatModal";
 import RenderIcon from "../components/RenderIcon";
 import {useTheme} from "@react-navigation/native";
+import {widthPercentageToDP} from "../flex";
 
 const InputModal = props => {
     const { colors } = useTheme();
@@ -73,16 +74,16 @@ const InputModal = props => {
                 <View style={{...styles.main, backgroundColor: colors.background}}>
                     <StatusBar barStyle="dark-content" backgroundColor={colors.dark} />
             <View style={styles.inputContainer}>
-                <Text style={{...styles.textAlign, color: colors.text}}>Введите трату: </Text>
+                <Text style={{...styles.textAlign, color: colors.text, fontSize: Dimensions.get('window').height > 650 ? widthPercentageToDP('5%') : widthPercentageToDP('4.5%')}}>Введите трату: </Text>
                 <TextInput
                     placeholder="Новая трата..."
-                    style={{...styles.input, color: colors.text}}
+                    style={{...styles.input, color: colors.text,}}
                     onChangeText={InputHandler}
                     value={enteredText}
                     maxLenth={25}
                     blurOnSubmit
                 />
-                <Text style={{...styles.textAlign, color: colors.text}}>Введите сумму траты: </Text>
+                <Text style={{...styles.textAlign, color: colors.text, fontSize: Dimensions.get('window').height > 650 ? widthPercentageToDP('5%') : widthPercentageToDP('4.5%')}}>Введите сумму траты: </Text>
                 <TextInput
                     placeholder="Сумма траты..."
                     style={{...styles.input, color: colors.text}}
@@ -96,7 +97,7 @@ const InputModal = props => {
 
 
                     <TouchableOpacity onPress={() => modalCatHandler()} style={styles.modal}>
-                        <Text style={{...styles.textAlign, color: colors.text}}>Выберите категорию: </Text>
+                        <Text style={{...styles.textAlign, color: colors.text, fontSize: Dimensions.get('window').height > 650 ? widthPercentageToDP('5%') : widthPercentageToDP('4.5%')}}>Выберите категорию: </Text>
                         <RenderIcon category={enteredCat} />
                     </TouchableOpacity>
 

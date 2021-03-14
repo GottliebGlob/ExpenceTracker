@@ -4,6 +4,7 @@ import {useTheme} from "@react-navigation/native";
 import TextAvatar from "react-native-text-avatar";
 import {signOut} from "../store/actions/authAction";
 import {useDispatch} from "react-redux";
+import {widthPercentageToDP} from "../flex";
 
 
 const Header = props => {
@@ -32,7 +33,7 @@ const Header = props => {
     return (
     <View style={styles.wrapper}>
 <View style={styles.container}>
-    <Text style={{color: colors.headertext, fontSize: 20,    fontFamily: 'open-sans-bold'}}>Spender </Text>
+    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: widthPercentageToDP('5%')}}>Spender </Text>
 </View>
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 

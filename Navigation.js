@@ -74,7 +74,9 @@ export default () => {
             screenOptions={{ headerShown: false}}>
             { user ? (
                 <>
-                    <Stack.Screen name="Main" component={MainScreen}/>
+                    <Stack.Screen name="Main">
+                        {props => <MainScreen {...props} extraData={user} />}
+                    </Stack.Screen>
                     <Stack.Screen name="Statistics" component={Statistics} />
                     <Stack.Screen name="Settings" component={Settings} />
                     <Stack.Screen name="LogOut" component={AuthScreen} />
@@ -84,7 +86,9 @@ export default () => {
                     <Stack.Screen name="Login" component={AuthScreen} />
                     <Stack.Screen name="Statistics" component={Statistics} />
                     <Stack.Screen name="Settings" component={Settings} />
-                    <Stack.Screen name="Main" component={MainScreen}/>
+                    <Stack.Screen name="Main">
+                        {props => <MainScreen {...props} extraData={user} />}
+                    </Stack.Screen>
                 </>
             )}
         </Stack.Navigator>

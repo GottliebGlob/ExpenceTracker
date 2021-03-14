@@ -2,6 +2,7 @@ import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native"
 import {Ionicons} from "@expo/vector-icons";
 import {useTheme} from "@react-navigation/native";
+import {heightPercentageToDP} from "../flex";
 
 
 const StatisticButton = props => {
@@ -13,13 +14,13 @@ const StatisticButton = props => {
     const value = props.value
     const aim = props.aim
     return (
-        <View style={styles.button}>
+        <View style={{...styles.button, height: heightPercentageToDP('7.5%')}}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData, value: value})} style={styles.container1}>
-                <Text style={{...styles.text, color: colors.headertext}}>СТАТИСТИКА</Text>
-                <Ionicons name='ios-stats' size={30} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Text style={{...styles.text, color: colors.headertext, fontSize: heightPercentageToDP('2.2%')}}>СТАТИСТИКА</Text>
+                <Ionicons name='ios-stats' size={heightPercentageToDP('4%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value, aim: aim})} style={styles.container2}>
-                <Ionicons name='ios-settings' size={28} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Ionicons name='ios-settings' size={heightPercentageToDP('3.6%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
         </View>
     )
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'black',
-        height: 60,
         width: '100%',
 
     },

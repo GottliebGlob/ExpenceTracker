@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Keyboard,
     View,
@@ -8,152 +8,116 @@ import {
     ActivityIndicator,
     Alert,
     StatusBar,
-    TouchableWithoutFeedback
+    PixelRatio, Dimensions
 } from 'react-native';
 
 
 import AuthInput from "../components/AuthInput";
-import PassInput from "../components/PassInput";
 import * as authActions from "../store/actions/authAction"
 
 import {useDispatch} from "react-redux";
 import {firebase} from "../firebase/config";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useTheme} from "@react-navigation/native";
+import {clearState} from "../store/actions/mainAction";
 
+import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 
-
-const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
-
-const formReducer = (state, action) => {
-    if (action.type === FORM_INPUT_UPDATE) {
-        const updatedValues = {
-            ...state.inputValues,
-            [action.input]: action.value
-        };
-        const updatedValidities = {
-            ...state.inputValidities,
-            [action.input]: action.isValid
-        };
-        let updatedFormIsValid = true;
-        for (const key in updatedValidities) {
-            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-        }
-        return {
-            formIsValid: updatedFormIsValid,
-            inputValidities: updatedValidities,
-            inputValues: updatedValues
-        };
-    }
-    return state;
-};
 
 export const AuthScreen = ({  navigation }) => {
     const { colors } = useTheme();
 
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState();
     const [isSignup, setIsSignup] = useState(false);
-    const [isButton, setIsButton] = useState(false)
+
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
 
-    const [formState, dispatchFormState] = useReducer(formReducer, {
-        inputValues: {
-            email: '',
-            password: '',
-            name: ''
-        },
-        inputValidities: {
-            email: false,
-            password: false,
-            name: false
-        },
-        formIsValid: false
-    });
 
-
-    useEffect(() => {
-        if (error) {
-            Alert.alert('Ошибка!', error, [{ text: 'Принять' }]);
-        }
-    }, [error]);
 
     const authHandler = async () => {
-
         let action;
         if (isSignup) {
             action = authActions.signup(
-                formState.inputValues.email,
-                formState.inputValues.password,
-                formState.inputValues.name,
+              email,
+              password,
+               name,
             );
         } else {
             action = authActions.login(
-                formState.inputValues.email,
-                formState.inputValues.password
+               email,
+               password
             );
         }
-        setError(null);
         setIsLoading(true);
         try {
             await dispatch(action)
             setIsLoading(false);
         } catch (err) {
-            setError(err.message);
+          console.log(err)
             setIsLoading(false);
         }
         const user = firebase.auth().currentUser;
         if(user) {
+            dispatch(clearState())
         navigation.navigate('Main')
         }
     };
 
-    const inputChangeHandler = useCallback(
-        (inputIdentifier, inputValue, inputValidity) => {
-            dispatchFormState({
-                type: FORM_INPUT_UPDATE,
-                value: inputValue,
-                isValid: inputValidity,
-                input: inputIdentifier
-            });
-        },
-        [dispatchFormState]
-    );
+    const nameHandler = (text) => {
+        setName(text)
+    }
 
-    const alertHandler = () => {
-        if (formState.inputValues.password.length < 5) {
-            console.log('hi ' + formState.inputValues.password)
-            Alert.alert("Упс!", 'Пароль не может быть короче 5 символов!', [
-                { text: 'Принять', style: 'cancel' }
-            ]);
-        }
-        if (formState.inputValues.email.length < 4) {
-            Alert.alert("Упс!", 'Пожаулйста, укажите существующую почту!', [
-                { text: 'Принять', style: 'cancel' }
-            ]);
-        }
+    const emailHandler = (text) => {
+        setEmail(text)
+    }
+
+    const passwordHandler = (text) => {
+        setPassword(text)
+    }
+
+
+    const onAuth = () => {
+        let error = false
+
         if (isSignup) {
-            if (formState.inputValues.name.length < 2) {
+            if (name.length < 2) {
+               error = true
                 Alert.alert("Упс!", 'Пожалуйста, введите ваше настоящее имя!', [
                     { text: 'Принять', style: 'cancel' }
                 ]);
             }
         }
+
+        if (password.length < 5) {
+            error = true
+            Alert.alert("Упс!", 'Пароль не может быть короче 6 символов!', [
+                { text: 'Принять', style: 'cancel' }
+            ]);
+        }
+
+        if (email.length < 5) {
+            error = true
+            Alert.alert("Упс!", 'Пожаулйста, укажите существующую почту!', [
+                { text: 'Принять', style: 'cancel' }
+            ]);
+        }
+
+        if (!error) {
+            authHandler()
+        }
     }
-
-
 
     const onTouch = () => {
         Keyboard.dismiss()
-           setIsButton(true)
-        inputChangeHandler()
+          onAuth()
     }
 
     const onRandomTouch = () => {
         Keyboard.dismiss()
-        inputChangeHandler()
-        console.log('hide')
     }
 
     useEffect(() => {
@@ -163,39 +127,23 @@ export const AuthScreen = ({  navigation }) => {
         };
     }, []);
 
-    useEffect(() => {
-        console.log(formState.inputValues)
-        if(isButton) {
-            if (isSignup) {
-            if (formState.inputValues.name.length > 1  && formState.inputValues.password.length > 5 && formState.inputValues.email.length > 5) {
-                authHandler()
-            }}
-            else {
-                console.log('hello ' + formState.inputValues.password.length)
-            if (formState.inputValues.password.length > 5 && formState.inputValues.email.length > 5) {
-        authHandler()
-            }}
-            alertHandler()
-        }
-        setIsButton(false)
-    }, [formState.inputValues]);
 
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
         <View style={styles.screen} >
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <View style={styles.mainTextContainer}>
-                <Text style={{...styles.text, fontSize: 17, color: colors.headertext}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
+                <Text style={{...styles.text, color: colors.headertext,
+                    fontSize:  Dimensions.get('window').height > 650 ? widthPercentageToDP('4.5%') : widthPercentageToDP('4.2%')}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
             </View>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%',}}
                 keyboardShouldPersistTaps="always">
-                <View style={{paddingVertical: '15%'}}>
+                <View style={{paddingVertical: Dimensions.get('window').height > 650 ? heightPercentageToDP('10%') : heightPercentageToDP('5%')}}>
                 </View>
 
                         {isSignup ? <AuthInput
-                            id="name"
+                            type="name"
                             label="Имя"
                             keyboardType="default"
                             minLength={2}
@@ -203,26 +151,25 @@ export const AuthScreen = ({  navigation }) => {
                             autoCapitalize="words"
                             required
                             errorText="Пожалуйста, введите настоящее имя."
-                            onInputChange={inputChangeHandler}
+                            onInputChange={nameHandler}
                             initialValue=""
                             initiallyValid={false}
                         /> : null}
 
                         <AuthInput
-                            id="email"
+                            type="email"
                             label="E-Mail"
                             keyboardType="email-address"
                             minLength={5}
                             maxLength={30}
                             required
-                            email
                             autoCapitalize="none"
                             errorText="Пожалуйста, используйте существующий e-mail."
-                            onInputChange={inputChangeHandler}
+                            onInputChange={emailHandler}
                             initialValue=""
                         />
-                        <PassInput
-                            id="password"
+                        <AuthInput
+                            type="password"
                             label="Пароль"
                             keyboardType="default"
                             required
@@ -230,14 +177,14 @@ export const AuthScreen = ({  navigation }) => {
                             maxLength={15}
                             autoCapitalize="none"
                             errorText="Пожалуйста, используйте корректный пароль."
-                            onInputChange={inputChangeHandler}
+                            onInputChange={passwordHandler}
                             initialValue=""
                         />
 
 
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button1} onPress={() => onTouch()}>
-                                <Text style={{...styles.text, color: colors.headertext}}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
+                            <TouchableOpacity style={{...styles.button1,  height: heightPercentageToDP('6%')}} onPress={() => onTouch()}>
+                                <Text style={{...styles.text, color: colors.headertext, fontSize:  heightPercentageToDP('2%')}}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
                                 <View style={{width: 10}}>
                                 </View>
                                 {isLoading ? (
@@ -248,12 +195,18 @@ export const AuthScreen = ({  navigation }) => {
 
                         </View>
                         <View style={styles.footerView}>
-                        <Text style={{...styles.footerText, color: colors.text}}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '} <Text onPress={() => {setIsSignup(prevState => !prevState)}}
-                                                                                     style={{...styles.footerLink, color: colors.sign}}>{isSignup ? 'Войти' : 'Зарегистрироваться'}</Text></Text>
+                         <Text style={{...styles.footerText, color: colors.text,
+                             fontSize:  Dimensions.get('window').height > 650 ? widthPercentageToDP('4.2%') : widthPercentageToDP('3.5%')}}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '}
+                             <Text onPress={() => {setIsSignup(prevState => !prevState)}}
+                              style={{...styles.footerLink,
+                                        color: colors.sign,
+                                        fontSize:  Dimensions.get('window').height > 650 ? widthPercentageToDP('4.2%') : widthPercentageToDP('3.5%')}}>
+                                    {isSignup ? 'Войти' : 'Зарегистрироваться'}
+                             </Text>
+                         </Text>
                         </View>
             </KeyboardAwareScrollView>
         </View>
-        </TouchableWithoutFeedback>
     );
 };
 
@@ -302,7 +255,8 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         backgroundColor: 'black',
-        paddingVertical: 10,
+        paddingBottom: 10,
+
     }
 });
 
