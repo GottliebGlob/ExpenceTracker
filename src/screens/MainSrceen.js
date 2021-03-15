@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect, } from 'react'
 import {
     View,
     Text,
@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 //Redux
 import {useDispatch, useSelector} from "react-redux";
-import {addMain, removeMain, fetchMain, clearState} from "../store/actions/mainAction";
+import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
 import { firebase } from '../firebase/config'
 //Components
 import Header from "../components/Header";
@@ -23,10 +23,11 @@ import Item from "../components/Item";
 import InputModal from "../modals/InputModal"
 
 import { useTheme} from '@react-navigation/native';
-
 import moment from 'moment';
-import {heightPercentageToDP} from "../flex";
 
+import {heightPercentageToDP} from "../flex";
+import checkIfFirstLaunch from '../components/firstLaunchHandler'
+import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 
 export const MainScreen = ({route, navigation}) => {
 
@@ -40,8 +41,6 @@ export const MainScreen = ({route, navigation}) => {
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
     const maxNumber = Math.max(...allSpends.map(e => e.cost)).toString().length
     const montMaxNumber = Math.max(...lastMonthSpends.map(e => e.cost)).toString().length
-
-
 
 
     //Local state for firestore requests
@@ -67,19 +66,28 @@ export const MainScreen = ({route, navigation}) => {
 
 
     //Modals state
+    const [isFirst, setIsFirst] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
     const [flatInfo, setFlatInfo] = useState(true)
+
+    const isItFirst = async () => {
+        const isFirstLaunch = await checkIfFirstLaunch();
+        setIsFirst(isFirstLaunch)
+    }
+
+    const loadSpends = async () => {
+        if(allSpends.length === 0) {
+            await dispatch(fetchMain())
+        }
+    }
 
     //Fetching user data
     useEffect(() => {
 
-        //Spends fetching
+        //Check for the first visit
+        isItFirst()
 
-        const loadSpends = async () => {
-            if(allSpends.length === 0) {
-                await dispatch(fetchMain())
-            }
-        }
+        //Spends fetching
         loadSpends()
 
         //Preferences fetching
@@ -143,6 +151,7 @@ export const MainScreen = ({route, navigation}) => {
     return(
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
+            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends}/>
     <Header navigation={navigation} name={name}/>
     <AimInfo navigation={navigation} aim={aim} userId={userId} value={value} lastMonthSpends={lastMonthSpends}/>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>

@@ -1,10 +1,11 @@
+import moment from "moment";
+
 export const ADD ='ADD'
 export const DEL = 'DEL'
 export const SET = 'SET'
 export const CLEAR = 'CLEAR'
 
 import { firebase } from '../../firebase/config'
-
 
 
 export const addMain = (NewItem) => {
