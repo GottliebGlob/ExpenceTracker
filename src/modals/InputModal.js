@@ -24,7 +24,7 @@ import {widthPercentageToDP} from "../flex";
 const InputModal = props => {
     const { colors } = useTheme();
     const [enteredText, setEnteredText] = useState('');
-    const [enteredCost, setEnteredCost] = useState(0)
+    const [enteredCost, setEnteredCost] = useState('')
     const [enteredCat, setEnteredCat] = useState('general')
     const [catModalVisible, setCatModalVisible] = useState(false)
 

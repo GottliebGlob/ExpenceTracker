@@ -3,7 +3,7 @@ import {DEL} from "./mainAction";
 import {Alert} from "react-native";
 
 const errorHandler = (error) => {
-
+console.log('err' + error)
     switch (error.toString()) {
 
         case 'Error: The password is invalid or the user does not have a password.': {

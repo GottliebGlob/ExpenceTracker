@@ -22,7 +22,7 @@ export const FirstLaunchModal = props => {
                 visible={props.visible}
             >
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)'}}>
-                    <View style={{...styles.wrapper, backgroundColor: colors.background, borderColor: colors.primary, height: heightPercentageToDP('22%')}}>
+                    <View style={{...styles.wrapper, backgroundColor: colors.background, borderColor: colors.primary, height: heightPercentageToDP('25%')}}>
                         <Text style={{color: colors.text, fontFamily: 'open-sans-bold', fontSize: heightPercentageToDP('1.9%')}}>Спасибо, что решили принять участие в тестировании! Чтобы добавить трату нажмите на кнопку "Добавить", чтобы удалить- нажмите на трату и удерживайте.</Text>
                         <TouchableOpacity style={{...styles.button1,  height: heightPercentageToDP('5%')}} onPress={() => props.setVisible(false)}>
                             <Text style={{...styles.text, color: colors.headertext, fontSize:  heightPercentageToDP('2%')}}>ПОНЯТНО</Text>

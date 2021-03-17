@@ -99,7 +99,7 @@ export const MainScreen = ({route, navigation}) => {
                     setValue(data.value)
                     setAim(data.aim)
                 }
-                else (console.log('error'))
+                else (alert('Произошла неизвестная ошибка! Попробуйте перезагрузить приложение'))
             });
         }, [user]);
 

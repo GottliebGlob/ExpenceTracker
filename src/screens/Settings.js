@@ -43,7 +43,7 @@ export const Settings = ({route, navigation}) => {
 
 
     //Limits block
-    const [limit, setLimit] = useState(aim)
+    const [limit, setLimit] = useState(aim ? aim : 0)
     const handleLimit = limit => {
         console.log('limit is ' + limit)
         setLimit(limit.replace(/[^0-9]/g, ''));
