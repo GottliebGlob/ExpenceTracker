@@ -43,7 +43,7 @@ const Item = props => {
             <Text style={{...styles.cost, color: colors.text,
             fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%')
             }}>
-                {`${props.cost} ${props.value === 'RU' ? ' р. ' : ' грн. '}`}
+                {`${props.cost} ${props.value === 'RU' ? ' р. ' : props.value === '' ? '' :  ' грн. '}`}
             </Text>
                 </View>
                     </View>
