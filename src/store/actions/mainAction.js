@@ -7,6 +7,8 @@ export const CLEAR = 'CLEAR'
 
 import { firebase } from '../../firebase/config'
 
+import {NewItem} from "../../NewItem";
+
 
 export const addMain = (NewItem) => {
     const {value, cost, cat, date} = NewItem
@@ -40,6 +42,34 @@ export const addMain = (NewItem) => {
             }
 }
 
+export const addOnServer = (NewItem) => {
+    const {value, cost, cat, date} = NewItem
+    return async () => {
+        const entityRef = firebase.firestore().collection('data').doc()
+        const user = firebase.auth().currentUser;
+        const userId = user.uid
+        const extraId = {id: null}
+        const docId = entityRef.id
+
+        const data = {
+            value,
+            cost,
+            cat,
+            date,
+            authorID: userId,
+        }
+
+        extraId.id = docId
+
+        entityRef
+            .set(data)
+            .catch((error) => {
+                alert(error)
+            });
+    }
+}
+
+
 export const removeMain = (id) => {
     return async (dispatch) => {
      firebase.firestore().collection('data')
@@ -53,16 +83,6 @@ export const removeMain = (id) => {
 }
 
 
-
-class NewItem {
-    constructor(id, value, cost, cat, date) {
-        this.id = id;
-        this.value = value;
-        this.cost = cost;
-        this.cat = cat;
-        this.date = date;
-    }
-}
 
 
 export const fetchMain = () => {

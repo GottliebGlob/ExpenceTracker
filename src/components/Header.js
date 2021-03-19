@@ -25,7 +25,7 @@ const Header = props => {
 
     const signOutHandler = () => {
         dispatch(signOut())
-        props.navigation.navigate('LogOut')
+        props.navigation.navigate('Login')
 
     }
 

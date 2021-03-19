@@ -17,10 +17,10 @@ const StatisticButton = props => {
         <View style={{...styles.button, height: heightPercentageToDP('7.5%')}}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData, value: value})} style={styles.container1}>
                 <Text style={{...styles.text, color: colors.headertext, fontSize: heightPercentageToDP('2.2%')}}>СТАТИСТИКА</Text>
-                <Ionicons name='ios-stats' size={heightPercentageToDP('4%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Ionicons name='stats-chart' size={heightPercentageToDP('3.5%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value, aim: aim})} style={styles.container2}>
-                <Ionicons name='ios-settings' size={heightPercentageToDP('3.6%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Ionicons name='ios-settings' size={heightPercentageToDP('3.3%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
         </View>
     )

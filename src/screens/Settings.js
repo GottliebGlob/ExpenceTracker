@@ -67,7 +67,7 @@ export const Settings = ({route, navigation}) => {
     }
     const signOutHandler = () => {
         dispatch(signOut())
-        navigation.navigate('LogOut')
+        navigation.navigate('Login')
     }
 
 
@@ -126,7 +126,7 @@ return (
                 placeholderTextColor={colors.accent}
                 style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark, fontSize: widthPercentageToDP('4.6%')}}
                 onChangeText={handleLimit}
-                value={limit.toString()}
+                value={limit ? limit.toString(): ''}
                 keyboardType="number-pad"
                 maxLenth={5}
                 blurOnSubmit

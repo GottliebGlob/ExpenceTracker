@@ -26,7 +26,7 @@ const RenderIcon = props => {
         )
 
         case 'entertainment': return (
-              <Ionicons name='ios-bowtie' size={props.style ? 40 : 28} color={props.style ? defaultColors.white : defaultColors.cats.entertainment.color} />
+              <Ionicons name='game-controller' size={props.style ? 40 : 28} color={props.style ? defaultColors.white : defaultColors.cats.entertainment.color} />
         )
 
         case 'education': return (

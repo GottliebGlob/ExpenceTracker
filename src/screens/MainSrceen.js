@@ -13,6 +13,7 @@ import {
 //Redux
 import {useDispatch, useSelector} from "react-redux";
 import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
+import {addOffline} from "../store/actions/offlineAction";
 import { firebase } from '../firebase/config'
 //Components
 import Header from "../components/Header";
@@ -28,6 +29,7 @@ import moment from 'moment';
 import {heightPercentageToDP} from "../flex";
 import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
+import {asyncStoreCheck} from "../asyncStoreCheck";
 
 export const MainScreen = ({route, navigation}) => {
 
@@ -76,6 +78,7 @@ export const MainScreen = ({route, navigation}) => {
     }
 
     const loadSpends = async () => {
+        await asyncStoreCheck(dispatch)
         if(allSpends.length === 0) {
             await dispatch(fetchMain())
         }

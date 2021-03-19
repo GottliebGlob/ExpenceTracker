@@ -38,6 +38,7 @@ export const AuthScreen = ({  navigation }) => {
 
 
 
+
     const authHandler = async () => {
         let action;
         if (isSignup) {
@@ -63,9 +64,13 @@ export const AuthScreen = ({  navigation }) => {
         const user = firebase.auth().currentUser;
         if(user) {
             dispatch(clearState())
+        setName('')
+            setEmail('')
+            setPassword('')
         navigation.navigate('Main')
         }
     };
+
 
     const nameHandler = (text) => {
         setName(text)
@@ -154,6 +159,7 @@ export const AuthScreen = ({  navigation }) => {
                             onInputChange={nameHandler}
                             initialValue=""
                             initiallyValid={false}
+                            value={name}
                         /> : null}
 
                         <AuthInput
@@ -167,6 +173,7 @@ export const AuthScreen = ({  navigation }) => {
                             errorText="Пожалуйста, используйте существующий e-mail."
                             onInputChange={emailHandler}
                             initialValue=""
+                            value={email}
                         />
                         <AuthInput
                             type="password"
@@ -179,6 +186,7 @@ export const AuthScreen = ({  navigation }) => {
                             errorText="Пожалуйста, используйте корректный пароль."
                             onInputChange={passwordHandler}
                             initialValue=""
+                            value={password}
                         />
 
 

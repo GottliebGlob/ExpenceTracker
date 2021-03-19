@@ -26,10 +26,15 @@ export default () => {
     let c = useColorScheme()
 
     //Offline mode
-    const [isOffline, setIsOffline] = useState(false)
+    const [isOffline, setIsOffline] = useState(true)
+    const [isOfflineChecked, setIsOfflineChecked] = useState(false)
     let isConnected = true
     const handleConnectionStateChange = (state) => {
         setIsOffline(!state)
+        setIsOfflineChecked(true)
+        if (!state) {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -49,26 +54,30 @@ export default () => {
     const [loading, setLoading] = useState(true)
 
 
+
     useEffect(() => {
-        const usersRef = firebase.firestore().collection('users');
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                usersRef
-                    .doc(user.uid)
-                    .get()
-                    .then((document) => {
-                        const userData = document.data()
-                        setUser(userData)
-                        setLoading(false)
-                    })
-                    .catch((error) => {
-                      console.log(error)
-                    });
-            } else {
-                setLoading(false)
-            }
-        });
-    }, []);
+        if (!isOffline) {
+            const usersRef = firebase.firestore().collection('users');
+            firebase.auth().onAuthStateChanged(user => {
+                if (user) {
+                    usersRef
+                        .doc(user.uid)
+                        .get()
+                        .then((document) => {
+                            const userData = document.data()
+                            setUser(userData)
+                            setLoading(false)
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        });
+                } else {
+                    setLoading(false)
+                }
+            });
+        }
+
+    }, [isOfflineChecked]);
 
     //Fonts
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -84,7 +93,8 @@ export default () => {
         dispatch(setTheme(c))
     },[])
 
-    if (loading || !fontsLoaded) {
+    if (loading || !fontsLoaded || !isOfflineChecked) {
+
         return (
             <StartupScreen />
         )
@@ -96,14 +106,14 @@ export default () => {
         <Stack.Navigator
             screenOptions={{ headerShown: false}}>
             {
-                isOffline ? (<>   <Stack.Screen name="Offline" component={OfflineScreen} /> </>) : user ? (
+                isOffline ? (<Stack.Screen name="Offline" component={OfflineScreen} />) : user ? (
                     <>
                         <Stack.Screen name="Main">
                             {props => <MainScreen {...props} extraData={user} />}
                         </Stack.Screen>
                         <Stack.Screen name="Statistics" component={Statistics} />
                         <Stack.Screen name="Settings" component={Settings} />
-                        <Stack.Screen name="LogOut" component={AuthScreen} />
+                        <Stack.Screen name="Login" component={AuthScreen} />
                     </>
                 ) : (
                     <>
