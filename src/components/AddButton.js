@@ -11,7 +11,7 @@ const AddButton = props => {
     return (
         <View>
         <TouchableOpacity style={{...styles.button, borderColor: colors.text, marginBottom: Dimensions.get('window').height < 650 ? 10 : 0}} onPress={() => props.show()}>
-            <Text style={{...styles.text, color: colors.text, fontSize: heightPercentageToDP('1.9%')}}>ДОБАВИТЬ</Text>
+            <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 650  ? widthPercentageToDP('3.8%') : widthPercentageToDP('3%')}}>ДОБАВИТЬ</Text>
             <Ionicons name='ios-add' size={30} style={{paddingRight: 5, paddingVertical: 2, color: colors.text}}/>
         </TouchableOpacity>
         </View>

@@ -30,6 +30,12 @@ console.log('err' + error)
                 ]);
             break
             }
+        case 'Error: A network error (such as timeout, interrupted connection or unreachable host) has occurred.': {
+            Alert.alert("Ошибка!", 'Проверьте подключение к интернету.', [
+                {text: 'Принять', style: 'cancel'}
+            ]);
+            break
+        }
 
         default: {
             Alert.alert("Ошибка!", 'Упс! Произошла неизвестная ошибка!', [

@@ -1,5 +1,15 @@
 import React, {useState, useCallback, useEffect} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Switch, TextInput, Alert, BackHandler,} from 'react-native'
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Switch,
+    TextInput,
+    Alert,
+    BackHandler,
+    Dimensions,
+} from 'react-native'
 import {useTheme} from "@react-navigation/native";
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from "react-redux";
@@ -89,12 +99,14 @@ export const Settings = ({route, navigation}) => {
         }, [limit, value])
     );
 
+
+
 return (
     <View style={styles.main}>
         <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ" aim={limit} value={curValue} pushLimit={pushLimit}/>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text, fontSize: widthPercentageToDP('5%')}}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: Dimensions.get('window').width > 380 ? widthPercentageToDP('5%') : widthPercentageToDP('4.5%') }}>
                 Темная тема:
             </Text>
         <Switch
@@ -107,24 +119,24 @@ return (
         </View>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text, fontSize: widthPercentageToDP('4.6%')}}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: Dimensions.get('window').width > 380 ? widthPercentageToDP('5%') : widthPercentageToDP('4.2%') }}>
                 Предпочитаемая валюта:
             </Text>
             <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.accent}} onPress={toggleValue}>
-                <Text style={{...styles.rowText, color: colors.dark, fontSize: widthPercentageToDP('4.6%')}}>
+                <Text style={{...styles.rowText, color: colors.dark, fontSize: Dimensions.get('window').width > 380 ? widthPercentageToDP('5%') : widthPercentageToDP('4.2%') }}>
                     {curValue === 'RU' ? ' руб. \u20BD' : ' грн. \u20B4'}
                 </Text>
             </TouchableOpacity>
         </View>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text, fontSize: widthPercentageToDP('4.6%')}}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: Dimensions.get('window').width > 380 ? widthPercentageToDP('5%') : widthPercentageToDP('4.2%') }}>
                 Лимит трат на месяц:
             </Text>
             <TextInput
                 placeholder="лимит"
                 placeholderTextColor={colors.accent}
-                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark, fontSize: widthPercentageToDP('4.6%')}}
+                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark, fontSize: Dimensions.get('window').width > 380 ? widthPercentageToDP('5%') : widthPercentageToDP('4.2%') }}
                 onChangeText={handleLimit}
                 value={limit ? limit.toString(): ''}
                 keyboardType="number-pad"

@@ -2,7 +2,7 @@ import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native"
 import {Ionicons} from "@expo/vector-icons";
 import {useTheme} from "@react-navigation/native";
-import {heightPercentageToDP} from "../flex";
+import {widthPercentageToDP, heightPercentageToDP} from "../flex";
 
 
 const StatisticButton = props => {
@@ -16,11 +16,11 @@ const StatisticButton = props => {
     return (
         <View style={{...styles.button, height: heightPercentageToDP('7.5%')}}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: monthData, value: value})} style={styles.container1}>
-                <Text style={{...styles.text, color: colors.headertext, fontSize: heightPercentageToDP('2.2%')}}>СТАТИСТИКА</Text>
-                <Ionicons name='stats-chart' size={heightPercentageToDP('3.5%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Text style={{...styles.text, color: colors.headertext, fontSize: widthPercentageToDP('4%')}}>СТАТИСТИКА</Text>
+                <Ionicons name='stats-chart' size={widthPercentageToDP('6%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value, aim: aim})} style={styles.container2}>
-                <Ionicons name='ios-settings' size={heightPercentageToDP('3.3%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Ionicons name='ios-settings' size={widthPercentageToDP('6%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
         </View>
     )
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '90%',
         flexDirection: 'row',
-        paddingLeft: '15%'
+        paddingLeft: '20%'
 
     },
     container2: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '15%',
-        paddingRight: '5%'
+        marginRight: '5%'
 
     },
 })

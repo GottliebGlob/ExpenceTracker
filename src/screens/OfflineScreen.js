@@ -6,8 +6,6 @@ import {
     FlatList,
     Alert,
     StatusBar,
-    ActivityIndicator,
-    TouchableOpacity,
     Dimensions
 } from 'react-native'
 import {Ionicons} from "@expo/vector-icons";
@@ -20,6 +18,9 @@ import Item from "../components/Item";
 import {useDispatch, useSelector} from "react-redux";
 import {addOffline, fetchOffline, removeOffline} from "../store/actions/offlineAction";
 import AsyncStorage from '@react-native-community/async-storage';
+import checkIfFirstLaunch from "../components/firstLaunchHandler";
+import {FirstLaunchModal} from "../modals/FirstLaunchModal";
+import {useNetInfo} from "@react-native-community/netinfo";
 
 
 export const OfflineScreen = ({navigation}) => {
@@ -27,6 +28,13 @@ export const OfflineScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false)
     const dispatch = useDispatch()
 
+
+    const [isFirst, setIsFirst] = useState(false)
+    const isItFirst = async () => {
+        const isFirstLaunch = await checkIfFirstLaunch('offline');
+        console.log(isFirstLaunch)
+        setIsFirst(isFirstLaunch)
+    }
 
     //Data getters
     const spends = useSelector(state => state.main.main)
@@ -46,9 +54,22 @@ export const OfflineScreen = ({navigation}) => {
 
 
     useEffect(() => {
+        isItFirst()
       loadSpends()
     },[])
 
+
+    const isOnline = useNetInfo().isConnected
+    const [isConnectionChecked, setIsConnectionChecked] = useState(false)
+
+    useEffect(() => {
+        setIsConnectionChecked(true)
+        if (isConnectionChecked) {
+            if (isOnline) {
+                navigation.navigate('Main')
+            }
+        }
+    }, [isOnline])
 
 
     const mainStateHandler = (enteredText, enteredCost, cat) => {
@@ -79,6 +100,7 @@ export const OfflineScreen = ({navigation}) => {
     return (
         <View>
             <StatusBar barStyle="light-content" backgroundColor='black' />
+            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={0}  data={[]} text={"Внимание! Приложение переведено в offline режим, но вы все также можете добавлять траты. После подключения к интерену перезагрузите приложение."}/>
             <View style={styles.headerWrapper}>
                 <View style={styles.goBackIcon}>
                     <Ionicons name='md-wifi' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.error}}/>

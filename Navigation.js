@@ -106,7 +106,9 @@ export default () => {
         <Stack.Navigator
             screenOptions={{ headerShown: false}}>
             {
-                isOffline ? (<Stack.Screen name="Offline" component={OfflineScreen} />) : user ? (
+                isOffline ? (<>
+                    <Stack.Screen name="Offline" component={OfflineScreen} />
+                </>) : user ? (
                     <>
                         <Stack.Screen name="Main">
                             {props => <MainScreen {...props} extraData={user} />}
@@ -114,6 +116,7 @@ export default () => {
                         <Stack.Screen name="Statistics" component={Statistics} />
                         <Stack.Screen name="Settings" component={Settings} />
                         <Stack.Screen name="Login" component={AuthScreen} />
+                        <Stack.Screen name="Offline" component={OfflineScreen} />
                     </>
                 ) : (
                     <>
@@ -123,6 +126,7 @@ export default () => {
                         <Stack.Screen name="Main">
                             {props => <MainScreen {...props} extraData={user} />}
                         </Stack.Screen>
+                        <Stack.Screen name="Offline" component={OfflineScreen} />
                     </>
                 )
 

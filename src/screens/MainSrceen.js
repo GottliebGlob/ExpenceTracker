@@ -30,6 +30,8 @@ import {heightPercentageToDP} from "../flex";
 import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
+import {useNetInfo} from "@react-native-community/netinfo";
+
 
 export const MainScreen = ({route, navigation}) => {
 
@@ -73,7 +75,7 @@ export const MainScreen = ({route, navigation}) => {
     const [flatInfo, setFlatInfo] = useState(true)
 
     const isItFirst = async () => {
-        const isFirstLaunch = await checkIfFirstLaunch();
+        const isFirstLaunch = await checkIfFirstLaunch('main');
         setIsFirst(isFirstLaunch)
     }
 
@@ -105,6 +107,22 @@ export const MainScreen = ({route, navigation}) => {
                 else (alert('Произошла неизвестная ошибка! Попробуйте перезагрузить приложение'))
             });
         }, [user]);
+
+
+
+
+
+    const isOnline = useNetInfo().isConnected
+    const [isConnectionChecked, setIsConnectionChecked] = useState(false)
+
+    useEffect(() => {
+        setIsConnectionChecked(true)
+        if (isConnectionChecked) {
+            if (!isOnline) {
+                navigation.navigate('Offline')
+            }
+        }
+    }, [isOnline])
 
 
 
@@ -154,7 +172,7 @@ export const MainScreen = ({route, navigation}) => {
     return(
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends}/>
+            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends} text={"Спасибо, что решили принять участие в тестировании! Чтобы добавить трату нажмите на кнопку \"Добавить\", чтобы удалить- нажмите на трату и удерживайте."}/>
     <Header navigation={navigation} name={name}/>
     <AimInfo navigation={navigation} aim={aim} userId={userId} value={value} lastMonthSpends={lastMonthSpends}/>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>

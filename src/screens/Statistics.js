@@ -317,7 +317,7 @@ export const Statistics = ({route, navigation}) => {
                 :
                 <PieChart
                 data={dataPie.filter(e => e.population > 0)}
-                width={screenWidth - screenWidth * 0.05}
+                width={screenWidth - screenWidth * 0.02}
                 height={220}
                 chartConfig={chartConfig}
                 accessor={"population"}
