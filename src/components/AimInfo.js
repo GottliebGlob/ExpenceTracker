@@ -4,8 +4,10 @@ import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native
 import ProgressBar from 'react-native-progress/Bar'
 import {useTheme} from "@react-navigation/native";
 import {heightPercentageToDP, widthPercentageToDP} from "../flex";
+import {MainContext} from "./mainContext";
 
 const AimInfo = props => {
+    const { aim, userId, value, lastMonthSpends } = React.useContext(MainContext);
 
     const { colors } = useTheme();
 
@@ -14,23 +16,23 @@ const AimInfo = props => {
     const [isLimitReached, setIsLimitReached] = useState(false)
 
     const moneyLeftHandler = () => {
-        const spends = props.lastMonthSpends.map(e => Number(e.cost)).reduce((t, a) => t + a, 0)
-        props.aim - spends > 0 ? hasNotReached(spends) : hasReached(spends)
+        const spends = lastMonthSpends.map(e => Number(e.cost)).reduce((t, a) => t + a, 0)
+        aim - spends > 0 ? hasNotReached(spends) : hasReached(spends)
     }
 
     useEffect(() => {
         moneyLeftHandler()
-    },[props.lastMonthSpends, props.aim])
+    },[lastMonthSpends, aim])
 
     const hasNotReached = (spends) => {
-        setMoneyLeft( props.aim - spends)
+        setMoneyLeft( aim - spends)
         setIsLimitReached(false)
-        spends > 0 ? setBar(spends / props.aim) : setBar(0)
+        spends > 0 ? setBar(spends / aim) : setBar(0)
 
     }
 
     const hasReached = (spends) => {
-        setMoneyLeft( spends - props.aim)
+        setMoneyLeft( spends - aim)
         setIsLimitReached(true)
         setBar(1)
     }
@@ -45,10 +47,10 @@ const AimInfo = props => {
         }
     }
 
-if (props.aim === 0) {
+if (aim === 0) {
     return (
         <View>
-            <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => props.navigation.navigate('Settings', {userId: props.userId, value: props.value})}>
+            <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
                 <Text style={{...styles.text, color: colors.text, fontSize: heightPercentageToDP('2%')}}>
                    У вас пока нет лимита. Установить?
                 </Text>
@@ -67,7 +69,7 @@ if (props.aim === 0) {
             </Text>
 
             <Text style={getTextColor()}>
-                {`${Math.round(moneyLeft* 100)/100} ${props.value === 'RU' ? ' р. ' : ' грн. '}`}
+                {`${Math.round(moneyLeft* 100)/100} ${value === 'RU' ? ' р. ' : ' грн. '}`}
             </Text>
             </View>
             <ProgressBar

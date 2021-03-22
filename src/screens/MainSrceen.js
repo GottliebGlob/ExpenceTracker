@@ -1,4 +1,4 @@
-import React, {useState, useEffect, } from 'react'
+import React, {useState, useEffect, createContext} from 'react'
 import {
     View,
     Text,
@@ -31,6 +31,8 @@ import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
 import {useNetInfo} from "@react-native-community/netinfo";
+
+import {MainContext} from "../components/mainContext";
 
 
 export const MainScreen = ({route, navigation}) => {
@@ -170,11 +172,14 @@ export const MainScreen = ({route, navigation}) => {
     }
 
     return(
+        <MainContext.Provider
+            value={{ aim: aim, data: sortedAllSpends, userId: userId, value: value, lastMonthSpends: lastMonthSpends }}
+        >
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends} text={"Спасибо, что решили принять участие в тестировании! Чтобы добавить трату нажмите на кнопку \"Добавить\", чтобы удалить- нажмите на трату и удерживайте."}/>
     <Header navigation={navigation} name={name}/>
-    <AimInfo navigation={navigation} aim={aim} userId={userId} value={value} lastMonthSpends={lastMonthSpends}/>
+    <AimInfo navigation={navigation}/>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
                     <View style={styles.mainContent}>
@@ -210,9 +215,10 @@ export const MainScreen = ({route, navigation}) => {
 
     </View>
             <View style={styles.statistics}>
-                <StatisticButton userId={userId} navigation={navigation} data={sortedAllSpends} monthData={lastMonthSpends} value={value} aim={aim}/>
+                <StatisticButton navigation={navigation} />
             </View>
     </View>
+        </MainContext.Provider>
     )
 }
 
