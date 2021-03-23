@@ -18,8 +18,10 @@ import AsideHeader from "../components/AsideHeader";
 import {firebase} from "../firebase/config";
 import { useFocusEffect } from '@react-navigation/native';
 import {signOut} from "../store/actions/authAction";
-import {clearState} from "../store/actions/mainAction";
 import {heightPercentageToDP, widthPercentageToDP} from "../flex";
+import BottomBanner from "../components/BottomBanner";
+
+
 
 
 export const Settings = ({route, navigation}) => {
@@ -151,6 +153,7 @@ return (
             <Text style={{...styles.rowText,color: colors.dark, fontSize: widthPercentageToDP('5%')}}>ВЫХОД</Text>
         </TouchableOpacity>
 
+       <BottomBanner />
     </View>
 )
 }
@@ -180,4 +183,5 @@ const styles = StyleSheet.create({
         height: 30,
         paddingHorizontal: 10
     },
+
 })

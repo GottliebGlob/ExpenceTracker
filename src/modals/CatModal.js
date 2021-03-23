@@ -13,6 +13,7 @@ import {
 import CatItem from "../components/CatItem";
 import {defaultColors} from "../colors";
 import {useTheme} from "@react-navigation/native";
+import BottomBanner from "../components/BottomBanner";
 
 const CatModal = props => {
     const { colors } = useTheme();
@@ -43,6 +44,7 @@ const CatModal = props => {
     />
 
 </View>
+            <BottomBanner />
         </Modal>
     )
 }

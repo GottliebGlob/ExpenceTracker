@@ -38,8 +38,8 @@ const Header = props => {
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 
         <TextAvatar
-            backgroundColor={colors.light}
-            textColor={colors.text}
+            backgroundColor={colors.dark}
+            textColor={colors.headertext}
             size={45}
             type={'circle'} // optional
         >{props.name}</TextAvatar>

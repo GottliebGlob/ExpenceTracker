@@ -1,8 +1,23 @@
-{
+     {
   "expo": {
-    "name": "ExpenceTracker",
-    "slug": "ExpenceTracker",
-    "android": { "userInterfaceStyle": "automatic" },
+    "name": "Spender",
+    "slug": "spender-money-tracker",
+    "privacy": "public",
+    "platforms": ["android"],
+    "android": {
+      "userInterfaceStyle": "automatic",
+      "package": "com.bananacoder.spender_money_tracker",
+      "versionCode": 1,
+      "config": {
+        "googleMobileAdsAppId":"ca-app-pub-2960656434741323~9451055786"
+      },
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "WRITE_SETTINGS"
+
+      ]
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,12 +31,6 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    ]
   }
 }

@@ -42,7 +42,7 @@ export const LightTheme = {
     colors: {
         confirm: '#008b00',
         error: '#B00020',
-        dark: '#8d8d8d',
+        dark: '#616161',
         primary: '#cfcfcf',
         text: '#000000',
         light: '#fff',

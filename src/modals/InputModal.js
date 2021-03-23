@@ -20,6 +20,7 @@ import CatModal from "./CatModal";
 import RenderIcon from "../components/RenderIcon";
 import {useTheme} from "@react-navigation/native";
 import {widthPercentageToDP} from "../flex";
+import BottomBanner from "../components/BottomBanner";
 
 const InputModal = props => {
     const { colors } = useTheme();
@@ -110,6 +111,7 @@ const InputModal = props => {
 
                 </View>
             </TouchableWithoutFeedback>
+            <BottomBanner />
         </Modal>
     );
 };

@@ -8,6 +8,7 @@ import moment from 'moment';
 import {useTheme} from "@react-navigation/native";
 import {defaultColors} from "../colors";
 import AsideHeader from "../components/AsideHeader";
+import BottomBanner from "../components/BottomBanner";
 
 
 export const Statistics = ({route, navigation}) => {
@@ -327,6 +328,7 @@ export const Statistics = ({route, navigation}) => {
 
             />}
             </ScrollView>
+            <BottomBanner />
         </View>
     )
 }

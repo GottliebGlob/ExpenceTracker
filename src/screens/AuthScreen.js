@@ -22,6 +22,7 @@ import {useTheme} from "@react-navigation/native";
 import {clearState} from "../store/actions/mainAction";
 
 import {heightPercentageToDP, widthPercentageToDP} from "../flex";
+import BottomBanner from "../components/BottomBanner";
 
 
 export const AuthScreen = ({  navigation }) => {
@@ -34,6 +35,8 @@ export const AuthScreen = ({  navigation }) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const [isAdd, setIsAdd] = useState(true)
 
 
 
@@ -123,12 +126,19 @@ export const AuthScreen = ({  navigation }) => {
 
     const onRandomTouch = () => {
         Keyboard.dismiss()
+        setIsAdd(true)
+    }
+
+    const onKeyboardShow = () => {
+        setIsAdd(false)
     }
 
     useEffect(() => {
         Keyboard.addListener("keyboardDidHide", onRandomTouch);
+        Keyboard.addListener("keyboardDidShow", onKeyboardShow);
         return () => {
             Keyboard.removeListener("keyboardDidHide", onRandomTouch);
+            Keyboard.removeListener("keyboardDidShow", onKeyboardShow);
         };
     }, []);
 
@@ -214,6 +224,9 @@ export const AuthScreen = ({  navigation }) => {
                          </Text>
                         </View>
             </KeyboardAwareScrollView>
+            {
+                isAdd ?  <BottomBanner /> : null
+            }
         </View>
     );
 };

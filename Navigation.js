@@ -96,7 +96,7 @@ export default () => {
     if (loading || !fontsLoaded || !isOfflineChecked) {
 
         return (
-            <StartupScreen />
+            <StartupScreen theme={color}/>
         )
     }
 
