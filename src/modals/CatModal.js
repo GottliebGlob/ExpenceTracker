@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {
     View,
@@ -7,6 +7,7 @@ import {
     Text,
     StatusBar,
     FlatList,
+    BackHandler
 } from 'react-native';
 
 
@@ -25,6 +26,21 @@ const CatModal = props => {
     for (let key in cats) {
         transformedCats.push({cat: key, name: cats[key].name, color: cats[key].color, })
     }
+
+    useEffect(() => {
+        const onBackPress = () => {
+            console.log('cancel')
+          props.modalCatHandler()
+            return true;
+        };
+        BackHandler.addEventListener(
+            'hardwareBackPress', onBackPress
+        );
+        return () =>
+            BackHandler.removeEventListener(
+                'hardwareBackPress', onBackPress
+            );
+    }, []);
 
 
     return (
@@ -55,7 +71,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         paddingTop: 10
     },
     text: {

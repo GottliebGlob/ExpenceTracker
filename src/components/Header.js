@@ -33,7 +33,7 @@ const Header = props => {
     return (
     <View style={styles.wrapper}>
 <View style={styles.container}>
-    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: widthPercentageToDP('5%')}}>Spender </Text>
+    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: widthPercentageToDP('5%')}}>Spender 1.0.1 </Text>
 </View>
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 

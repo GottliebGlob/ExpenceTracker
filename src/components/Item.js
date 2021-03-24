@@ -11,8 +11,9 @@ const Item = props => {
 
     const getRightMargin = () => {
         let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
+        let rightMargin = Dimensions.get('window').height > 780 ? 13 : 10
         if (props.value === 'RU') {
-            return {  fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -65 + textMargin * 10, color: colors.text};
+            return {  fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
         }
         else {
             return { fontSize: 18, marginHorizontal: -50 + textMargin * 10, color: colors.text };

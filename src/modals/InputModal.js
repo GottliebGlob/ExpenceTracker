@@ -102,7 +102,7 @@ const InputModal = props => {
                         <RenderIcon category={enteredCat} />
                     </TouchableOpacity>
 
-                    <CatModal catModalVisible={catModalVisible} catHandler={catHandler}/>
+                    <CatModal catModalVisible={catModalVisible} modalCatHandler={modalCatHandler} catHandler={catHandler}/>
 
                 <View style={styles.buttonContainer}>
  <Button title="ОТМЕНИТЬ" onPress={() => cancelHandler()} color={colors.error}/>

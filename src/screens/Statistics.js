@@ -280,7 +280,7 @@ export const Statistics = ({route, navigation}) => {
     return(
         <View style={styles.main}>
             <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
-            <ScrollView>
+            <ScrollView style={{ paddingHorizontal: '5%'}}>
             <View style={{marginTop: 20}}>
                 <Text style={{...styles.headersText, color: colors.text}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
@@ -337,7 +337,8 @@ const styles = StyleSheet.create({
     main: {
       flex: 1,
       justifyContent: 'flex-start',
-      alignItems: 'center'
+      alignItems: 'center',
+
     },
     screen: {
         flex: 1,

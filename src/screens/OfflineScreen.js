@@ -82,6 +82,7 @@ export const OfflineScreen = ({navigation}) => {
 
     const maxNumber = Math.max(...spends.map(e => e.cost)).toString().length
 
+
     const removeHandler = (id) => {
         Alert.alert("Вы точно хотите удалить трату?", '', [
                 {
@@ -126,7 +127,7 @@ export const OfflineScreen = ({navigation}) => {
                           id={itemData.item.id}
                           value={''}
                           floatInfo={true}
-                          maxNumber={0}
+                          maxNumber={maxNumber}
                           montMaxNumber={maxNumber}
                           removeHandler={removeHandler}/>
                 )}

@@ -8,17 +8,17 @@ import {widthPercentageToDP} from "../flex";
 const CatItem = props => {
     const { colors } = useTheme();
 
+
+
     return (
         <TouchableOpacity onPress={() => props.catHandler(props.cat)}>
-            <View>
             <View style={{...styles.wrapper, backgroundColor: props.color}}>
                 <RenderIcon category={props.cat} style={1} />
             </View>
                 <View style={{alignItems: 'center'}}>
-                <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 650 ? widthPercentageToDP('4%') : widthPercentageToDP('3%')}}>
+                <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('3.5%') : Dimensions.get('window').height > 650 ? widthPercentageToDP('4%') : widthPercentageToDP('3%')}}>
                     {props.name}
                 </Text>
-            </View>
             </View>
         </TouchableOpacity>
     )

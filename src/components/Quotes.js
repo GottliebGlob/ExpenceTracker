@@ -40,10 +40,10 @@ const Quote = (theme) => {
     return (
         <View>
 <Text style={{...styles.text, color: textColor, fontSize: widthPercentageToDP('5%')}}>
-    {selectedQuote.quote}
+    {selectedQuote ? selectedQuote.quote : 'Самые лучшие инвестиции — в знания'}
 </Text>
             <Text style={{...styles.text, textAlign: 'right', paddingVertical: 20, fontStyle: 'italic', color: nameColor, fontSize: widthPercentageToDP('4%')}}>
-                {selectedQuote.name}
+                {selectedQuote ? selectedQuote.name : 'Бенджамин Франклин'}
             </Text>
         </View>
     )

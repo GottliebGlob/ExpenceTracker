@@ -26,7 +26,7 @@ import InputModal from "../modals/InputModal"
 import { useTheme} from '@react-navigation/native';
 import moment from 'moment';
 
-import {heightPercentageToDP} from "../flex";
+import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
@@ -183,16 +183,16 @@ export const MainScreen = ({route, navigation}) => {
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
                     <View style={styles.mainContent}>
-                        <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('3%') : heightPercentageToDP('2.7%'), color: colors.text}}> Потрачно зa</Text>
+                        <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.text}}> Потрачно зa</Text>
                        <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.accent}} onPress={() => setFlatInfo(!flatInfo)}>
-                           <Text style={{...styles.flatInfoText, fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('3%') : heightPercentageToDP('2.7%'), color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                           <Text style={{...styles.flatInfoText, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
-                        <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('3%') : heightPercentageToDP('2.7%'), color: colors.confirm}}>
+                        <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.confirm}}>
                             {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
                             {value === 'RU' ? ' р. ' : ' грн. '}
                         </Text>
                     </View>
-    <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 650  ? heightPercentageToDP('2.7%') : heightPercentageToDP('2.4%'),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
+    <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.0%') : Dimensions.get('window').height > 650  ? heightPercentageToDP('2.7%') : heightPercentageToDP('2.4%'),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
                 </View>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>

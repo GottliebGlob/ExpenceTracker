@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {StyleSheet, View} from "react-native";
 import {AdMobBanner, setTestDeviceIDAsync} from "expo-ads-admob";
+import Constants from 'expo-constants';
 
 
 const BottomBanner = () => {
@@ -9,6 +10,10 @@ const BottomBanner = () => {
         setTestDeviceIDAsync("EMULATOR");
     }, []);
 
+    const testID = 'google-test-id';
+    const productionID = 'my-id';
+
+    const adUnitID = Constants.isDevice && !__DEV__ ? productionID : testID;
 
     return (
         <View  style={styles.bottomBanner}>

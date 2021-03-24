@@ -37,7 +37,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "@expo/vector-icons": "^12.0.0",
-    "expo-ads-admob": "~8.4.0"
+    "expo-ads-admob": "~8.4.0",
+    "expo-constants": "~9.3.3"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
