@@ -5,21 +5,25 @@ import Constants from 'expo-constants';
 
 
 const BottomBanner = () => {
+    const testID = 'ca-app-pub-3940256099942544/6300978111';
+    const productionID = 'ca-app-pub-2960656434741323/7926221122';
+
+    const adUnit = Constants.isDevice && !__DEV__ ? productionID : testID;
 
     useEffect(() => {
-        setTestDeviceIDAsync("EMULATOR");
+        if (__DEV__) {
+            setTestDeviceIDAsync("EMULATOR");
+        }
+
     }, []);
 
-    const testID = 'google-test-id';
-    const productionID = 'my-id';
 
-    const adUnitID = Constants.isDevice && !__DEV__ ? productionID : testID;
 
     return (
         <View  style={styles.bottomBanner}>
             <AdMobBanner
                 bannerSize="banner"
-                adUnitID="ca-app-pub-3940256099942544/6300978111"
+                adUnitID={adUnit}
                 onDidFailToReceiveAdWithError={(e) => console.log(e)}
             />
         </View>

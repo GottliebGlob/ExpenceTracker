@@ -184,8 +184,8 @@ export const MainScreen = ({route, navigation}) => {
                 <View style={{paddingHorizontal: '5%'}}>
                     <View style={styles.mainContent}>
                         <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.text}}> Потрачно зa</Text>
-                       <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.accent}} onPress={() => setFlatInfo(!flatInfo)}>
-                           <Text style={{...styles.flatInfoText, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                       <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.dark}} onPress={() => setFlatInfo(!flatInfo)}>
+                           <Text style={{...styles.flatInfoText, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
                         <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.confirm}}>
                             {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     flatInfo: {
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         height: 45
     },
     flatInfoText: {

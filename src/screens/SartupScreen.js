@@ -19,7 +19,6 @@ export const StartupScreen = (theme) => {
         <View style={{...styles.screen, backgroundColor: backgroundColor}}>
             <Quotes theme={theme.theme}/>
             <ActivityIndicator size={50} color={textColor} />
-            <BottomBanner />
         </View>
     );
 };

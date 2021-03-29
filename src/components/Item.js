@@ -11,12 +11,12 @@ const Item = props => {
 
     const getRightMargin = () => {
         let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
-        let rightMargin = Dimensions.get('window').height > 780 ? 13 : 10
+        let rightMargin = Dimensions.get('window').height > 850 ? 15 : Dimensions.get('window').height > 780 ? 13 : 10
         if (props.value === 'RU') {
-            return {  fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
+            return {  fontSize: Dimensions.get('window').height > 850 ? heightPercentageToDP('2.0%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
         }
         else {
-            return { fontSize: 18, marginHorizontal: -50 + textMargin * 10, color: colors.text };
+            return {  fontSize: Dimensions.get('window').height > 850 ? heightPercentageToDP('2.0%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -50 + textMargin * 10, color: colors.text };
         }
     }
 
@@ -42,7 +42,7 @@ const Item = props => {
             <RenderIcon category={props.cat} />
                 <View style={styles.textRight}>
             <Text style={{...styles.cost, color: colors.text,
-            fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%')
+            fontSize: Dimensions.get('window').height > 850 ? heightPercentageToDP('2.1%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%')
             }}>
                 {`${props.cost} ${props.value === 'RU' ? ' р. ' : props.value === '' ? '' :  ' грн. '}`}
             </Text>

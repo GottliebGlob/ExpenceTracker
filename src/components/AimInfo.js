@@ -40,10 +40,10 @@ const AimInfo = props => {
 
     const getTextColor = () => {
         if (isLimitReached) {
-            return { fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 780 ? heightPercentageToDP('2.3%') : heightPercentageToDP('2.5%'), marginLeft: 5, color: colors.error };
+            return { fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 780 ? heightPercentageToDP('2.2%') : heightPercentageToDP('2.5%'), marginLeft: 5, color: colors.error };
         }
         else {
-            return { fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 780 ? heightPercentageToDP('2.3%') : heightPercentageToDP('2.5%'), marginLeft: 5, color: colors.confirm };
+            return { fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 780 ? heightPercentageToDP('2.2%') : heightPercentageToDP('2.5%'), marginLeft: 5, color: colors.confirm };
         }
     }
 
@@ -64,7 +64,7 @@ if (aim === 0) {
         <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}}>
             <View style={{flexDirection: 'row'}}>
 
-            <Text style={{ fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 780 ? heightPercentageToDP('2.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%'), color: colors.text}}>
+            <Text style={{ fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 900 ? heightPercentageToDP('2.2%') : Dimensions.get('window').height > 780 ? heightPercentageToDP('2.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%'), color: colors.text}}>
                 {isLimitReached ? 'Лимит был превышен на:' : 'Средств до лимита:'}
             </Text>
 

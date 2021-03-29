@@ -280,7 +280,7 @@ export const Statistics = ({route, navigation}) => {
     return(
         <View style={styles.main}>
             <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
-            <ScrollView style={{ paddingHorizontal: '5%'}}>
+            <ScrollView style={{ paddingLeft: '5%', marginRight: '5%' }}>
             <View style={{marginTop: 20}}>
                 <Text style={{...styles.headersText, color: colors.text}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ

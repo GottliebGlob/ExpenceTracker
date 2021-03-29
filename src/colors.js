@@ -34,6 +34,7 @@ export const DarkTheme = {
         background: '#616161',
         headertext: '#dadada',
         sign: '#1b1b1b',
+
     },
 };
 
@@ -51,5 +52,6 @@ export const LightTheme = {
         background: '#fff',
         headertext: '#fff',
         sign: '#000000',
+
     },
 };
