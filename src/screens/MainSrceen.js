@@ -8,7 +8,8 @@ import {
     StatusBar,
     ActivityIndicator,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    PixelRatio
 } from 'react-native'
 //Redux
 import {useDispatch, useSelector} from "react-redux";
@@ -26,7 +27,7 @@ import InputModal from "../modals/InputModal"
 import { useTheme} from '@react-navigation/native';
 import moment from 'moment';
 
-import {heightPercentageToDP, widthPercentageToDP} from "../flex";
+import getRightScale from "../components/flex";
 import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
@@ -43,7 +44,7 @@ export const MainScreen = ({route, navigation}) => {
 
     //Data getters
     const allSpends = useSelector(state => state.main.main)
-    const sortedAllSpends  = allSpends.sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
+    const sortedAllSpends  = allSpends.sort((a,b) => moment(b.date).format('YYYYMMDD') - moment(a.date).format('YYYYMMDD'))
     const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
     const maxNumber = Math.max(...allSpends.map(e => e.cost)).toString().length
     const montMaxNumber = Math.max(...lastMonthSpends.map(e => e.cost)).toString().length
@@ -183,20 +184,21 @@ export const MainScreen = ({route, navigation}) => {
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
                     <View style={styles.mainContent}>
-                        <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.text}}> Потрачно зa</Text>
+                        <Text style={{...styles.text, fontSize: 22 / PixelRatio.getFontScale(), color: colors.text}}> Потрачно зa</Text>
                        <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.dark}} onPress={() => setFlatInfo(!flatInfo)}>
-                           <Text style={{...styles.flatInfoText, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                           <Text style={{...styles.flatInfoText, fontSize: 22 / PixelRatio.getFontScale(), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
-                        <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('3.0%') : heightPercentageToDP('2.7%'), color: colors.confirm}}>
+                        <Text style={{...styles.text, fontSize: 22 / PixelRatio.getFontScale(), color: colors.confirm}}>
                             {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
                             {value === 'RU' ? ' р. ' : ' грн. '}
                         </Text>
                     </View>
-    <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('5.0%') : Dimensions.get('window').height > 650  ? heightPercentageToDP('2.7%') : heightPercentageToDP('2.4%'),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
+    <Text style={{...styles.text, color: colors.text, fontSize: 20 / PixelRatio.getFontScale(),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
                 </View>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
                 <FlatList
+
                     keyExtractor={(item, index) => item.id}
                     data={(!flatInfo) ? sortedAllSpends : lastMonthSpends}
                     renderItem={itemData => (
@@ -225,7 +227,7 @@ export const MainScreen = ({route, navigation}) => {
 const styles = StyleSheet.create({
     wrapper: {
         alignItems: 'flex-start',
-        flex: .92
+        flex: 1
     },
     text: {
         paddingTop: 10,

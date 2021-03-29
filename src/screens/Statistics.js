@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, PixelRatio} from 'react-native'
 import { Dimensions } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
 import {Ionicons} from "@expo/vector-icons";
@@ -9,6 +9,7 @@ import {useTheme} from "@react-navigation/native";
 import {defaultColors} from "../colors";
 import AsideHeader from "../components/AsideHeader";
 import BottomBanner from "../components/BottomBanner";
+import getRightScale from "../components/flex";
 
 
 export const Statistics = ({route, navigation}) => {
@@ -282,7 +283,7 @@ export const Statistics = ({route, navigation}) => {
             <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
             <ScrollView style={{ paddingLeft: '5%', marginRight: '5%' }}>
             <View style={{marginTop: 20}}>
-                <Text style={{...styles.headersText, color: colors.text}}>
+                <Text style={{...styles.headersText, color: colors.text, fontSize: 17 / PixelRatio.getFontScale()}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
                 </Text>
             </View>
@@ -290,24 +291,24 @@ export const Statistics = ({route, navigation}) => {
                 fromZero={true}
                 data={dataLine}
                 width={screenWidth - screenWidth * 0.05}
-                height={220}
+                height={getRightScale(300, 100)}
                 chartConfig={chartConfig}
                 yAxisSuffix={value === 'RU' ? ' р. ' : ' грн. '}
                 yLabelsOffset={3}
                 style={{
-                    marginVertical: 25,
-
-
+                    marginTop: 25,
+                    marginBottom: 10,
+                    marginLeft: -15
                 }}
 
             />
             <View>
-                <Text style={{...styles.headersText, color: colors.text}}>
+                <Text style={{...styles.headersText, color: colors.text, fontSize: 17 / PixelRatio.getFontScale()}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЙ МЕСЯЦ
                 </Text>
             </View>
             { !Object.values(dataPieState).find(e => e > 0) ?
-                <View style={{alignItems: 'center', justifyContent: 'flex-start', flex: 1, marginTop: '10%'}}>
+                <View style={{alignItems: 'center', justifyContent: 'flex-start', flex: 1, }}>
                     <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
                     <Text style={{...styles.headersText, color: colors.text}}>
                         Увы, в этом месяце пока не было трат!
@@ -318,12 +319,12 @@ export const Statistics = ({route, navigation}) => {
                 :
                 <PieChart
                 data={dataPie.filter(e => e.population > 0)}
-                width={screenWidth - screenWidth * 0.02}
-                height={220}
+                width={screenWidth - screenWidth * 0.05}
+                height={getRightScale(300, 120)}
                 chartConfig={chartConfig}
                 accessor={"population"}
                 backgroundColor={"transparent"}
-                center={[10, 10]}
+
                 absolute
 
             />}

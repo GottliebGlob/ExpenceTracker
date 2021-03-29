@@ -1,22 +1,22 @@
 import React from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native"
+import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio} from "react-native"
 import RenderIcon from "./RenderIcon";
 import 'moment/locale/ru'
 import moment from 'moment';
 import {useTheme} from "@react-navigation/native";
-import {heightPercentageToDP, widthPercentageToDP} from "../flex";
+import getRightScale from "../components/flex";
 
 const Item = props => {
     const { colors } = useTheme();
 
     const getRightMargin = () => {
         let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
-        let rightMargin = Dimensions.get('window').height > 850 ? 15 : Dimensions.get('window').height > 780 ? 13 : 10
+        let rightMargin = 10
         if (props.value === 'RU') {
-            return {  fontSize: Dimensions.get('window').height > 850 ? heightPercentageToDP('2.0%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
+            return {  fontSize: 20 / PixelRatio.getFontScale(), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
         }
         else {
-            return {  fontSize: Dimensions.get('window').height > 850 ? heightPercentageToDP('2.0%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.6%') : heightPercentageToDP('2.5%'), marginHorizontal: -50 + textMargin * 10, color: colors.text };
+            return {  fontSize: 20 / PixelRatio.getFontScale(), marginHorizontal: -50 + textMargin * 10, color: colors.text };
         }
     }
 
@@ -35,14 +35,14 @@ const Item = props => {
     return (
         <TouchableOpacity
         onLongPress={props.removeHandler.bind(this, props.id)}>
-        <View style={{...styles.wrapper, height: heightPercentageToDP('8.3%'), borderBottomColor: colors.accent, }}>
+        <View style={{...styles.wrapper, height: getRightScale(80, 35), borderBottomColor: colors.accent, }}>
             <View style={styles.include}>
                 <View style={{flexDirection: 'column'}}>
                     <View style={{flexDirection: 'row'}}>
             <RenderIcon category={props.cat} />
                 <View style={styles.textRight}>
             <Text style={{...styles.cost, color: colors.text,
-            fontSize: Dimensions.get('window').height > 850 ? heightPercentageToDP('2.1%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%')
+            fontSize: 18 / PixelRatio.getFontScale()
             }}>
                 {`${props.cost} ${props.value === 'RU' ? ' р. ' : props.value === '' ? '' :  ' грн. '}`}
             </Text>
@@ -50,7 +50,7 @@ const Item = props => {
                     </View>
                         <View>
                             <Text style={{color: colors.text,
-                                fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2%') : heightPercentageToDP('1.8%')}}> {m.format('DD.MM.YYYY')}</Text>
+                                fontSize: 14 / PixelRatio.getFontScale()}}> {m.format('DD.MM.YYYY')}</Text>
                         </View>
                 </View>
                 <View style={{alignSelf: 'flex-start'}}>

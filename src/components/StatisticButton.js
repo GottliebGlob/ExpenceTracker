@@ -1,9 +1,10 @@
 import React from 'react'
-import {Text, View, StyleSheet, TouchableOpacity} from "react-native"
+import {Text, View, StyleSheet, TouchableOpacity, PixelRatio} from "react-native"
 import {Ionicons} from "@expo/vector-icons";
 import {useTheme} from "@react-navigation/native";
 import {widthPercentageToDP, heightPercentageToDP} from "../flex";
 import {MainContext} from "./mainContext";
+import getRightScale from "./flex";
 
 
 const StatisticButton = props => {
@@ -13,13 +14,13 @@ const StatisticButton = props => {
 
 
     return (
-        <View style={{...styles.button, height: heightPercentageToDP('7.5%')}}>
+        <View style={{...styles.button, height: getRightScale(80, 30)}}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: lastMonthSpends, value: value})} style={styles.container1}>
-                <Text style={{...styles.text, color: colors.headertext, fontSize: widthPercentageToDP('4%')}}>СТАТИСТИКА</Text>
-                <Ionicons name='stats-chart' size={widthPercentageToDP('6%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Text style={{...styles.text, color: colors.headertext, fontSize: 18 / PixelRatio.getFontScale()}}>СТАТИСТИКА</Text>
+                <Ionicons name='stats-chart' size={25 / PixelRatio.getFontScale()} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value, aim})} style={styles.container2}>
-                <Ionicons name='ios-settings' size={widthPercentageToDP('6%')} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
+                <Ionicons name='ios-settings' size={25 / PixelRatio.getFontScale()} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
         </View>
     )

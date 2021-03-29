@@ -6,7 +6,6 @@ import {
 
 } from 'react-native';
 
-import BottomBanner from "../components/BottomBanner";
 import Quotes from "../components/Quotes";
 
 

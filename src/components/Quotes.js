@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet, Text, View} from 'react-native';
-import {heightPercentageToDP, widthPercentageToDP} from "../flex";
+import {PixelRatio, StyleSheet, Text, View} from 'react-native';
+
 
 const Quote = (theme) => {
     const [selectedQuote, setSelectedQuote] = useState({name: "name", quote: 'quote'})
@@ -39,10 +39,10 @@ const Quote = (theme) => {
 
     return (
         <View>
-<Text style={{...styles.text, color: textColor, fontSize: widthPercentageToDP('5%')}}>
+<Text style={{...styles.text, color: textColor, fontSize: 20 / PixelRatio.getFontScale()}}>
     {selectedQuote ? selectedQuote.quote : 'Самые лучшие инвестиции — в знания'}
 </Text>
-            <Text style={{...styles.text, textAlign: 'right', paddingVertical: 20, fontStyle: 'italic', color: nameColor, fontSize: widthPercentageToDP('4%')}}>
+            <Text style={{...styles.text, textAlign: 'right', paddingVertical: 20, fontStyle: 'italic', color: nameColor, fontSize:  20 / PixelRatio.getFontScale()}}>
                 {selectedQuote ? selectedQuote.name : 'Бенджамин Франклин'}
             </Text>
         </View>

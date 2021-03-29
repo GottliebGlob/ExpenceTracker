@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native"
+import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio} from "react-native"
 
 import ProgressBar from 'react-native-progress/Bar'
 import {useTheme} from "@react-navigation/native";
-import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 import {MainContext} from "./mainContext";
 
 const AimInfo = props => {
@@ -40,10 +39,10 @@ const AimInfo = props => {
 
     const getTextColor = () => {
         if (isLimitReached) {
-            return { fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 780 ? heightPercentageToDP('2.2%') : heightPercentageToDP('2.5%'), marginLeft: 5, color: colors.error };
+            return { fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale(), marginLeft: 5, color: colors.error };
         }
         else {
-            return { fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 780 ? heightPercentageToDP('2.2%') : heightPercentageToDP('2.5%'), marginLeft: 5, color: colors.confirm };
+            return { fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale(), marginLeft: 5, color: colors.confirm };
         }
     }
 
@@ -51,7 +50,7 @@ if (aim === 0) {
     return (
         <View>
             <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
-                <Text style={{...styles.text, color: colors.text, fontSize: heightPercentageToDP('2%')}}>
+                <Text style={{...styles.text, color: colors.text, fontSize: 16 / PixelRatio.getFontScale()}}>
                    У вас пока нет лимита. Установить?
                 </Text>
             </TouchableOpacity>
@@ -64,7 +63,7 @@ if (aim === 0) {
         <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}}>
             <View style={{flexDirection: 'row'}}>
 
-            <Text style={{ fontFamily: 'open-sans-bold', fontSize: Dimensions.get('window').height > 900 ? heightPercentageToDP('2.2%') : Dimensions.get('window').height > 780 ? heightPercentageToDP('2.3%') : Dimensions.get('window').height > 650 ? heightPercentageToDP('2.5%') : heightPercentageToDP('2.3%'), color: colors.text}}>
+            <Text style={{ fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale(), color: colors.text}}>
                 {isLimitReached ? 'Лимит был превышен на:' : 'Средств до лимита:'}
             </Text>
 

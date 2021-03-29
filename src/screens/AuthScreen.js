@@ -21,12 +21,14 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useTheme} from "@react-navigation/native";
 import {clearState} from "../store/actions/mainAction";
 
-import {heightPercentageToDP, widthPercentageToDP} from "../flex";
+import getRightScale from "../components/flex";
 import BottomBanner from "../components/BottomBanner";
 
 
 export const AuthScreen = ({  navigation }) => {
     const { colors } = useTheme();
+
+    //console.log(PixelRatio.get())
 
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
@@ -149,12 +151,12 @@ export const AuthScreen = ({  navigation }) => {
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <View style={styles.mainTextContainer}>
                 <Text style={{...styles.text, color: colors.headertext,
-                    fontSize:  Dimensions.get('window').height > 650 ? widthPercentageToDP('4.5%') : widthPercentageToDP('4.2%')}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
+                    fontSize:  19 / PixelRatio.getFontScale()}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
             </View>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%',}}
                 keyboardShouldPersistTaps="always">
-                <View style={{paddingVertical: Dimensions.get('window').height > 650 ? heightPercentageToDP('10%') : heightPercentageToDP('5%')}}>
+                <View style={{paddingVertical: getRightScale(15, 40)}}>
                 </View>
 
                         {isSignup ? <AuthInput
@@ -201,8 +203,8 @@ export const AuthScreen = ({  navigation }) => {
 
 
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={{...styles.button1,  height: heightPercentageToDP('6%')}} onPress={() => onTouch()}>
-                                <Text style={{...styles.text, color: colors.headertext, fontSize:  heightPercentageToDP('2%')}}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
+                            <TouchableOpacity style={{...styles.button1,  height: getRightScale(110, 16) }} onPress={() => onTouch()}>
+                                <Text style={{...styles.text, color: colors.headertext, fontSize:  18 / PixelRatio.getFontScale()}}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
                                 <View style={{width: 10}}>
                                 </View>
                                 {isLoading ? (
@@ -214,11 +216,11 @@ export const AuthScreen = ({  navigation }) => {
                         </View>
                         <View style={styles.footerView}>
                          <Text style={{...styles.footerText, color: colors.text,
-                             fontSize:  Dimensions.get('window').height > 650 ? widthPercentageToDP('4.2%') : widthPercentageToDP('3.5%')}}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '}
+                             fontSize:  16 / PixelRatio.getFontScale()}}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '}
                              <Text onPress={() => {setIsSignup(prevState => !prevState)}}
                               style={{...styles.footerLink,
                                         color: colors.sign,
-                                        fontSize:  Dimensions.get('window').height > 650 ? widthPercentageToDP('4.2%') : widthPercentageToDP('3.5%')}}>
+                                        fontSize:  17 / PixelRatio.getFontScale()}}>
                                     {isSignup ? 'Войти' : 'Зарегистрироваться'}
                              </Text>
                          </Text>

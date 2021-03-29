@@ -1,10 +1,10 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert, PixelRatio} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 import TextAvatar from "react-native-text-avatar";
 import {signOut} from "../store/actions/authAction";
 import {useDispatch} from "react-redux";
-import {widthPercentageToDP} from "../flex";
+
 
 
 const Header = props => {
@@ -33,7 +33,7 @@ const Header = props => {
     return (
     <View style={styles.wrapper}>
 <View style={styles.container}>
-    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: widthPercentageToDP('5%')}}>Spender 1.0.5 </Text>
+    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale()}}>Spender 1.0.8 </Text>
 </View>
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 

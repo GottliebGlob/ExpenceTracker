@@ -7,7 +7,7 @@ import {
     Text,
     StatusBar,
     FlatList,
-    BackHandler
+    BackHandler, PixelRatio
 } from 'react-native';
 
 
@@ -47,7 +47,7 @@ const CatModal = props => {
         <Modal visible={props.catModalVisible} animationType="slide">
 <View style={{...styles.main, backgroundColor: colors.background}}>
     <StatusBar barStyle="light-content" backgroundColor={colors.dark} />
-    <Text style={{...styles.text, color: colors.text}}>
+    <Text style={{...styles.text, color: colors.text, fontSize: 22 / PixelRatio.getFontScale()}}>
         Выберите категорию
     </Text>
     <FlatList

@@ -6,7 +6,7 @@ import {
     FlatList,
     Alert,
     StatusBar,
-    Dimensions
+    Dimensions, PixelRatio
 } from 'react-native'
 import {Ionicons} from "@expo/vector-icons";
 import {heightPercentageToDP} from "../flex";
@@ -107,16 +107,17 @@ export const OfflineScreen = ({navigation}) => {
                     <Ionicons name='md-wifi' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.error}}/>
                 </View>
                 <View style={styles.mainTextContainer}>
-                    <Text style={{...styles.text, fontSize: Dimensions.get('window').height > 650 ? heightPercentageToDP('2.3%') : heightPercentageToDP('2%'), color: colors.headertext}}>Spender (offline mode)</Text>
+                    <Text style={{...styles.text, fontSize: 22 / PixelRatio.getFontScale(), color: colors.headertext}}>Spender (offline mode)</Text>
                 </View>
             </View>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
-            <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 650  ? heightPercentageToDP('2.7%') : heightPercentageToDP('2.4%'),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
+            <Text style={{...styles.text, color: colors.text, fontSize: 20 / PixelRatio.getFontScale(),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
 
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
             </View>
             <FlatList
+
                 keyExtractor={(item, index) => item.id}
                 data={spends}
                 renderItem={itemData => (

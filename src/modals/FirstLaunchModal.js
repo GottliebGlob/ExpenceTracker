@@ -4,11 +4,12 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-
+    PixelRatio,
     Modal, Dimensions,
 } from 'react-native'
 import {useTheme} from "@react-navigation/native";
-import {heightPercentageToDP} from "../flex";
+import getRightScale from "../components/flex";
+
 
 
 export const FirstLaunchModal = props => {
@@ -22,10 +23,10 @@ export const FirstLaunchModal = props => {
                 visible={props.visible}
             >
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)'}}>
-                    <View style={{...styles.wrapper, backgroundColor: colors.background, borderColor: colors.primary, height: Dimensions.get('window').height > 650 ? heightPercentageToDP('25%') : heightPercentageToDP('35%')}}>
-                        <Text style={{color: colors.text, fontFamily: 'open-sans-bold', fontSize: heightPercentageToDP('1.9%')}}>{props.text}</Text>
-                        <TouchableOpacity style={{...styles.button1,  height: heightPercentageToDP('5%')}} onPress={() => props.setVisible(false)}>
-                            <Text style={{...styles.text, color: colors.headertext, fontSize:  heightPercentageToDP('2%')}}>ПОНЯТНО</Text>
+                    <View style={{...styles.wrapper, backgroundColor: colors.background, borderColor: colors.primary, height: Dimensions.get('window').width * 0.52}}>
+                        <Text style={{color: colors.text, fontFamily: 'open-sans-bold', fontSize: 14 / PixelRatio.getFontScale()}}>{props.text}</Text>
+                        <TouchableOpacity style={{...styles.button1,  height: getRightScale(110, 16)}} onPress={() => props.setVisible(false)}>
+                            <Text style={{...styles.text, color: colors.headertext, fontSize:  14 / PixelRatio.getFontScale()}}>ПОНЯТНО</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

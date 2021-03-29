@@ -1,8 +1,8 @@
 import React from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native"
+import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio} from "react-native"
 import RenderIcon from "./RenderIcon";
 import {useTheme} from "@react-navigation/native";
-import {widthPercentageToDP} from "../flex";
+
 
 
 const CatItem = props => {
@@ -16,7 +16,7 @@ const CatItem = props => {
                 <RenderIcon category={props.cat} style={1} />
             </View>
                 <View style={{alignItems: 'center'}}>
-                <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 780 ? widthPercentageToDP('3.5%') : Dimensions.get('window').height > 650 ? widthPercentageToDP('4%') : widthPercentageToDP('3%')}}>
+                <Text style={{...styles.text, color: colors.text, fontSize: 14 / PixelRatio.getFontScale()}}>
                     {props.name}
                 </Text>
             </View>

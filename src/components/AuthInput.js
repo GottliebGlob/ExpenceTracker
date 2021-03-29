@@ -1,5 +1,5 @@
 import React, {useReducer, useEffect, useState} from 'react'
-import {View, Text, TextInput, StyleSheet, Alert} from 'react-native'
+import {View, Text, TextInput, StyleSheet, Alert, PixelRatio} from 'react-native'
 import {useTheme} from "@react-navigation/native";
 import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 import {Ionicons} from "@expo/vector-icons";
@@ -59,7 +59,7 @@ const AuthInput = props => {
 
     return (
         <View style={styles.main}>
-            <Text style={{...styles.label, color: colors.text, fontSize:  widthPercentageToDP('5%')}}>{props.label}</Text>
+            <Text style={{...styles.label, color: colors.text, fontSize:  20 / PixelRatio.getFontScale()}}>{props.label}</Text>
             {type === 'password' ? (
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TextInput
