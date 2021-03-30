@@ -97,7 +97,7 @@ const AuthInput = props => {
             ) }
 
             {error && (
-                <View>
+                <View style={{ width: '90%'}}>
                     <Text style={{...styles.errorText, color: colors.error,}}>{props.errorText}</Text>
                 </View>
             )}

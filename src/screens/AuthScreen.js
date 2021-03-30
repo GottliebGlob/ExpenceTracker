@@ -76,6 +76,10 @@ export const AuthScreen = ({  navigation }) => {
         }
     };
 
+    const forgotPasswordHandler  = async () => {
+        await dispatch(authActions.forgotPassword(email))
+    }
+
 
     const nameHandler = (text) => {
         setName(text)
@@ -216,7 +220,7 @@ export const AuthScreen = ({  navigation }) => {
                         </View>
                         <View style={styles.footerView}>
                          <Text style={{...styles.footerText, color: colors.text,
-                             fontSize:  16 / PixelRatio.getFontScale()}}>{isSignup ? 'Есть аккаунт? ' : 'Еще нет аккаунта? '}
+                             fontSize:  16 / PixelRatio.getFontScale()}}>{isSignup ? 'Есть аккаунт?  ' : 'Еще нет аккаунта?  '}
                              <Text onPress={() => {setIsSignup(prevState => !prevState)}}
                               style={{...styles.footerLink,
                                         color: colors.sign,
@@ -224,10 +228,24 @@ export const AuthScreen = ({  navigation }) => {
                                     {isSignup ? 'Войти' : 'Зарегистрироваться'}
                              </Text>
                          </Text>
+
                         </View>
             </KeyboardAwareScrollView>
+
+
             {
-                isAdd ?  <BottomBanner /> : null
+                isAdd ? (
+                        <View style={{...styles.forgot, borderTopColor: colors.accent}}>
+                            <Text onPress={() => forgotPasswordHandler()}
+                                  style={{...styles.footerLink,
+                                      color: colors.sign,
+                                      fontSize:  17 / PixelRatio.getFontScale()}}>
+                                Забыли пароль?
+                            </Text>
+                            <BottomBanner />
+                        </View>
+
+                ) : null
             }
         </View>
     );
@@ -245,9 +263,17 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     footerView: {
-        flex: 1,
+       width: '100%',
         alignItems: "center",
-        marginTop: 20
+        marginTop: 20,
+
+
+    },
+    forgot: {
+       height: 95,
+        alignItems: 'center',
+        borderTopWidth: 2,
+        paddingTop: 8,
     },
     screen: {
         flex: 1,

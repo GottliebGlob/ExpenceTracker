@@ -36,6 +36,12 @@ console.log('err' + error)
             ]);
             break
         }
+        case 'Error: The email address is badly formatted.': {
+            Alert.alert("Ошибка!", 'Проверьте введенный вами email.', [
+                {text: 'Принять', style: 'cancel'}
+            ]);
+            break
+        }
 
         default: {
             Alert.alert("Ошибка!", 'Упс! Произошла неизвестная ошибка!', [
@@ -118,6 +124,17 @@ export const login = (email, password) => {
 
 };
 
+
+export const forgotPassword = (email) => {
+    return async () => {
+        firebase.auth().sendPasswordResetEmail(email)
+            .then(function (user) {
+                alert('На ваш email выслано письмо, которое поможет сбросить пароль')
+            }).catch(function (error) {
+            errorHandler(error)
+        })
+    }
+}
 
 
 export const google = () => {
