@@ -4,7 +4,7 @@ import RenderIcon from "./RenderIcon";
 import 'moment/locale/ru'
 import moment from 'moment';
 import {useTheme} from "@react-navigation/native";
-import getRightScale from "../components/flex";
+import getRightScale, {getRightFontScale} from "../components/flex";
 
 const Item = props => {
     const { colors } = useTheme();
@@ -13,10 +13,10 @@ const Item = props => {
         let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
         let rightMargin = 10
         if (props.value === 'RU') {
-            return {  fontSize: 20 / PixelRatio.getFontScale(), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
+            return {  fontSize: getRightFontScale(20), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
         }
         else {
-            return {  fontSize: 20 / PixelRatio.getFontScale(), marginHorizontal: -50 + textMargin * 10, color: colors.text };
+            return {  fontSize: getRightFontScale(20), marginHorizontal: -50 + textMargin * 10, color: colors.text };
         }
     }
 
@@ -42,7 +42,7 @@ const Item = props => {
             <RenderIcon category={props.cat} />
                 <View style={styles.textRight}>
             <Text style={{...styles.cost, color: colors.text,
-            fontSize: 18 / PixelRatio.getFontScale()
+            fontSize: getRightFontScale(18)
             }}>
                 {`${props.cost} ${props.value === 'RU' ? ' р. ' : props.value === '' ? '' :  ' грн. '}`}
             </Text>
@@ -50,7 +50,7 @@ const Item = props => {
                     </View>
                         <View>
                             <Text style={{color: colors.text,
-                                fontSize: 14 / PixelRatio.getFontScale()}}> {m.format('DD.MM.YYYY')}</Text>
+                                fontSize: getRightFontScale(14)}}> {m.format('DD.MM.YYYY')}</Text>
                         </View>
                 </View>
                 <View style={{alignSelf: 'flex-start'}}>

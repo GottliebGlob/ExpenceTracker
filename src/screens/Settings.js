@@ -19,6 +19,7 @@ import {firebase} from "../firebase/config";
 import { useFocusEffect } from '@react-navigation/native';
 import {signOut} from "../store/actions/authAction";
 import BottomBanner from "../components/BottomBanner";
+import {getRightFontScale} from "../components/flex";
 
 
 
@@ -107,7 +108,7 @@ return (
         <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ" aim={limit} value={curValue} pushLimit={pushLimit}/>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text, fontSize: 19 / PixelRatio.getFontScale() }}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
                 Темная тема:
             </Text>
         <Switch
@@ -120,24 +121,24 @@ return (
         </View>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text, fontSize: 19 / PixelRatio.getFontScale() }}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
                 Предпочитаемая валюта:
             </Text>
             <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.accent}} onPress={toggleValue}>
-                <Text style={{...styles.rowText, color: colors.dark, fontSize: 19 / PixelRatio.getFontScale() }}>
+                <Text style={{...styles.rowText, color: colors.dark, fontSize: getRightFontScale(19) }}>
                     {curValue === 'RU' ? ' руб. \u20BD' : ' грн. \u20B4'}
                 </Text>
             </TouchableOpacity>
         </View>
 
         <View style={styles.rows}>
-            <Text style={{...styles.rowText, color: colors.text, fontSize: 19 / PixelRatio.getFontScale() }}>
+            <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
                 Лимит трат на месяц:
             </Text>
             <TextInput
                 placeholder="лимит"
                 placeholderTextColor={colors.accent}
-                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark, fontSize: 19 / PixelRatio.getFontScale() }}
+                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark, fontSize: getRightFontScale(19) }}
                 onChangeText={handleLimit}
                 value={limit ? limit.toString(): ''}
                 keyboardType="number-pad"
@@ -149,7 +150,7 @@ return (
 
         <TouchableOpacity style={styles.rows} onPress={() => {signOutModalHandler()}}>
 
-            <Text style={{...styles.rowText,color: colors.dark, fontSize: 20 / PixelRatio.getFontScale()}}>ВЫХОД</Text>
+            <Text style={{...styles.rowText,color: colors.dark, fontSize: getRightFontScale(20) }}>ВЫХОД</Text>
         </TouchableOpacity>
 
        <BottomBanner />

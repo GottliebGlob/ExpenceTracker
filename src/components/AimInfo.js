@@ -4,6 +4,7 @@ import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio} from "
 import ProgressBar from 'react-native-progress/Bar'
 import {useTheme} from "@react-navigation/native";
 import {MainContext} from "./mainContext";
+import {getRightFontScale} from "./flex";
 
 const AimInfo = props => {
     const { aim, userId, value, lastMonthSpends } = React.useContext(MainContext);
@@ -39,10 +40,10 @@ const AimInfo = props => {
 
     const getTextColor = () => {
         if (isLimitReached) {
-            return { fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale(), marginLeft: 5, color: colors.error };
+            return { fontFamily: 'open-sans-bold', fontSize: getRightFontScale(20), marginLeft: 5, color: colors.error };
         }
         else {
-            return { fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale(), marginLeft: 5, color: colors.confirm };
+            return { fontFamily: 'open-sans-bold', fontSize: getRightFontScale(20), marginLeft: 5, color: colors.confirm };
         }
     }
 
@@ -50,7 +51,7 @@ if (aim === 0) {
     return (
         <View>
             <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
-                <Text style={{...styles.text, color: colors.text, fontSize: 16 / PixelRatio.getFontScale()}}>
+                <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(16)}}>
                    У вас пока нет лимита. Установить?
                 </Text>
             </TouchableOpacity>
@@ -63,7 +64,7 @@ if (aim === 0) {
         <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}}>
             <View style={{flexDirection: 'row'}}>
 
-            <Text style={{ fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale(), color: colors.text}}>
+            <Text style={{ fontFamily: 'open-sans-bold', fontSize: getRightFontScale(20), color: colors.text}}>
                 {isLimitReached ? 'Лимит был превышен на:' : 'Средств до лимита:'}
             </Text>
 

@@ -27,7 +27,7 @@ import InputModal from "../modals/InputModal"
 import { useTheme} from '@react-navigation/native';
 import moment from 'moment';
 
-import getRightScale from "../components/flex";
+import {getRightFontScale} from "../components/flex";
 import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
@@ -163,6 +163,7 @@ export const MainScreen = ({route, navigation}) => {
     }
 
 
+
     if (isLoading) {
 
         return <View style={styles.load}>
@@ -184,16 +185,16 @@ export const MainScreen = ({route, navigation}) => {
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
                     <View style={styles.mainContent}>
-                        <Text style={{...styles.text, fontSize: 22 / PixelRatio.getFontScale(), color: colors.text}}> Потрачно зa</Text>
+                        <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачно зa</Text>
                        <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.dark}} onPress={() => setFlatInfo(!flatInfo)}>
-                           <Text style={{...styles.flatInfoText, fontSize: 22 / PixelRatio.getFontScale(), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                           <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                        </TouchableOpacity>
-                        <Text style={{...styles.text, fontSize: 22 / PixelRatio.getFontScale(), color: colors.confirm}}>
+                        <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.confirm}}>
                             {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
                             {value === 'RU' ? ' р. ' : ' грн. '}
                         </Text>
                     </View>
-    <Text style={{...styles.text, color: colors.text, fontSize: 20 / PixelRatio.getFontScale(),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
+    <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(20),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
                 </View>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>

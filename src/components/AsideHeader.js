@@ -2,6 +2,7 @@ import {Dimensions, PixelRatio, StyleSheet, Text, TouchableOpacity, View} from "
 import {Ionicons} from "@expo/vector-icons";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
+import {getRightFontScale} from "./flex";
 
 
 const AsideHeader = props => {
@@ -24,7 +25,7 @@ const AsideHeader = props => {
                 <Ionicons name='md-arrow-back' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>
             <View style={styles.mainTextContainer}>
-                <Text style={{...styles.text, fontSize: 18 / PixelRatio.getFontScale(), color: colors.headertext}}>{props.placeholder}</Text>
+                <Text style={{...styles.text, fontSize: getRightFontScale(18), color: colors.headertext}}>{props.placeholder}</Text>
             </View>
         </View>
     )

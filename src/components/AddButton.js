@@ -2,17 +2,16 @@ import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native"
 import {Ionicons} from "@expo/vector-icons";
 import {useTheme} from "@react-navigation/native";
-import {heightPercentageToDP, widthPercentageToDP} from "../flex";
-import getRightScale from "./flex";
+import getRightScale, {getRightFontScale} from "./flex";
 
 
 const AddButton = props => {
     const { colors } = useTheme();
 
     return (
-        <View style={{justifyContent: "center", alignItems: 'center'}}>
-        <TouchableOpacity style={{...styles.button, borderColor: colors.text, marginBottom: getRightScale(1, 8), width: Dimensions.get('window').width * 0.90}} onPress={() => props.show()}>
-            <Text style={{...styles.text, color: colors.text, fontSize: Dimensions.get('window').height > 650  ? widthPercentageToDP('3.8%') : widthPercentageToDP('3%')}}>ДОБАВИТЬ</Text>
+        <View style={{justifyContent: "center", alignItems: 'center', width: Dimensions.get('window').width * 0.9}}>
+        <TouchableOpacity style={{...styles.button, borderColor: colors.text, marginBottom: getRightScale(1, 8), width: '100%'}} onPress={() => props.show()}>
+            <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(17)}}>ДОБАВИТЬ</Text>
             <Ionicons name='ios-add' size={30} style={{paddingRight: 5, paddingVertical: 2, color: colors.text}}/>
         </TouchableOpacity>
         </View>
