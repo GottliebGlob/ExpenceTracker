@@ -10,25 +10,16 @@ const Item = props => {
     const { colors } = useTheme();
 
     const getRightMargin = () => {
+            return {   fontFamily: 'open-sans', fontSize: getRightFontScale(18),  color: colors.text, };
+    }
+
+    const getRightWidth = () => {
         let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
-        let rightMargin = 10
-        if (props.value === 'RU') {
-            return {  fontSize: getRightFontScale(20), marginHorizontal: -65 + textMargin * rightMargin, color: colors.text};
-        }
-        else {
-            return {  fontSize: getRightFontScale(20), marginHorizontal: -50 + textMargin * 10, color: colors.text };
-        }
+
+        return { width:  (textMargin + (props.value === 'RU' ? 3 : 4.5) ) * 13};
     }
 
 
-    const getRightTextLenght = () => {
-        const langMargin = props.value === 'RU' ? 15 : 0
-        const w = Math.round(Dimensions.get("window").width)
-        const numbersAvailable = Math.round((w - w * 0.08 - 110 + langMargin) / 12)
-        const newText = props.text.length > numbersAvailable ? props.text.substring(0,numbersAvailable) + '...' : props.text
-        return newText
-
-    }
 
     const m = moment(props.date)
      m.locale('ru')
@@ -40,9 +31,9 @@ const Item = props => {
                 <View style={{flexDirection: 'column'}}>
                     <View style={{flexDirection: 'row'}}>
             <RenderIcon category={props.cat} />
-                <View style={styles.textRight}>
+                <View style={getRightWidth()}>
             <Text style={{...styles.cost, color: colors.text,
-            fontSize: getRightFontScale(18)
+            fontSize: getRightFontScale(17)
             }}>
                 {`${props.cost} ${props.value === 'RU' ? ' р. ' : props.value === '' ? '' :  ' грн. '}`}
             </Text>
@@ -53,9 +44,9 @@ const Item = props => {
                                 fontSize: getRightFontScale(14)}}> {m.format('DD.MM.YYYY')}</Text>
                         </View>
                 </View>
-                <View style={{alignSelf: 'flex-start'}}>
-            <Text style={getRightMargin()}>
-                {getRightTextLenght()}
+                <View style={{alignSelf: 'flex-start', flex: 1, paddingRight: Dimensions.get('window').width * 0.05 }}>
+            <Text style={getRightMargin()} numberOfLines={1} ellipsizeMode='tail'>
+                {props.text}
             </Text>
                 </View>
             </View>
@@ -92,9 +83,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
-    textRight: {
-        width: 110
-    }
+
 })
 
 export default Item

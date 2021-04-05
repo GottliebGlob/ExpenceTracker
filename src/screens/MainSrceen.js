@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createContext} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
     View,
     Text,
@@ -8,8 +8,6 @@ import {
     StatusBar,
     ActivityIndicator,
     TouchableOpacity,
-    Dimensions,
-    PixelRatio
 } from 'react-native'
 //Redux
 import {useDispatch, useSelector} from "react-redux";
@@ -62,7 +60,7 @@ export const MainScreen = ({route, navigation}) => {
         () => {
             if (route.params) {
                 const { newAim, newValue } = route.params;
-                if (newValue !== 0 && newAim !== 0) {
+                if (newValue !== 0) {
                     setValue(newValue)
                     setAim(newAim)
                 }
@@ -184,20 +182,28 @@ export const MainScreen = ({route, navigation}) => {
     <AimInfo navigation={navigation}/>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
-                    <View style={styles.mainContent}>
-                        <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачно зa</Text>
-                       <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.dark}} onPress={() => setFlatInfo(!flatInfo)}>
-                           <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
-                       </TouchableOpacity>
-                        <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.confirm}}>
-                            {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
-                            {value === 'RU' ? ' р. ' : ' грн. '}
-                        </Text>
-                    </View>
-    <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(20),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
+                        {
+                            allSpends.length > 0 ? (
+                                    <View style={styles.mainContent}>
+                                    <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачно зa</Text>
+                                <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.dark}} onPress={() => setFlatInfo(!flatInfo)}>
+                                    <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                                </TouchableOpacity>
+                            <Text style={{...styles.text, fontSize: getRightFontScale(22), color: '#02a602'}}>
+                        {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
+                        {value === 'RU' ? ' р. ' : ' грн. '}
+                            </Text>
+                                    </View>
+                            ) :
+                            (
+                                <View style={styles.mainContent}>
+                            <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> У вас пока нет трат</Text>
+                                </View>
+                            )
+                        }
             <AddButton show={showModalHandler}/>
                 </View>
-            <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
+            <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={true}/>
                 <FlatList
 
                     keyExtractor={(item, index) => item.id}

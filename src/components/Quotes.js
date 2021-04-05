@@ -35,7 +35,7 @@ const Quote = (theme) => {
 
 
     const textColor = theme.theme === 'dark' ? '#dadada' : '#000'
-    const nameColor = theme.theme === 'dark' ? '#1b1b1b' : '#616161'
+    const nameColor = theme.theme === 'dark' ? '#17181f' : '#4B515D'
 
     return (
         <View>

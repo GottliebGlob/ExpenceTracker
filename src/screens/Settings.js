@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react'
+import React, {useState, useCallback} from 'react'
 import {
     View,
     Text,
@@ -8,7 +8,6 @@ import {
     TextInput,
     Alert,
     BackHandler,
-    Dimensions, PixelRatio,
 } from 'react-native'
 import {useTheme} from "@react-navigation/native";
 import AsyncStorage from '@react-native-community/async-storage';

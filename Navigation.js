@@ -83,8 +83,8 @@ export default () => {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     useEffect(() => {
         Font.loadAsync({
-            'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
-            'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+            'open-sans': require('./assets/fonts/Roboto-Regular.ttf'),
+            'open-sans-bold': require('./assets/fonts/Roboto-Bold.ttf')
         }).then(() => setFontsLoaded(true));
     }, [])
 

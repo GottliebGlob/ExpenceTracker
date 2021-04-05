@@ -1,4 +1,4 @@
-import {Dimensions, PixelRatio, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
@@ -7,15 +7,16 @@ import {getRightFontScale} from "./flex";
 
 const AsideHeader = props => {
     const { colors } = useTheme();
-    let aim = 0
-    let value = 0
+
 
     const onNavigate = () => {
-        if(props.value && props.aim > 0) {
-            aim = props.aim
-            value = props.value
+
+           const aim = props.aim
+           const value = props.value
+        if (aim > 0) {
             props.pushLimit(aim)
         }
+
         props.navigation.navigate('Main', {newAim: aim, newValue: value})
     }
 

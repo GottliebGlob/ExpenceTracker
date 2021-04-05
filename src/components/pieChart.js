@@ -1,5 +1,6 @@
 import React from 'react'
 import {defaultColors} from "../colors";
+import {getRightFontScale} from "./flex";
 
 
 
@@ -23,7 +24,7 @@ const pieChartState = (data, colors) => {
         let name = `cats.${key}.name`.split('.').reduce((p,c)=>p&&p[c]||null, defaultColors)
         let color = `cats.${key}.color`.split('.').reduce((p,c)=>p&&p[c]||null, defaultColors)
 
-        let newArrayItem = {name: name, population: value, color: color,legendFontColor: colors.text, legendFontSize: 14}
+        let newArrayItem = {name: name, population: value, color: color,legendFontColor: colors.text, legendFontSize: getRightFontScale(14)}
         monthlySpends.push(newArrayItem)
 
     }

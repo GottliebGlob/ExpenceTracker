@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {
     View,
@@ -7,7 +7,7 @@ import {
     Text,
     StatusBar,
     FlatList,
-    BackHandler, PixelRatio
+    PixelRatio
 } from 'react-native';
 
 
@@ -27,26 +27,12 @@ const CatModal = props => {
         transformedCats.push({cat: key, name: cats[key].name, color: cats[key].color, })
     }
 
-    useEffect(() => {
-        const onBackPress = () => {
-            console.log('cancel')
-          props.modalCatHandler()
-            return true;
-        };
-        BackHandler.addEventListener(
-            'hardwareBackPress', onBackPress
-        );
-        return () =>
-            BackHandler.removeEventListener(
-                'hardwareBackPress', onBackPress
-            );
-    }, []);
 
 
     return (
-        <Modal visible={props.catModalVisible} animationType="slide">
+        <Modal visible={props.catModalVisible} animationType="slide" onRequestClose={() => props.setCatModalVisible(false)}>
 <View style={{...styles.main, backgroundColor: colors.background}}>
-    <StatusBar barStyle="light-content" backgroundColor={colors.dark} />
+    <StatusBar barStyle="light-content" backgroundColor='black' />
     <Text style={{...styles.text, color: colors.text, fontSize: 22 / PixelRatio.getFontScale()}}>
         Выберите категорию
     </Text>
@@ -60,7 +46,9 @@ const CatModal = props => {
     />
 
 </View>
-            <BottomBanner />
+            {
+                props.isConnected ?   <BottomBanner /> : null
+            }
         </Modal>
     )
 }

@@ -10,7 +10,7 @@ import {
     Text,
     Alert,
     StatusBar,
-    TouchableOpacity, Dimensions, PixelRatio
+    TouchableOpacity,  PixelRatio
 } from 'react-native';
 
 
@@ -37,7 +37,7 @@ const InputModal = props => {
     };
 
     const confirmHandler = () => {
-        if (enteredText.trim().length >= 3 && enteredCost < 100000 && enteredCost > 1 && enteredCost.match(/[+-]?([0-9]*[.])?[0-9]+/) &&  String(enteredCost).length < 7 && enteredText.trim().length <= 25) {
+        if (enteredText.trim().length >= 3 && enteredCost < 100000 && enteredCost >= 1 && enteredCost.match(/[+-]?([0-9]*[.])?[0-9]+/) &&  String(enteredCost).length < 7 && enteredText.trim().length <= 25) {
             props.onMainStateChange(enteredText, Math.round(parseFloat(String(enteredCost)) * 100) / 100, enteredCat)
             setEnteredText('')
             setEnteredCost(0)
@@ -67,12 +67,12 @@ const InputModal = props => {
     };
 
     return (
-        <Modal visible={props.visible} animationType="slide">
+        <Modal visible={props.visible} animationType="slide"  onRequestClose={() => cancelHandler()}>
             <TouchableWithoutFeedback onPress={() => {
                 Keyboard.dismiss();
             }}>
                 <View style={{...styles.main, backgroundColor: colors.background}}>
-                    <StatusBar barStyle="dark-content" backgroundColor={colors.dark} />
+                    <StatusBar barStyle="dark-content" backgroundColor='black' />
             <View style={styles.inputContainer}>
                 <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Введите трату: </Text>
                 <TextInput
@@ -101,7 +101,7 @@ const InputModal = props => {
                         <RenderIcon category={enteredCat} />
                     </TouchableOpacity>
 
-                    <CatModal catModalVisible={catModalVisible} modalCatHandler={modalCatHandler} catHandler={catHandler}/>
+                    <CatModal catModalVisible={catModalVisible} setCatModalVisible={setCatModalVisible} modalCatHandler={modalCatHandler} catHandler={catHandler} isConnected={props.isConnected}/>
 
                 <View style={styles.buttonContainer}>
  <Button title="ОТМЕНИТЬ" onPress={() => cancelHandler()} color={colors.error}/>
@@ -110,7 +110,10 @@ const InputModal = props => {
 
                 </View>
             </TouchableWithoutFeedback>
-            <BottomBanner />
+            {
+                props.isConnected ?   <BottomBanner /> : null
+            }
+
         </Modal>
     );
 };

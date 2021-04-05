@@ -8,7 +8,7 @@ import {
     ActivityIndicator,
     Alert,
     StatusBar,
-    PixelRatio, Dimensions
+    PixelRatio,
 } from 'react-native';
 
 
@@ -28,7 +28,6 @@ import BottomBanner from "../components/BottomBanner";
 export const AuthScreen = ({  navigation }) => {
     const { colors } = useTheme();
 
-    //console.log(PixelRatio.get())
 
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);

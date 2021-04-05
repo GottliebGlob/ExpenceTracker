@@ -1,7 +1,6 @@
-import React, {useReducer, useEffect, useState} from 'react'
-import {View, Text, TextInput, StyleSheet, Alert, PixelRatio} from 'react-native'
+import React, { useState} from 'react'
+import {View, Text, TextInput, StyleSheet, PixelRatio} from 'react-native'
 import {useTheme} from "@react-navigation/native";
-import {heightPercentageToDP, widthPercentageToDP} from "../flex";
 import {Ionicons} from "@expo/vector-icons";
 
 

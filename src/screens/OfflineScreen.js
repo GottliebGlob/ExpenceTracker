@@ -6,10 +6,9 @@ import {
     FlatList,
     Alert,
     StatusBar,
-    Dimensions, PixelRatio
+     PixelRatio
 } from 'react-native'
 import {Ionicons} from "@expo/vector-icons";
-import {heightPercentageToDP} from "../flex";
 import {useTheme} from "@react-navigation/native";
 import AddButton from "../components/AddButton";
 import InputModal from "../modals/InputModal";
@@ -17,7 +16,6 @@ import moment from "moment";
 import Item from "../components/Item";
 import {useDispatch, useSelector} from "react-redux";
 import {addOffline, fetchOffline, removeOffline} from "../store/actions/offlineAction";
-import AsyncStorage from '@react-native-community/async-storage';
 import checkIfFirstLaunch from "../components/firstLaunchHandler";
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {useNetInfo} from "@react-native-community/netinfo";
@@ -114,7 +112,7 @@ export const OfflineScreen = ({navigation}) => {
             <Text style={{...styles.text, color: colors.text, fontSize: 20 / PixelRatio.getFontScale(),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
 
-            <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler}/>
+            <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={false}/>
             </View>
             <FlatList
 
