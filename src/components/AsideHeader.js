@@ -8,14 +8,14 @@ import {getRightFontScale} from "./flex";
 const AsideHeader = props => {
     const { colors } = useTheme();
 
-
+            let aim = 0
     const onNavigate = () => {
 
-           const aim = props.aim
+                if (props.aim > 0) {
+                    aim = props.aim
+                    props.pushLimit(aim)
+                }
            const value = props.value
-        if (aim > 0) {
-            props.pushLimit(aim)
-        }
 
         props.navigation.navigate('Main', {newAim: aim, newValue: value})
     }

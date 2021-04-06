@@ -8,11 +8,11 @@ import {
     StatusBar,
     ActivityIndicator,
     TouchableOpacity,
+    PixelRatio
 } from 'react-native'
 //Redux
 import {useDispatch, useSelector} from "react-redux";
 import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
-import {addOffline} from "../store/actions/offlineAction";
 import { firebase } from '../firebase/config'
 //Components
 import Header from "../components/Header";
@@ -62,6 +62,8 @@ export const MainScreen = ({route, navigation}) => {
                 const { newAim, newValue } = route.params;
                 if (newValue !== 0) {
                     setValue(newValue)
+                }
+                if (newAim !== 0) {
                     setAim(newAim)
                 }
             }

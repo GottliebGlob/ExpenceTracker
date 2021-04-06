@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     View,
     TextInput,
@@ -27,6 +27,7 @@ const InputModal = props => {
     const [enteredCost, setEnteredCost] = useState('')
     const [enteredCat, setEnteredCat] = useState('general')
     const [catModalVisible, setCatModalVisible] = useState(false)
+    const [isAdd, setIsAdd] = useState(true)
 
 
     const InputHandler = enteredText => {
@@ -49,6 +50,23 @@ const InputModal = props => {
             ]);
         }
     }
+
+    const onKeyboardShow = () => {
+        setIsAdd(false)
+    }
+
+    const onKeyboardHide = () => {
+        setIsAdd(true)
+    }
+
+    useEffect(() => {
+        Keyboard.addListener("keyboardDidHide", onKeyboardHide);
+        Keyboard.addListener("keyboardDidShow", onKeyboardShow);
+        return () => {
+            Keyboard.removeListener("keyboardDidHide", onKeyboardHide);
+            Keyboard.removeListener("keyboardDidShow", onKeyboardShow);
+        };
+    }, []);
 
     const catHandler = (cat) => {
         setCatModalVisible(!catModalVisible)
@@ -111,7 +129,7 @@ const InputModal = props => {
                 </View>
             </TouchableWithoutFeedback>
             {
-                props.isConnected ?   <BottomBanner /> : null
+                props.isConnected && isAdd ?   <BottomBanner /> : null
             }
 
         </Modal>

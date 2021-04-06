@@ -107,13 +107,13 @@ export const Statistics = ({route, navigation}) => {
                 <View style={{width: Dimensions.get('window').width, }}>
                 <PieChart
                 data={monthlySpends}
-                width={Dimensions.get('window').width - Dimensions.get('window').width * 0.1}
+                width={Dimensions.get('window').width}
                 height={getRightScale(300, 100)}
                 chartConfig={chartConfig}
                 accessor={"population"}
                 backgroundColor={"transparent"}
                 absolute
-                paddingLeft={'-10'}
+                paddingLeft={'-5'}
 
             />
                 </View>
@@ -129,13 +129,13 @@ export const Statistics = ({route, navigation}) => {
                     <View style={{width: Dimensions.get('window').width, marginBottom: 100}}>
                         <PieChart
                             data={allTimeSpends}
-                            width={Dimensions.get('window').width - Dimensions.get('window').width * 0.1}
+                            width={Dimensions.get('window').width }
                             height={getRightScale(300, 100)}
                             chartConfig={chartConfig}
                             accessor={"population"}
                             backgroundColor={"transparent"}
                             absolute
-                            paddingLeft={'-10'}
+                            paddingLeft={'-5'}
                         />
                     </View>
 

@@ -33,7 +33,7 @@ const Header = props => {
     return (
     <View style={styles.wrapper}>
 <View style={styles.container}>
-    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale()}}>Spender 1.0.14 </Text>
+    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale()}}>Spender 1.0.16 </Text>
 </View>
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 
@@ -42,7 +42,7 @@ const Header = props => {
             textColor={colors.headertext}
             size={45}
             type={'circle'} // optional
-        >{props.name}</TextAvatar>
+        >{props.name[0] ? props.name[0] : props.name}</TextAvatar>
     </TouchableOpacity>
     </View>
 )

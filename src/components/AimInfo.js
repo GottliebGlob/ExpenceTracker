@@ -51,7 +51,7 @@ if (aim === 0) {
     return (
         <View>
             <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
-                <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(16)}}>
+                <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(18)}}>
                    У вас пока нет лимита. Установить?
                 </Text>
             </TouchableOpacity>
