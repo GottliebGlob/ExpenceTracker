@@ -109,7 +109,6 @@ export const OfflineScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
-            <Text style={{...styles.text, color: colors.text, fontSize: 20 / PixelRatio.getFontScale(),  paddingBottom: 10, paddingTop: 0}}>Траты:</Text>
             <AddButton show={showModalHandler}/>
 
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={false}/>

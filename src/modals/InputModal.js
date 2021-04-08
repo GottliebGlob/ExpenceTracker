@@ -95,7 +95,8 @@ const InputModal = props => {
                 <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Введите трату: </Text>
                 <TextInput
                     placeholder="Новая трата..."
-                    style={{...styles.input, color: colors.text,}}
+                    placeholderTextColor={colors.text}
+                    style={{...styles.input, borderBottomColor: colors.sign, color: colors.text,}}
                     onChangeText={InputHandler}
                     value={enteredText}
                     maxLenth={25}
@@ -104,7 +105,8 @@ const InputModal = props => {
                 <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Введите сумму траты: </Text>
                 <TextInput
                     placeholder="Сумма траты..."
-                    style={{...styles.input, color: colors.text}}
+                    placeholderTextColor={colors.text}
+                    style={{...styles.input, borderBottomColor: colors.sign, color: colors.text}}
                     onChangeText={InputCostHandler}
                     value={enteredCost ? enteredCost.toString() : ''}
                     keyboardType="number-pad"

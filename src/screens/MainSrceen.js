@@ -8,7 +8,7 @@ import {
     StatusBar,
     ActivityIndicator,
     TouchableOpacity,
-    PixelRatio
+    Dimensions
 } from 'react-native'
 //Redux
 import {useDispatch, useSelector} from "react-redux";
@@ -30,8 +30,10 @@ import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
 import {useNetInfo} from "@react-native-community/netinfo";
+import {isLimitDisplayed, setIsLimitDisplayed} from "../components/isLimitDisplayed";
 
 import {MainContext} from "../components/mainContext";
+import {Ionicons} from "@expo/vector-icons";
 
 
 export const MainScreen = ({route, navigation}) => {
@@ -60,11 +62,15 @@ export const MainScreen = ({route, navigation}) => {
         () => {
             if (route.params) {
                 const { newAim, newValue } = route.params;
-                if (newValue !== 0) {
+                if (newValue === "RU" || newValue === 'UA') {
                     setValue(newValue)
                 }
                 if (newAim !== 0) {
                     setAim(newAim)
+                }
+                if (newAim !== 0 && newAim !== aim) {
+                    setShouldDisplayAim(true)
+
                 }
             }
         },
@@ -89,6 +95,25 @@ export const MainScreen = ({route, navigation}) => {
         }
     }
 
+    //Limit displaying
+    const [shouldDisplayAim, setShouldDisplayAim] = useState(false)
+    const [isLimitsLoaded, setIsLimitsLoaded] = useState(false)
+
+    const limitCheck = (isDisplayed) => {
+        if (isDisplayed === null || isDisplayed === 'true') {
+            setShouldDisplayAim(true)
+        }
+        setIsLimitsLoaded(true)
+    }
+
+    const handleLimit = () => {
+        setIsLimitDisplayed(false)
+        setShouldDisplayAim(false)
+        firebase.firestore().collection('users').doc(userId).update({aim: 0})
+        setAim(0)
+    }
+
+
     //Fetching user data
     useEffect(() => {
 
@@ -97,6 +122,9 @@ export const MainScreen = ({route, navigation}) => {
 
         //Spends fetching
         loadSpends()
+
+        //Limits displaying check
+        isLimitDisplayed(limitCheck)
 
         //Preferences fetching
             firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
@@ -107,14 +135,13 @@ export const MainScreen = ({route, navigation}) => {
                     setValue(data.value)
                     setAim(data.aim)
                 }
-                else (alert('Произошла неизвестная ошибка! Попробуйте перезагрузить приложение'))
             });
         }, [user]);
 
 
 
 
-
+        //Connection check
     const isOnline = useNetInfo().isConnected
     const [isConnectionChecked, setIsConnectionChecked] = useState(false)
 
@@ -164,7 +191,10 @@ export const MainScreen = ({route, navigation}) => {
 
 
 
-    if (isLoading) {
+
+
+
+    if (isLoading && !isLimitsLoaded) {
 
         return <View style={styles.load}>
             <View>
@@ -181,15 +211,17 @@ export const MainScreen = ({route, navigation}) => {
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends} text={"Спасибо, что решили принять участие в тестировании! Чтобы добавить трату нажмите на кнопку \"Добавить\", чтобы удалить- нажмите на трату и удерживайте."}/>
     <Header navigation={navigation} name={name}/>
-    <AimInfo navigation={navigation}/>
+            {
+                shouldDisplayAim ?  <AimInfo navigation={navigation} handleLimit={handleLimit}/> : null
+            }
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
                         {
                             allSpends.length > 0 ? (
                                     <View style={styles.mainContent}>
                                     <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачно зa</Text>
-                                <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.dark}} onPress={() => setFlatInfo(!flatInfo)}>
-                                    <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.sign}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                                <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.confirm}} onPress={() => setFlatInfo(!flatInfo)}>
+                                    <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                                 </TouchableOpacity>
                             <Text style={{...styles.text, fontSize: getRightFontScale(22), color: '#02a602'}}>
                         {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
@@ -225,6 +257,9 @@ export const MainScreen = ({route, navigation}) => {
                 />
 
     </View>
+            <View style={{height: Dimensions.get('window').height * 0.07}}>
+
+            </View>
             <View style={styles.statistics}>
                 <StatisticButton navigation={navigation} />
             </View>
@@ -250,7 +285,7 @@ const styles = StyleSheet.create({
         paddingTop: 0,
     },
     statistics: {
-        width: '100%', position:'absolute', bottom: 0, flex: .1
+        width: '100%', position:'absolute', bottom: 0, flex: .1,
     },
     load: {
         flex: 1,
@@ -259,7 +294,8 @@ const styles = StyleSheet.create({
     },
     flatInfo: {
         borderBottomWidth: 2,
-        height: 45
+        height: 45,
+        flexDirection: 'row'
     },
     flatInfoText: {
         paddingTop: 10,

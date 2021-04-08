@@ -11,7 +11,7 @@ import Quotes from "../components/Quotes";
 
 export const StartupScreen = (theme) => {
 
-      const backgroundColor = theme.theme === 'dark' ? '#4B515D' : '#fff'
+      const backgroundColor = theme.theme === 'dark' ? '#17212b' : '#fff'
       const textColor = theme.theme === 'dark' ? '#dadada' : '#000'
 
     return (

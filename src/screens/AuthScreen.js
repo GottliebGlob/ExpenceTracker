@@ -167,7 +167,7 @@ export const AuthScreen = ({  navigation }) => {
                             label="Имя"
                             keyboardType="default"
                             minLength={2}
-                            maxLength={15}
+                            maxLength={25}
                             autoCapitalize="words"
                             required
                             errorText="Пожалуйста, введите настоящее имя."
@@ -182,7 +182,7 @@ export const AuthScreen = ({  navigation }) => {
                             label="E-Mail"
                             keyboardType="email-address"
                             minLength={5}
-                            maxLength={30}
+                            maxLength={35}
                             required
                             autoCapitalize="none"
                             errorText="Пожалуйста, используйте существующий e-mail."

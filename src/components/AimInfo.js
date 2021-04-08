@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio} from "react-native"
+import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Alert} from "react-native"
 
 import ProgressBar from 'react-native-progress/Bar'
 import {useTheme} from "@react-navigation/native";
 import {MainContext} from "./mainContext";
 import {getRightFontScale} from "./flex";
+import {Ionicons} from "@expo/vector-icons";
+
 
 const AimInfo = props => {
     const { aim, userId, value, lastMonthSpends } = React.useContext(MainContext);
@@ -37,6 +39,19 @@ const AimInfo = props => {
         setBar(1)
     }
 
+    const cancelHandler = () => {
+        Alert.alert("Вы хотите отключить лимит трат?", 'Вы всегда сможете включить лимит в настройках', [
+                {
+                    text: "ОТМЕНИТЬ",
+                    style: "cancel"
+                },
+                { text: "ПРИНЯТЬ", onPress: () => {props.handleLimit()}
+                }
+            ],
+            { cancelable: false });
+    }
+
+
 
     const getTextColor = () => {
         if (isLimitReached) {
@@ -49,20 +64,23 @@ const AimInfo = props => {
 
 if (aim === 0) {
     return (
-        <View>
+        <View style={{flexDirection: 'row', width: '100%'}}>
             <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
+
                 <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(18)}}>
                    У вас пока нет лимита. Установить?
                 </Text>
+                <Ionicons name='close' size={20} color={colors.text} style={{position: 'absolute', top: 10, right: 10}} onPress={cancelHandler}/>
+
             </TouchableOpacity>
         </View>
     )
 }
 
     return (
-        <View>
+        <View style={{flexDirection: 'row'}}>
         <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', width: '100%'}}>
 
             <Text style={{ fontFamily: 'open-sans-bold', fontSize: getRightFontScale(20), color: colors.text}}>
                 {isLimitReached ? 'Лимит был превышен на:' : 'Средств до лимита:'}
@@ -71,6 +89,7 @@ if (aim === 0) {
             <Text style={getTextColor()}>
                 {`${Math.round(moneyLeft* 100)/100} ${value === 'RU' ? ' р. ' : ' грн. '}`}
             </Text>
+                <Ionicons name='close' size={20} color={colors.text} style={styles.icon} onPress={cancelHandler}/>
             </View>
             <ProgressBar
                 progress={bar}
@@ -79,7 +98,11 @@ if (aim === 0) {
                 color={isLimitReached ? colors.error : colors.text}
                 borderRadius={2}
             />
+
         </TouchableOpacity>
+
+
+
         </View>
     )
 }
@@ -98,6 +121,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         borderBottomWidth: 1,
         height: 80,
+    },
+    icon: {
+        position: "absolute",
+        right: -5,
+        top: -5
     },
 })
 

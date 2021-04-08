@@ -19,6 +19,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import {signOut} from "../store/actions/authAction";
 import BottomBanner from "../components/BottomBanner";
 import {getRightFontScale} from "../components/flex";
+import {setIsLimitDisplayed} from "../components/isLimitDisplayed";
 
 
 
@@ -56,11 +57,14 @@ export const Settings = ({route, navigation}) => {
     //Limits block
     const [limit, setLimit] = useState(aim ? aim : 0)
     const handleLimit = limit => {
-        console.log('limit is ' + limit)
         setLimit(limit.replace(/[^0-9]/g, ''));
     }
     const pushLimit = () => {
-        firebase.firestore().collection('users').doc(userId).update({aim: limit})
+        if (limit !== aim) {
+            setIsLimitDisplayed(true)
+            firebase.firestore().collection('users').doc(userId).update({aim: limit})
+        }
+
     }
 
 
@@ -111,8 +115,8 @@ return (
                 Темная тема:
             </Text>
         <Switch
-            trackColor={{ false: colors.accent, true: colors.accent }}
-            thumbColor={colors.dark}
+            trackColor={{ false: colors.accent, true: colors.sign }}
+            thumbColor={'black'}
             onValueChange={toggleDark}
             value={isDark}
             style={{ transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }], marginTop: 5, marginLeft: 5 }}
@@ -123,8 +127,8 @@ return (
             <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
                 Предпочитаемая валюта:
             </Text>
-            <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.accent}} onPress={toggleValue}>
-                <Text style={{...styles.rowText, color: colors.dark, fontSize: getRightFontScale(19) }}>
+            <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.confirm}} onPress={toggleValue}>
+                <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
                     {curValue === 'RU' ? ' руб. \u20BD' : ' грн. \u20B4'}
                 </Text>
             </TouchableOpacity>
@@ -136,8 +140,8 @@ return (
             </Text>
             <TextInput
                 placeholder="лимит"
-                placeholderTextColor={colors.accent}
-                style={{...styles.input, borderBottomColor: colors.accent, color: colors.dark, fontSize: getRightFontScale(19) }}
+                placeholderTextColor={colors.text}
+                style={{...styles.input, borderBottomColor: colors.confirm, color: colors.text, fontSize: getRightFontScale(19) }}
                 onChangeText={handleLimit}
                 value={limit ? limit.toString(): ''}
                 keyboardType="number-pad"
@@ -149,7 +153,7 @@ return (
 
         <TouchableOpacity style={styles.rows} onPress={() => {signOutModalHandler()}}>
 
-            <Text style={{...styles.rowText,color: colors.dark, fontSize: getRightFontScale(20) }}>ВЫХОД</Text>
+            <Text style={{...styles.rowText,color: colors.sign, fontSize: getRightFontScale(20) }}>ВЫХОД</Text>
         </TouchableOpacity>
 
        <BottomBanner />
