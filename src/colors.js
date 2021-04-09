@@ -34,6 +34,7 @@ export const DarkTheme = {
         background: '#17212b',
         headertext: '#dadada',
         sign: '#3e546a',
+        icon: '#282e3b'
 
     },
 };
@@ -52,6 +53,7 @@ export const LightTheme = {
         background: '#fff',
         headertext: '#fff',
         sign: '#000000',
+        icon: '#fff'
 
     },
 };

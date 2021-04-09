@@ -20,6 +20,7 @@ import CatModal from "./CatModal";
 import RenderIcon from "../components/RenderIcon";
 import {useTheme} from "@react-navigation/native";
 import BottomBanner from "../components/BottomBanner";
+import {Ionicons} from "@expo/vector-icons";
 
 const InputModal = props => {
     const { colors } = useTheme();
@@ -28,6 +29,7 @@ const InputModal = props => {
     const [enteredCat, setEnteredCat] = useState('general')
     const [catModalVisible, setCatModalVisible] = useState(false)
     const [isAdd, setIsAdd] = useState(true)
+    const [isCatSet, setIsCatSet] = useState(false)
 
 
     const InputHandler = enteredText => {
@@ -71,6 +73,7 @@ const InputModal = props => {
     const catHandler = (cat) => {
         setCatModalVisible(!catModalVisible)
         setEnteredCat(cat)
+        setIsCatSet(true)
     }
 
     const cancelHandler = () => {
@@ -78,6 +81,7 @@ const InputModal = props => {
         setEnteredText('')
         setEnteredCost(0)
         setEnteredCat('general')
+        setIsCatSet(false)
     }
 
     const modalCatHandler = () => {
@@ -116,9 +120,13 @@ const InputModal = props => {
                     </View>
 
 
-                    <TouchableOpacity onPress={() => modalCatHandler()} style={styles.modal}>
+                    <TouchableOpacity onPress={() => modalCatHandler()} style={{...styles.modal, paddingBottom: 10, borderBottomColor: colors.sign, borderBottomWidth: 2}}>
                         <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Выберите категорию: </Text>
-                        <RenderIcon category={enteredCat} />
+                        <View style={{...styles.catIcon, borderColor: colors.sign, marginTop: -3, width: isCatSet ? 40 : 36, height: isCatSet ? 40 : 36 }}>
+                            {isCatSet ?  <RenderIcon category={enteredCat} /> :  <Ionicons name='ios-add' size={30} style={{ color: colors.text, marginLeft: 2}}/>}
+
+                        </View>
+
                     </TouchableOpacity>
 
                     <CatModal catModalVisible={catModalVisible} setCatModalVisible={setCatModalVisible} modalCatHandler={modalCatHandler} catHandler={catHandler} isConnected={props.isConnected}/>
@@ -178,6 +186,13 @@ const styles = StyleSheet.create({
         width: '80%',
         marginVertical: 15,
         flexDirection: 'row'
+    },
+    catIcon: {
+       borderRadius: 50,
+        height: 36, width: 36,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2
     }
 });
 
