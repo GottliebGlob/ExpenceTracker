@@ -15,9 +15,13 @@ const AsideHeader = props => {
                     aim = props.aim
                     props.pushLimit(aim)
                 }
+                if (props.isActive) {
+                    props.pushIsActive()
+                }
+
            const value = props.value
 
-        props.navigation.navigate('Main', {newAim: aim, newValue: value})
+        props.navigation.navigate('Main', {newAim: aim, newValue: value, newMonthDay: props.isActive})
     }
 
     return (

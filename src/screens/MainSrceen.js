@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useMemo} from 'react'
 import {
     View,
     Text,
@@ -42,26 +42,37 @@ export const MainScreen = ({route, navigation}) => {
     const [isLoading, setIsLoading]= useState(true)
     const dispatch = useDispatch()
 
-    //Data getters
-    const allSpends = useSelector(state => state.main.main)
-    const sortedAllSpends  = allSpends.sort((a,b) => moment(b.date).format('YYYYMMDD') - moment(a.date).format('YYYYMMDD'))
-    const lastMonthSpends = sortedAllSpends.filter(e => moment(e.date).month() === moment().month())
-    const maxNumber = Math.max(...allSpends.map(e => e.cost)).toString().length
-    const montMaxNumber = Math.max(...lastMonthSpends.map(e => e.cost)).toString().length
+
 
 
     //Local state for firestore requests
     const [name, setName] = useState('')
     const [value, setValue] = useState('')
     const [aim, setAim] = useState(0)
+    const [isFirstDay, setIsFirstDay] = useState(0)
     const user = firebase.auth().currentUser;
     const userId = user.uid
 
+    const isOver = () => {
+        const bool = moment() < moment().set('date', isFirstDay)
+        return bool ? moment().set('date', isFirstDay).subtract(1, 'months') : moment().set('date', isFirstDay)
+    }
 
+    //Data getters
+    const allSpends = useSelector(state => state.main.main)
+    const sortedAllSpends  = useMemo(() => allSpends.sort((a,b) => moment(b.date).format('YYYYMMDD') - moment(a.date).format('YYYYMMDD')), [allSpends])
+    const lastMonthSpends = useMemo(() => sortedAllSpends.filter(e => moment(e.date) >= isOver()), [allSpends, isFirstDay])
+    const maxNumber = useMemo(() => Math.max(...allSpends.map(e => e.cost)).toString().length, [allSpends])
+    const montMaxNumber = useMemo(() => Math.max(...lastMonthSpends.map(e => e.cost)).toString().length, [allSpends, isFirstDay])
+
+
+
+
+    //Navigation params from Settings
     useEffect(
         () => {
             if (route.params) {
-                const { newAim, newValue } = route.params;
+                const { newAim, newValue, newMonthDay } = route.params;
                 if (newValue === "RU" || newValue === 'UA') {
                     setValue(newValue)
                 }
@@ -70,7 +81,9 @@ export const MainScreen = ({route, navigation}) => {
                 }
                 if (newAim !== 0 && newAim !== aim) {
                     setShouldDisplayAim(true)
-
+                }
+                if (newMonthDay > 0) {
+                    setIsFirstDay(newMonthDay)
                 }
             }
         },
@@ -134,6 +147,7 @@ export const MainScreen = ({route, navigation}) => {
                     setName(data.name)
                     setValue(data.value)
                     setAim(data.aim)
+                    setIsFirstDay(data.monthStartsFrom)
                 }
             });
         }, [user]);
@@ -219,7 +233,7 @@ export const MainScreen = ({route, navigation}) => {
                         {
                             allSpends.length > 0 ? (
                                     <View style={styles.mainContent}>
-                                    <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачно зa</Text>
+                                    <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачено зa</Text>
                                 <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.confirm}} onPress={() => setFlatInfo(!flatInfo)}>
                                     <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                                 </TouchableOpacity>
@@ -261,7 +275,7 @@ export const MainScreen = ({route, navigation}) => {
 
             </View>
             <View style={styles.statistics}>
-                <StatisticButton navigation={navigation} />
+                <StatisticButton navigation={navigation} isFirstDay={isFirstDay}/>
             </View>
     </View>
         </MainContext.Provider>

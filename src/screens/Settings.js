@@ -20,6 +20,8 @@ import {signOut} from "../store/actions/authAction";
 import BottomBanner from "../components/BottomBanner";
 import {getRightFontScale} from "../components/flex";
 import {setIsLimitDisplayed} from "../components/isLimitDisplayed";
+import FirstDayModal from '../modals/FirstDayModal'
+
 
 
 
@@ -45,7 +47,7 @@ export const Settings = ({route, navigation}) => {
 
 
    //Value block
-    const { userId, value, aim } = route.params;
+    const { userId, value, aim, isFirstDay } = route.params;
     const [curValue, setCurValue] = useState(value)
     const toggleValue = () => {
         let newValue = curValue === 'RU' ? 'UA' : 'RU'
@@ -86,12 +88,24 @@ export const Settings = ({route, navigation}) => {
     }
 
 
+    //First day of month block
+    const [modalVisible, setModalVisible] = useState(false)
+    const [isActive, setIsActive] = useState(isFirstDay ? isFirstDay : 0)
+    const [isActiveChanged, setIsActiveChanged] = useState(false)
+
+    const pushIsActive = () => {
+        if (isActive > 0 && isActiveChanged) {
+            firebase.firestore().collection('users').doc(userId).update({ monthStartsFrom: isActive})
+        }
+    }
+
     //Handle go back
     useFocusEffect(
         useCallback(() => {
             const onBackPress = () => {
                 pushLimit()
-                navigation.navigate('Main', {newAim: limit, newValue: value})
+                pushIsActive()
+                navigation.navigate('Main', {newAim: limit, newValue: value, newMonthDay: isActive})
                 return true;
             };
             BackHandler.addEventListener(
@@ -101,14 +115,13 @@ export const Settings = ({route, navigation}) => {
                 BackHandler.removeEventListener(
                     'hardwareBackPress', onBackPress
                 );
-        }, [limit, value])
+        }, [limit, value, isActive])
     );
-
 
 
 return (
     <View style={styles.main}>
-        <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ" aim={limit} value={curValue} pushLimit={pushLimit}/>
+        <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ" aim={limit} value={curValue} pushLimit={pushLimit} pushIsActive={pushIsActive} isActive={isActive} />
 
         <View style={styles.rows}>
             <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
@@ -151,10 +164,29 @@ return (
 
         </View>
 
+        <TouchableOpacity style={styles.rows} onPress={() => {setModalVisible(true)}}>
+
+            <Text style={{...styles.rowText,color: colors.text, fontSize: getRightFontScale(19) }}>{'Месяц начинается с' + ""} </Text>
+
+            <Text style={{...styles.rowText,color: colors.confirm, borderBottomColor: colors.confirm, borderBottomWidth: 1, fontSize: getRightFontScale(20) }}>
+                {isActive === 0 ? '1' : isActive}
+            </Text>
+            <Text style={{...styles.rowText,color: colors.text, fontSize: getRightFontScale(19) }}>
+                { " " + 'дня'}
+            </Text>
+
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.rows} onPress={() => {signOutModalHandler()}}>
 
             <Text style={{...styles.rowText,color: colors.sign, fontSize: getRightFontScale(20) }}>ВЫХОД</Text>
+
         </TouchableOpacity>
+
+    <FirstDayModal setModalVisible={setModalVisible} modalVisible={modalVisible} isActive={isActive} setIsActive={setIsActive} setIsActiveChanged={setIsActiveChanged}/>
+
+
+
 
        <BottomBanner />
     </View>

@@ -45,6 +45,7 @@ const InputModal = props => {
             setEnteredText('')
             setEnteredCost(0)
             setEnteredCat('general')
+            setIsCatSet(false)
         }
         else{
             Alert.alert("Упс!", 'Пожалуйста, введите корректные данные', [
