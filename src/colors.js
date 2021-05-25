@@ -8,12 +8,18 @@ export const defaultColors = {
         education: {color: '#1a237e', icon: "ios-school", name: "Образование"},
         house: {color: '#1b5e20', icon: "ios-home", name: "Дом"},
         hobby: {color: '#880e4f', icon: "ios-color-palette", name: "Хобби"},
-        people: {color: '#01579b', icon: "ios-people", name: "Люди"},
+        people: {color: '#01579b', icon: "ios-people", name: "Семья"},
         health: {color: '#b71c1c', icon: "ios-pulse", name: "Здоровье"},
         transport: {color: '#e65100', icon: "ios-car", name: "Транспорт"},
-        food: {color: '#fbc02d', icon: "ios-cafe", name: "Еда"},
+        utility: {color: '#6D6E71', icon: "build", name: "Быт"},
+        animals: {color: '#F39629', icon: "paw", name: "Животные"},
         entertainment: {color: '#64dd17', icon: "game-controller", name: "Развлечения"},
-        gifts: {color: '#64b5f6', icon: "ios-gift", name: "Подарки"}
+        food: {color: '#fbc02d', icon: "ios-cafe", name: "Еда"},
+        beauty: {color: '#00DC7D', icon: "brush", name: "Красота"},
+        gifts: {color: '#64b5f6', icon: "ios-gift", name: "Подарки"},
+
+
+
 
     },
 

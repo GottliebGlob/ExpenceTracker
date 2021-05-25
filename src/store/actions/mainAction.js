@@ -8,6 +8,7 @@ export const CLEAR = 'CLEAR'
 import { firebase } from '../../firebase/config'
 
 import {NewItem} from "../../NewItem";
+import AsyncStorage from "@react-native-community/async-storage";
 
 
 export const addMain = (NewItem) => {
@@ -39,6 +40,20 @@ export const addMain = (NewItem) => {
                     .catch((error) => {
                         alert(error)
                     });
+
+        const v = await AsyncStorage.getItem('localData')
+        let toPush = []
+
+        if (v !== null) {
+            toPush.push(...JSON.parse(v))
+        }
+
+        toPush.push(data)
+
+        const jsonValue = JSON.stringify(toPush)
+
+        await AsyncStorage.setItem('localData', jsonValue)
+
             }
 }
 
@@ -66,6 +81,10 @@ export const addOnServer = (NewItem) => {
             .catch((error) => {
                 alert(error)
             });
+
+
+
+
     }
 }
 
@@ -79,6 +98,19 @@ export const removeMain = (id) => {
          .catch((error) => {
          alert(error)
      });
+
+        try {
+            const v = await AsyncStorage.getItem('localData')
+            let arrFromJson = []
+            if (v !== null) {
+                arrFromJson.push(...JSON.parse(v))
+                const toPush = arrFromJson.filter(e => e.id !== id)
+                await AsyncStorage.setItem('localData', JSON.stringify(toPush))
+            }
+
+        } catch (e) {
+            console.log('error ' + e)
+        }
     }
 }
 
@@ -107,6 +139,11 @@ export const fetchMain = () => {
                     )
                 )
             })
+        if (loaded.length > 0) {
+            const jsonValue = JSON.stringify(loaded)
+            await AsyncStorage.setItem('localData', jsonValue)
+        }
+
         dispatch({type: SET, payload: loaded})
     }
 };

@@ -7,7 +7,7 @@ import {
     Text,
     StatusBar,
     FlatList,
-    PixelRatio
+    PixelRatio,
 } from 'react-native';
 
 
@@ -37,6 +37,7 @@ const CatModal = props => {
         Выберите категорию
     </Text>
     <FlatList
+        style={{marginBottom: 50}}
         keyExtractor={(item, index) => "" + index}
         data={transformedCats}
         numColumns={3}

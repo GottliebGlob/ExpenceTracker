@@ -8,7 +8,10 @@ export const fetchOffline = () => {
     return async (dispatch) => {
         try {
             const value = await AsyncStorage.getItem('offlineData')
-            data = JSON.parse(value)
+            const local = await AsyncStorage.getItem('localData')
+            const data1 = JSON.parse(value)
+            const data2 = JSON.parse(local)
+            const data = {...data2, ...data1}
             if (data !== null) {
                     Object.values(data).forEach(e => {
                     loaded.push(new NewItem(
@@ -63,8 +66,6 @@ export const addOffline = (value) => {
             const v = await AsyncStorage.getItem('offlineData')
             let toPush = []
 
-
-            console.log('v ' + v)
             if (v !== null) {
                 toPush.push(...JSON.parse(v))
             }

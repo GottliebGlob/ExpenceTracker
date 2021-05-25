@@ -11,20 +11,22 @@ import BottomBanner from "../components/BottomBanner";
 import getRightScale, {getRightFontScale} from "../components/flex";
 import pieChartState from "../components/pieChart";
 import lineChartState from "../components/lineChart";
+import {getRightSignValue} from "../components/getValue";
 
 
 export const Statistics = ({route, navigation}) => {
 
     const { colors } = useTheme();
 
-    const screenWidth = Dimensions.get("window").width;
-    const { data, monthData, value } = route.params;
+    const { data, monthData, value, isFirstDay } = route.params;
 
 
     //Line chart stuff
 
-    const lineLabels = useMemo(() => data.map(e => moment(e.date).month()).filter((v, i, a) => a.indexOf(v) === i ).map(e => moment().month(e).format('MMMM')).reverse().slice(-6), [data])
-    const linePrices = useMemo(() => lineChartState(data), [data])
+    console.log('isFirstDay ' + isFirstDay)
+
+    const linePrices = useMemo(() => lineChartState(data, isFirstDay), [data, isFirstDay])
+    const lineLabels = useMemo(() => data.map(e => moment(e.date).month()).filter((v, i, a) => a.indexOf(v) === i ).map(e => moment().month(e).format('MMMM')).reverse().slice(0, linePrices.length), [data, linePrices])
 
     const dataLine = {
         labels: lineLabels,
@@ -73,7 +75,7 @@ export const Statistics = ({route, navigation}) => {
         <View style={styles.main}>
             <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
             <ScrollView style={{ paddingLeft: '5%', }}>
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 20, marginBottom: 10}}>
                 <Text style={{...styles.headersText, color: colors.text, fontSize: getRightFontScale(17)}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
                 </Text>
@@ -84,7 +86,7 @@ export const Statistics = ({route, navigation}) => {
                 width={Dimensions.get('window').width - Dimensions.get('window').width * 0.1}
                 height={getRightScale(300, 100)}
                 chartConfig={chartConfig}
-                yAxisSuffix={value === 'RU' ? ' р. ' : ' грн. '}
+                yAxisSuffix={getRightSignValue(value)}
                 yLabelsOffset={3}
 
             />

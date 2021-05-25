@@ -6,6 +6,7 @@ import {useTheme} from "@react-navigation/native";
 import {MainContext} from "./mainContext";
 import {getRightFontScale} from "./flex";
 import {Ionicons} from "@expo/vector-icons";
+import {getRightSignValue} from "./getValue";
 
 
 const AimInfo = props => {
@@ -87,9 +88,12 @@ if (aim === 0) {
             </Text>
 
             <Text style={getTextColor()}>
-                {`${Math.round(moneyLeft* 100)/100} ${value === 'RU' ? ' р. ' : ' грн. '}`}
+                {`${Math.round(moneyLeft* 100)/100} ${getRightSignValue(value)}`}
             </Text>
-                <Ionicons name='close' size={20} color={colors.text} style={styles.icon} onPress={cancelHandler}/>
+                {
+                    props.whereIsCalled === 'main' ?  <Ionicons name='close' size={20} color={colors.text} style={styles.icon} onPress={cancelHandler}/> : null
+                }
+
             </View>
             <ProgressBar
                 progress={bar}

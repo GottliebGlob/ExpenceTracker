@@ -21,6 +21,8 @@ import BottomBanner from "../components/BottomBanner";
 import {getRightFontScale} from "../components/flex";
 import {setIsLimitDisplayed} from "../components/isLimitDisplayed";
 import FirstDayModal from '../modals/FirstDayModal'
+import ValueModal from "../modals/ValueModal";
+import {getRightTextValue, getRightSignValue} from "../components/getValue";
 
 
 
@@ -49,10 +51,11 @@ export const Settings = ({route, navigation}) => {
    //Value block
     const { userId, value, aim, isFirstDay } = route.params;
     const [curValue, setCurValue] = useState(value)
-    const toggleValue = () => {
-        let newValue = curValue === 'RU' ? 'UA' : 'RU'
+    const [valueModalVisible, setValueModalVisible] = useState(false)
+    const toggleValue = (newValue) => {
         setCurValue(newValue)
         firebase.firestore().collection('users').doc(userId).update({value: newValue})
+         AsyncStorage.setItem('Value', newValue)
     }
 
 
@@ -65,6 +68,7 @@ export const Settings = ({route, navigation}) => {
         if (limit !== aim) {
             setIsLimitDisplayed(true)
             firebase.firestore().collection('users').doc(userId).update({aim: limit})
+            AsyncStorage.setItem('Limit', JSON.stringify(limit))
         }
 
     }
@@ -94,8 +98,12 @@ export const Settings = ({route, navigation}) => {
     const [isActiveChanged, setIsActiveChanged] = useState(false)
 
     const pushIsActive = () => {
+        if (isActive === 0) {
+            AsyncStorage.setItem('MonthStartsFrom', JSON.stringify(0))
+        }
         if (isActive > 0 && isActiveChanged) {
             firebase.firestore().collection('users').doc(userId).update({ monthStartsFrom: isActive})
+            AsyncStorage.setItem('MonthStartsFrom', JSON.stringify(isActive))
         }
     }
 
@@ -140,11 +148,13 @@ return (
             <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
                 Предпочитаемая валюта:
             </Text>
-            <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.confirm}} onPress={toggleValue}>
+            <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.confirm}} onPress={() => setValueModalVisible(true)}>
                 <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
-                    {curValue === 'RU' ? ' руб. \u20BD' : ' грн. \u20B4'}
+                    {" " + getRightTextValue(curValue) + " " + getRightSignValue(curValue)}
                 </Text>
             </TouchableOpacity>
+            <ValueModal toggleValue={toggleValue} valueModalVisible={valueModalVisible} setValueModalVisible={setValueModalVisible} curValue={curValue} />
+
         </View>
 
         <View style={styles.rows}>

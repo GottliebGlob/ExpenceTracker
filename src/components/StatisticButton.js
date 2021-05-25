@@ -12,9 +12,10 @@ const StatisticButton = props => {
     const { colors } = useTheme();
 
 
+
     return (
         <View style={{...styles.button, height: getRightScale(80, 30)}}>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: lastMonthSpends, value: value})} style={styles.container1}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: lastMonthSpends, value: value, isFirstDay: props.isFirstDay})} style={styles.container1}>
                 <Text style={{...styles.text, color: colors.headertext, fontSize: getRightFontScale(18)}}>СТАТИСТИКА</Text>
                 <Ionicons name='stats-chart' size={25 / PixelRatio.getFontScale()} style={{paddingLeft: 15, paddingVertical: 2, color: colors.headertext}}/>
             </TouchableOpacity>

@@ -1,35 +1,48 @@
 import React from 'react'
+import moment from 'moment';
 
 
-const lineChartState = (data) => {
+const lineChartState = (data, isFirstDay) => {
 
-    const linePrices = [];
+    const newPrices = []
 
-    const summedUpDates = [];
 
-    const isDateSummedUp = (date) => {
-        return summedUpDates.indexOf(date.substring(0, 7)) !== -1;
-    }
 
-    const sumUpDate = (date) => {
-        let sum = 0;
 
-        data.forEach(t => {
-            if(t.date.substring(0, 7) === date.substring(0, 7)) {
-                sum += parseInt(t.cost);
-            }
-        });
-        summedUpDates.push(date.substring(0, 7));
-        linePrices.push(sum);
-    }
+    const newSum = () => {
 
-    data.forEach(t => {
-        if(!isDateSummedUp(t.date)) {
-            sumUpDate(t.date);
+        let local  = 0;
+        let dayX = moment(data[data.length-1].date).set('date', isFirstDay).set('hour', 0)
+
+
+        for (let i = data.length-1; i>=0 ; i--) {
+              let t = data[i]
+
+                if (moment(t.date) < dayX) {
+
+                    local += parseInt(t.cost);
+
+                    if (data.indexOf(t) === 0) {
+                        newPrices.push(local)
+                        local = 0
+                        dayX = moment(data[0].date).set('date', isFirstDay)
+                    }
+                } else {
+                    if (local > 0) {
+                        newPrices.push(local)
+                    }
+
+                    local = parseInt(t.cost)
+                    dayX.add(1, 'month')
+                }
+
         }
-    });
+    }
 
-    return linePrices.reverse().slice(-6)
+    newSum()
+
+
+    return newPrices.slice(-6)
 }
 
 export default lineChartState

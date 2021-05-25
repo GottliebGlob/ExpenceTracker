@@ -68,9 +68,11 @@ const AuthInput = props => {
                     onChangeText={inputHandler}
                     onBlur={lostFocusHandler}
                     secureTextEntry={isPassword}
-                    keyboardType="default"
+                    keyboardType="visible-password"
                     autoCapitalize="none"
                     returnKeyType="next"
+
+
 
 
                 />
@@ -88,9 +90,10 @@ const AuthInput = props => {
                     style={{...styles.input, borderBottomColor: colors.accent, color: colors.text}}
                     onChangeText={inputHandler}
                     onBlur={lostFocusHandler}
-                    keyboardType="default"
+                    keyboardType="visible-password"
                     autoCapitalize="none"
                     returnKeyType="next"
+                    autoCompleteType='off'
 
                 />
             ) }

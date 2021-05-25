@@ -5,6 +5,7 @@ import 'moment/locale/ru'
 import moment from 'moment';
 import {useTheme} from "@react-navigation/native";
 import getRightScale, {getRightFontScale} from "../components/flex";
+import {getRightSignValue} from "./getValue";
 
 const Item = props => {
     const { colors } = useTheme();
@@ -16,7 +17,7 @@ const Item = props => {
     const getRightWidth = () => {
         let textMargin = props.flatInfo ? props.montMaxNumber : props.maxNumber
 
-        return { width:  (textMargin + (props.value === 'RU' ? 3 : 4.5) ) * 13};
+        return { width:  (textMargin + 2.8 ) * 13};
     }
 
 
@@ -35,7 +36,7 @@ const Item = props => {
             <Text style={{...styles.cost, color: colors.text,
             fontSize: getRightFontScale(17)
             }}>
-                {`${props.cost} ${props.value === 'RU' ? ' р. ' : props.value === '' ? '' :  ' грн. '}`}
+                {`${props.cost} ${getRightSignValue(props.value)}`}
             </Text>
                 </View>
                     </View>

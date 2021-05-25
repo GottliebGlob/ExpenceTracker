@@ -50,6 +50,15 @@ const RenderIcon = props => {
         case 'gifts': return (
             <Ionicons name='ios-gift' size={props.style ? 40 : 28} color={props.style ? defaultColors.white : defaultColors.cats.gifts.color} />
         )
+        case 'utility': return (
+            <Ionicons name='build' size={props.style ? 40 : 28} color={props.style ? defaultColors.white : defaultColors.cats.utility.color} />
+        )
+        case 'animals': return (
+            <Ionicons name='paw' size={props.style ? 40 : 28} color={props.style ? defaultColors.white : defaultColors.cats.animals.color} />
+        )
+        case 'beauty': return (
+            <Ionicons name='brush' size={props.style ? 40 : 28} color={props.style ? defaultColors.white : defaultColors.cats.beauty.color} />
+        )
         default: break;}
 }
 

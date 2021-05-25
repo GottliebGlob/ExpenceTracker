@@ -3,23 +3,23 @@ import {PixelRatio, StyleSheet, Text, View} from 'react-native';
 
 
 const Quote = (theme) => {
-    const [selectedQuote, setSelectedQuote] = useState({name: "name", quote: 'quote'})
+    const [selectedQuote, setSelectedQuote] = useState({name: "name"})
 
     const mainArray = [
-        {name: 'Томас Джефферсон', quote: 'Никогда не тратьте еще не заработанные деньги'},
-        {name: 'Марлен Дитрих', quote: 'Существует огромная разница между тем, кто заработал много денег и тем, кто богат'},
-        {name: 'Джим Рон', quote: 'Нельзя гоняться за деньгами — нужно идти им на встречу'},
-        {name: 'Джо Мур', quote: 'Сложно выучить простой факт: откладывать деньги следует тогда, когда они есть'},
-        {name: 'Джеймс Фрик', quote: 'Не говорите мне, каковы ваши жизненные приоритеты. Покажите, на что вы тратите деньги, и я сам расскажу вам о них'},
-        {name: 'Бенджамин Франклин', quote: 'Если хотите стать богатым, думайте о сбережениях как о заработке'},
-        {name: 'Фрэнк Кларк', quote: 'Многие люди думают, что не умеют зарабатывать, хотя на самом деле они не умеют тратить'},
-        {name: 'Айн Рэнд', quote: 'Деньги — лишь средство. Они приведут вас, куда захотите, но направление пути вы должны выбирать сами'},
-        {name: 'Финеас Тейлор Барнум', quote: 'Деньги — хороший слуга, но плохой господин'},
-        {name: 'Дейв Рэмси', quote: 'Контролируйте свои финансы, или их нехватка будет контролировать вас'},
-        {name: 'Джонатан Свифт', quote: 'У мудрого человека деньги должны быть в голове, а не в сердце'},
-        {name: 'Уилл Роджерс', quote: 'Самый быстрый способ удвоить деньги — сложить их пополам и убрать в карман'},
-        {name: 'Эпиктет', quote: 'Богатство приносит не большое состояние, а скромные потребности'},
-        {name: 'Бенджамин Франклин', quote: 'Самые лучшие инвестиции — в знания'},
+        {name: "Считам ваши деньги..."},
+        {name: 'Рисуем статистику...'},
+        {name: 'Загружаем траты...'},
+        {name: 'Получаем данные...'},
+        {name: 'Вычисляем значения...'},
+        {name: 'Что-то там делаем...'},
+        {name: 'Загружаем настройки...'},
+        {name: 'Красим фон...'},
+        {name: 'Проверяем данные...'},
+        {name: 'Расшифровываем данные...'},
+        {name: 'Соединяемся с сервером...'},
+        {name: 'Синхронизируемся...'},
+        {name: 'Готовимся к вашему прибытию...'},
+        {name: "Настраивам все необходимое..."},
         ]
 
     const getRandomQuote = () => {
@@ -35,16 +35,13 @@ const Quote = (theme) => {
 
 
     const textColor = theme.theme === 'dark' ? '#dadada' : '#000'
-    const nameColor = theme.theme === 'dark' ? '#3e546a' : '#4B515D'
+
 
     return (
-        <View>
+        <View style={{paddingVertical: 50}}>
 <Text style={{...styles.text, color: textColor, fontSize: 20 / PixelRatio.getFontScale()}}>
-    {selectedQuote ? selectedQuote.quote : 'Самые лучшие инвестиции — в знания'}
+    {selectedQuote ? selectedQuote.name : 'Загружаемся...'}
 </Text>
-            <Text style={{...styles.text, textAlign: 'right', paddingVertical: 20, fontStyle: 'italic', color: nameColor, fontSize:  20 / PixelRatio.getFontScale()}}>
-                {selectedQuote ? selectedQuote.name : 'Бенджамин Франклин'}
-            </Text>
         </View>
     )
 }

@@ -40,7 +40,7 @@ const InputModal = props => {
     };
 
     const confirmHandler = () => {
-        if (enteredText.trim().length >= 3 && enteredCost < 100000 && enteredCost >= 1 && enteredCost.match(/[+-]?([0-9]*[.])?[0-9]+/) &&  String(enteredCost).length < 7 && enteredText.trim().length <= 25) {
+        if (enteredText.trim().length >= 3 && enteredCost < 100000 && enteredCost >= 1 && enteredCost.match(/[+-]?([0-9]*[.])?[0-9]+/) &&  String(enteredCost).length < 7 && enteredText.trim().length <= 35) {
             props.onMainStateChange(enteredText, Math.round(parseFloat(String(enteredCost)) * 100) / 100, enteredCat)
             setEnteredText('')
             setEnteredCost(0)
@@ -104,7 +104,7 @@ const InputModal = props => {
                     style={{...styles.input, borderBottomColor: colors.sign, color: colors.text,}}
                     onChangeText={InputHandler}
                     value={enteredText}
-                    maxLenth={25}
+                    maxLenth={35}
                     blurOnSubmit
                 />
                 <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Введите сумму траты: </Text>

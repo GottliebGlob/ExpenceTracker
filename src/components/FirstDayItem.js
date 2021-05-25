@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio} from "react-native"
 import {useTheme} from "@react-navigation/native";
 

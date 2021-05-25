@@ -31,9 +31,10 @@ import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
 import {useNetInfo} from "@react-native-community/netinfo";
 import {isLimitDisplayed, setIsLimitDisplayed} from "../components/isLimitDisplayed";
-
+import {getRightTextValue} from "../components/getValue";
 import {MainContext} from "../components/mainContext";
-import {Ionicons} from "@expo/vector-icons";
+import AsyncStorage from "@react-native-community/async-storage";
+import {SpendsSwitch} from "../components/SpendsSwitch";
 
 
 export const MainScreen = ({route, navigation}) => {
@@ -73,7 +74,7 @@ export const MainScreen = ({route, navigation}) => {
         () => {
             if (route.params) {
                 const { newAim, newValue, newMonthDay } = route.params;
-                if (newValue === "RU" || newValue === 'UA') {
+                if (newValue === "RU" || newValue === 'UA' || newValue === 'US' || newValue === 'EU') {
                     setValue(newValue)
                 }
                 if (newAim !== 0) {
@@ -108,6 +109,12 @@ export const MainScreen = ({route, navigation}) => {
         }
     }
 
+    const pushOffline = async (value, aim, day) => {
+        await AsyncStorage.setItem('Value', value)
+        await AsyncStorage.setItem('Limit', aim)
+        await AsyncStorage.setItem('MonthStartsFrom', JSON.stringify(day))
+    }
+
     //Limit displaying
     const [shouldDisplayAim, setShouldDisplayAim] = useState(false)
     const [isLimitsLoaded, setIsLimitsLoaded] = useState(false)
@@ -123,6 +130,7 @@ export const MainScreen = ({route, navigation}) => {
         setIsLimitDisplayed(false)
         setShouldDisplayAim(false)
         firebase.firestore().collection('users').doc(userId).update({aim: 0})
+        AsyncStorage.setItem('Limit', JSON.stringify(0))
         setAim(0)
     }
 
@@ -148,6 +156,7 @@ export const MainScreen = ({route, navigation}) => {
                     setValue(data.value)
                     setAim(data.aim)
                     setIsFirstDay(data.monthStartsFrom)
+                    pushOffline(data.value, data.aim, data.monthStartsFrom)
                 }
             });
         }, [user]);
@@ -206,7 +215,7 @@ export const MainScreen = ({route, navigation}) => {
 
 
 
-
+let val = getRightTextValue(value)
 
     if (isLoading && !isLimitsLoaded) {
 
@@ -223,32 +232,14 @@ export const MainScreen = ({route, navigation}) => {
         >
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends} text={"Спасибо, что решили принять участие в тестировании! Чтобы добавить трату нажмите на кнопку \"Добавить\", чтобы удалить- нажмите на трату и удерживайте."}/>
+            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends} text={"Добро пожаловать! Чтобы добавить трату нажмите на кнопку \"Добавить\", чтобы удалить- нажмите на трату и удерживайте."}/>
     <Header navigation={navigation} name={name}/>
             {
-                shouldDisplayAim ?  <AimInfo navigation={navigation} handleLimit={handleLimit}/> : null
+                shouldDisplayAim ?  <AimInfo navigation={navigation} handleLimit={handleLimit} whereIsCalled='main'/> : null
             }
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
-                        {
-                            allSpends.length > 0 ? (
-                                    <View style={styles.mainContent}>
-                                    <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачено зa</Text>
-                                <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.confirm}} onPress={() => setFlatInfo(!flatInfo)}>
-                                    <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.text}}>{` ${flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
-                                </TouchableOpacity>
-                            <Text style={{...styles.text, fontSize: getRightFontScale(22), color: '#02a602'}}>
-                        {((!flatInfo) ? sortedAllSpends : lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
-                        {value === 'RU' ? ' р. ' : ' грн. '}
-                            </Text>
-                                    </View>
-                            ) :
-                            (
-                                <View style={styles.mainContent}>
-                            <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> У вас пока нет трат</Text>
-                                </View>
-                            )
-                        }
+                       <SpendsSwitch allSpends={sortedAllSpends} lastMonthSpends={lastMonthSpends} flatInfo={flatInfo} setFlatInfo={setFlatInfo} value={val}/>
             <AddButton show={showModalHandler}/>
                 </View>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={true}/>
@@ -306,14 +297,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    flatInfo: {
-        borderBottomWidth: 2,
-        height: 45,
-        flexDirection: 'row'
-    },
-    flatInfoText: {
-        paddingTop: 10,
-        fontSize: 20,
-        fontFamily: 'open-sans-bold'
-    }
+
 })
