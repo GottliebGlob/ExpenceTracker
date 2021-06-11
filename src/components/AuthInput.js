@@ -68,7 +68,6 @@ const AuthInput = props => {
                     onChangeText={inputHandler}
                     onBlur={lostFocusHandler}
                     secureTextEntry={isPassword}
-                    keyboardType="visible-password"
                     autoCapitalize="none"
                     returnKeyType="next"
 
