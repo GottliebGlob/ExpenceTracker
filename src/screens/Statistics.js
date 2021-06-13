@@ -10,7 +10,7 @@ import AsideHeader from "../components/AsideHeader";
 import BottomBanner from "../components/BottomBanner";
 import getRightScale, {getRightFontScale} from "../components/flex";
 import pieChartState from "../components/pieChart";
-import lineChartState from "../components/lineChart";
+import {lineChartState, lineChartLabels} from "../components/lineChart";
 import {getRightSignValue} from "../components/getValue";
 
 
@@ -23,10 +23,9 @@ export const Statistics = ({route, navigation}) => {
 
     //Line chart stuff
 
-    console.log('isFirstDay ' + isFirstDay)
-
     const linePrices = useMemo(() => lineChartState(data, isFirstDay), [data, isFirstDay])
-    const lineLabels = useMemo(() => data.map(e => moment(e.date).month()).filter((v, i, a) => a.indexOf(v) === i ).map(e => moment().month(e).format('MMMM')).reverse().slice(0, linePrices.length), [data, linePrices])
+    const lineLabels = useMemo(() =>  lineChartLabels(data, isFirstDay), [data, linePrices])
+
 
     const dataLine = {
         labels: lineLabels,

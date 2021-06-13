@@ -25,7 +25,6 @@ import InputModal from "../modals/InputModal"
 import { useTheme} from '@react-navigation/native';
 import moment from 'moment';
 
-import {getRightFontScale} from "../components/flex";
 import checkIfFirstLaunch from '../components/firstLaunchHandler'
 import {FirstLaunchModal} from "../modals/FirstLaunchModal";
 import {asyncStoreCheck} from "../asyncStoreCheck";
@@ -55,7 +54,7 @@ export const MainScreen = ({route, navigation}) => {
     const userId = user.uid
 
     const isOver = () => {
-        const bool = moment() < moment().set('date', isFirstDay)
+        const bool = moment() <= moment().set('date', isFirstDay)
         return bool ? moment().set('date', isFirstDay).subtract(1, 'months') : moment().set('date', isFirstDay)
     }
 
@@ -240,9 +239,12 @@ let val = getRightTextValue(value)
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
                 <View style={{paddingHorizontal: '5%'}}>
                        <SpendsSwitch allSpends={sortedAllSpends} lastMonthSpends={lastMonthSpends} flatInfo={flatInfo} setFlatInfo={setFlatInfo} value={val}/>
-            <AddButton show={showModalHandler}/>
+
                 </View>
+                <AddButton show={showModalHandler}/>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={true}/>
+                <View style={{height: 5}}>
+                </View>
                 <FlatList
 
                     keyExtractor={(item, index) => item.id}
@@ -275,7 +277,7 @@ let val = getRightTextValue(value)
 
 const styles = StyleSheet.create({
     wrapper: {
-        alignItems: 'flex-start',
+
         flex: 1
     },
     text: {

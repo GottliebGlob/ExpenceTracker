@@ -9,7 +9,7 @@ const AddButton = props => {
     const { colors } = useTheme();
 
     return (
-        <View style={{justifyContent: "center", paddingTop: 15, alignItems: 'center', width: Dimensions.get('window').width * 0.9}}>
+        <View style={{justifyContent: "center", paddingTop: 15, alignItems: 'center', width: Dimensions.get('window').width * 0.95, marginLeft: Dimensions.get('window').width * 0.025}}>
         <TouchableOpacity style={{...styles.button, borderColor: colors.text, marginBottom: getRightScale(1, 8), width: '100%'}} onPress={() => props.show()}>
             <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(17)}}>ДОБАВИТЬ</Text>
             <Ionicons name='ios-add' size={30} style={{paddingRight: 5, paddingVertical: 2, color: colors.text}}/>
@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+
     },
     text: {
         paddingLeft: 10,

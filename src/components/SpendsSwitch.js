@@ -20,11 +20,11 @@ export const SpendsSwitch = (props) => {
     return (
         props.allSpends.length > 0 ? (
                 <View style={styles.mainContent}>
-                    <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> Потрачено зa</Text>
+                    <Text style={{...styles.text, fontSize: getRightFontScale(21), color: colors.text}}> Потрачено зa</Text>
                     <TouchableOpacity style={{...styles.flatInfo,  borderBottomColor: colors.confirm}} onPress={() => props.setFlatInfo(!props.flatInfo)}>
-                        <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(22), color: colors.text}}>{` ${props.flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
+                        <Text style={{...styles.flatInfoText, fontSize: getRightFontScale(21), color: colors.text}}>{` ${props.flatInfo ? 'месяц: ' : 'все время: ' }`}</Text>
                     </TouchableOpacity>
-                    <Text style={{...styles.text, fontSize: getRightFontScale(22), color: '#02a602'}}>
+                    <Text style={{...styles.text, fontSize: getRightFontScale(21), color: '#02a602'}}>
                         {((! props.flatInfo) ?  props.allSpends :  props.lastMonthSpends).map(e => Number(e.cost)).reduce((t, a) => t + a, 0)}
                         {" " + props.value}
                     </Text>
@@ -32,7 +32,7 @@ export const SpendsSwitch = (props) => {
             ) :
             (
                 <View style={styles.mainContent}>
-                    <Text style={{...styles.text, fontSize: getRightFontScale(22), color: colors.text}}> У вас пока нет трат</Text>
+                    <Text style={{...styles.text, fontSize: getRightFontScale(21), color: colors.text}}> У вас пока нет трат</Text>
                 </View>
             )
     )

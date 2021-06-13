@@ -66,7 +66,7 @@ const AimInfo = props => {
 if (aim === 0) {
     return (
         <View style={{flexDirection: 'row', width: '100%'}}>
-            <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
+            <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary, marginLeft: Dimensions.get('window').width * 0.025,}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
 
                 <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(18)}}>
                    У вас пока нет лимита. Установить?
@@ -80,7 +80,7 @@ if (aim === 0) {
 
     return (
         <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary}}>
+        <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary, paddingHorizontal: Dimensions.get('window').width * 0.025}}>
             <View style={{flexDirection: 'row', width: '100%'}}>
 
             <Text style={{ fontFamily: 'open-sans-bold', fontSize: getRightFontScale(20), color: colors.text}}>
@@ -97,7 +97,7 @@ if (aim === 0) {
             </View>
             <ProgressBar
                 progress={bar}
-                width={Dimensions.get('window').width - Dimensions.get('window').width * 0.1 }
+                width={Dimensions.get('window').width * 0.95 }
                 height={12}
                 color={isLimitReached ? colors.error : colors.text}
                 borderRadius={2}
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
 
     },
     container: {
-        paddingHorizontal: '5%',
+
         width: '100%',
         alignItems: 'flex-start',
         justifyContent: 'space-around',

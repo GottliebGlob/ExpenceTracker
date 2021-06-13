@@ -27,7 +27,7 @@ const Item = props => {
     return (
         <TouchableOpacity
         onLongPress={props.removeHandler.bind(this, props.id)}>
-        <View style={{...styles.wrapper, height: getRightScale(80, 35), borderBottomColor: colors.accent, }}>
+        <View style={{...styles.wrapper, height: getRightScale(80, 32), marginLeft: Dimensions.get('window').width * 0.025, width: Dimensions.get('window').width * 0.95, backgroundColor: colors.accent, borderColor: colors.border}}>
             <View style={styles.include}>
                 <View style={{flexDirection: 'column'}}>
                     <View style={{flexDirection: 'row'}}>
@@ -58,14 +58,13 @@ const Item = props => {
 
 const styles = StyleSheet.create({
     wrapper: {
-
-            width: '100%',
-            alignItems: 'flex-end',
+            marginBottom: 10,
+            alignItems: 'center',
             flexDirection: 'row',
             justifyContent: 'space-around',
-            borderBottomWidth: 2,
-            paddingBottom: 3,
-            height: 70,
+            borderRadius: 5,
+            height: 60,
+        borderWidth: 1
     },
     text: {
         fontSize: 18,
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
 
     },
     include: {
-        width: '90%',
+        width: '95%',
         flexDirection: 'row',
         alignItems: 'flex-end',
     },

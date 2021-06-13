@@ -6,7 +6,7 @@ import {
     FlatList,
     Alert,
     StatusBar,
-    PixelRatio, TouchableOpacity
+    PixelRatio, TouchableOpacity, Dimensions
 } from 'react-native'
 import {Ionicons} from "@expo/vector-icons";
 import {useTheme} from "@react-navigation/native";
@@ -48,7 +48,7 @@ export const OfflineScreen = ({navigation}) => {
     const [flatInfo, setFlatInfo] = useState(true)
 
     const isOver = () => {
-        const bool = moment() < moment().set('date', monthStartsFrom)
+        const bool = moment() <= moment().set('date', monthStartsFrom)
         return bool ? moment().set('date', monthStartsFrom).subtract(1, 'months') : moment().set('date', monthStartsFrom)
     }
 
@@ -176,7 +176,9 @@ export const OfflineScreen = ({navigation}) => {
                           removeHandler={removeHandler}/>
                 )}
             />
+            <View style={{height: Dimensions.get('window').height * 0.07}}>
 
+            </View>
 
             <View style={styles.statistics}>
                 <View style={{...styles.button, height: getRightScale(80, 30)}}>
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'flex-start',
-        paddingHorizontal: '5%'
+
     },
     statistics: {
         width: '100%', position:'absolute', bottom: 0, flex: .1,
