@@ -1,18 +1,18 @@
 import React, {useState, useEffect, useMemo} from 'react'
 import {
     View,
-    Text,
+    Easing,
     StyleSheet,
     FlatList,
     Alert,
     StatusBar,
     ActivityIndicator,
-    TouchableOpacity,
+    Animated,
     Dimensions
 } from 'react-native'
 //Redux
 import {useDispatch, useSelector} from "react-redux";
-import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
+import {addMain, removeMain, fetchMain, toggleLoader, PREFS, PREFS_DONE} from "../store/actions/mainAction";
 import { firebase } from '../firebase/config'
 //Components
 import Header from "../components/Header";
@@ -34,21 +34,19 @@ import {getRightTextValue} from "../components/getValue";
 import {MainContext} from "../components/mainContext";
 import AsyncStorage from "@react-native-community/async-storage";
 import {SpendsSwitch} from "../components/SpendsSwitch";
+import {toggleTheme} from "../store/actions/themeAction";
 
 
 export const MainScreen = ({route, navigation}) => {
 
     const { colors } = useTheme();
-    const [isLoading, setIsLoading]= useState(true)
     const dispatch = useDispatch()
-
-
 
 
     //Local state for firestore requests
     const [name, setName] = useState('')
     const [value, setValue] = useState('')
-    const [aim, setAim] = useState(0)
+    const [aim, setAim] = useState(null)
     const [isFirstDay, setIsFirstDay] = useState(0)
     const user = firebase.auth().currentUser;
     const userId = user.uid
@@ -59,6 +57,7 @@ export const MainScreen = ({route, navigation}) => {
     }
 
     //Data getters
+    const {spendsDone} = useSelector(state => state.load)
     const allSpends = useSelector(state => state.main.main)
     const sortedAllSpends  = useMemo(() => allSpends.sort((a,b) => moment(b.date).format('YYYYMMDD') - moment(a.date).format('YYYYMMDD')), [allSpends])
     const lastMonthSpends = useMemo(() => sortedAllSpends.filter(e => moment(e.date) >= isOver()), [allSpends, isFirstDay])
@@ -116,13 +115,11 @@ export const MainScreen = ({route, navigation}) => {
 
     //Limit displaying
     const [shouldDisplayAim, setShouldDisplayAim] = useState(false)
-    const [isLimitsLoaded, setIsLimitsLoaded] = useState(false)
 
     const limitCheck = (isDisplayed) => {
         if (isDisplayed === null || isDisplayed === 'true') {
             setShouldDisplayAim(true)
         }
-        setIsLimitsLoaded(true)
     }
 
     const handleLimit = () => {
@@ -136,7 +133,6 @@ export const MainScreen = ({route, navigation}) => {
 
     //Fetching user data
     useEffect(() => {
-
         //Check for the first visit
         isItFirst()
 
@@ -148,7 +144,6 @@ export const MainScreen = ({route, navigation}) => {
 
         //Preferences fetching
             firebase.firestore().collection('users').doc(userId).get().then((documentSnapshot) => {
-               setIsLoading(false)
                 if (documentSnapshot.exists) {
                     const data = documentSnapshot.data()
                     setName(data.name)
@@ -157,7 +152,8 @@ export const MainScreen = ({route, navigation}) => {
                     setIsFirstDay(data.monthStartsFrom)
                     pushOffline(data.value, data.aim, data.monthStartsFrom)
                 }
-            });
+            }
+            )
         }, [user]);
 
 
@@ -213,17 +209,8 @@ export const MainScreen = ({route, navigation}) => {
 
 
 
-
 let val = getRightTextValue(value)
 
-    if (isLoading && !isLimitsLoaded) {
-
-        return <View style={styles.load}>
-            <View>
-            <ActivityIndicator size='large' color={colors.dark}/>
-        </View>
-        </View>
-    }
 
     return(
         <MainContext.Provider
@@ -237,10 +224,12 @@ let val = getRightTextValue(value)
                 shouldDisplayAim ?  <AimInfo navigation={navigation} handleLimit={handleLimit} whereIsCalled='main'/> : null
             }
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
-                <View style={{paddingHorizontal: '5%'}}>
-                       <SpendsSwitch allSpends={sortedAllSpends} lastMonthSpends={lastMonthSpends} flatInfo={flatInfo} setFlatInfo={setFlatInfo} value={val}/>
 
-                </View>
+                  <View style={{paddingHorizontal: '5%'}}>
+                        <SpendsSwitch allSpends={sortedAllSpends} lastMonthSpends={lastMonthSpends} flatInfo={flatInfo} setFlatInfo={setFlatInfo} value={val} isLoading={spendsDone}/>
+                    </View>
+
+
                 <AddButton show={showModalHandler}/>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={true}/>
                 <View style={{height: 5}}>
@@ -277,8 +266,13 @@ let val = getRightTextValue(value)
 
 const styles = StyleSheet.create({
     wrapper: {
-
         flex: 1
+    },
+    blur: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     text: {
         paddingTop: 10,

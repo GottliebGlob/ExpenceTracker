@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert, PixelRatio} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert, PixelRatio, Image} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 import TextAvatar from "react-native-text-avatar";
 import {signOut} from "../store/actions/authAction";
@@ -33,7 +33,12 @@ const Header = props => {
     return (
     <View style={styles.wrapper}>
 <View style={styles.container}>
-    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale()}}>Spender 1.2.4 </Text>
+
+    <Image
+    style={styles.image}
+    source={require('../../assets/trans-icon.png')}
+    />
+    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale()}}>Spender 1.2.6 </Text>
 </View>
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 
@@ -65,7 +70,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '100%'
     },
-
+    image: {
+        width: 50,
+        height: 50,
+        borderColor: 'black',
+        borderRadius: 25,
+        borderWidth: 6,
+        marginRight: 5
+}
 });
 
 export default Header;

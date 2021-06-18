@@ -55,12 +55,12 @@ export const Statistics = ({route, navigation}) => {
                    <AsideHeader navigation={navigation} placeholder="СТАТИСТИКА"/>
                 <View style={styles.screen}>
                     <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
-                <Text style={{...styles.h1text, color: colors.text}}>
+                <Text style={{...styles.h1text, color: colors.text, textAlign: 'center'}}>
                     Увы, пока нечего вам показать!
                 </Text>
                     <View style={{height: '5%'}}>
                     </View>
-                <Text style={{...styles.h2text,  color: colors.text}}>
+                <Text style={{...styles.h2text,  color: colors.text, textAlign: 'center'}}>
                     попробуйте добавить хотя бы одну трату
                 </Text>
 
@@ -73,8 +73,8 @@ export const Statistics = ({route, navigation}) => {
     return(
         <View style={styles.main}>
             <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
-            <ScrollView style={{ paddingLeft: '5%', }}>
-            <View style={{marginTop: 20, marginBottom: 10}}>
+            <ScrollView style={{ paddingHorizontal: '2.5%'}}>
+            <View style={{marginTop: 20, marginBottom: 10, alignItems: 'center', paddingBottom: 10, marginRight: '5%'}}>
                 <Text style={{...styles.headersText, color: colors.text, fontSize: getRightFontScale(17)}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
                 </Text>
@@ -90,15 +90,15 @@ export const Statistics = ({route, navigation}) => {
 
             />
 
-            <View style={{marginTop: 10}}>
+            <View style={{marginTop: 15, alignItems: 'center', marginRight: '5%'}}>
                 <Text style={{...styles.headersText, color: colors.text, fontSize: getRightFontScale(17)}}>
                     ТРАТЫ ЗА ПОСЛЕДНИЙ МЕСЯЦ
                 </Text>
             </View>
             { !monthlySpends.length > 0 ?
-                <View style={{alignItems: 'center', justifyContent: 'flex-start', flex: 1, }}>
+                <View style={{alignItems: 'center', justifyContent: 'center', flex: 1, marginRight: '5%'}}>
                     <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
-                    <Text style={{...styles.headersText, color: colors.text}}>
+                    <Text style={{...styles.headersText, color: colors.text, textAlign: 'center'}}>
                         Увы, в этом месяце пока не было трат!
                     </Text>
                     <View style={{height: '5%'}}>
@@ -120,7 +120,7 @@ export const Statistics = ({route, navigation}) => {
                 </View>
             }
 
-                <View style={{marginTop: 10}}>
+                <View style={{marginTop: 15, alignItems: 'center', marginRight: '5%'}}>
                     <Text style={{...styles.headersText, color: colors.text, fontSize: getRightFontScale(17)}}>
                         ТРАТЫ ЗА ВСЕ ВРЕМЯ
                     </Text>

@@ -38,7 +38,7 @@ const Quote = (theme) => {
 
 
     return (
-        <View style={{paddingVertical: 50}}>
+        <View style={{paddingVertical: 20}}>
 <Text style={{...styles.text, color: textColor, fontSize: 20 / PixelRatio.getFontScale()}}>
     {selectedQuote ? selectedQuote.name : 'Загружаемся...'}
 </Text>

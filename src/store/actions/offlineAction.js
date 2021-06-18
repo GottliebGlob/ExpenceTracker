@@ -1,11 +1,13 @@
-import {ADD, DEL, SET, CLEAR} from "./mainAction";
+import {ADD, DEL, SET, SPENDS, SPENDS_DONE} from "./mainAction";
 import AsyncStorage from '@react-native-community/async-storage';
+import {toggleLoader} from "./mainAction";
 import {NewItem} from "../../NewItem";
 
 export const fetchOffline = () => {
     let data = 0
     const loaded = []
     return async (dispatch) => {
+        dispatch(toggleLoader(SPENDS))
         try {
             const value = await AsyncStorage.getItem('offlineData')
             const local = await AsyncStorage.getItem('localData')
@@ -27,6 +29,7 @@ export const fetchOffline = () => {
                     type: SET,
                     payload: loaded
                 })
+                dispatch(toggleLoader(SPENDS_DONE))
             }
 
         } catch (e) {

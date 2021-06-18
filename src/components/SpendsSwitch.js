@@ -8,7 +8,7 @@ import {
     StatusBar,
     ActivityIndicator,
     TouchableOpacity,
-    Dimensions
+    Dimensions, Animated, Easing
 } from 'react-native'
 import {getRightFontScale} from "./flex";
 import {useTheme} from "@react-navigation/native";
@@ -16,6 +16,38 @@ import {useTheme} from "@react-navigation/native";
 
 export const SpendsSwitch = (props) => {
     const { colors } = useTheme();
+
+    let spinValue = new Animated.Value(0);
+
+// First set up animation
+    Animated.loop(
+        Animated.timing(
+            spinValue,
+            {
+                toValue: 1,
+                duration: 3000,
+                easing: Easing.linear, // Easing is an additional import from react-native
+                useNativeDriver: true  // To make use of native driver for performance
+            }
+        )).start()
+
+// Next, interpolate beginning and end values (in this case 0 and 1)
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
+    })
+
+
+
+    if (props.isLoading) {
+        return (
+            <View style={styles.mainContent}>
+                <Animated.Image
+                    style={{transform: [{rotate: spin}], width: 50, height: 50 }}
+                    source={require('../../assets/trans-icon.png')} />
+            </View>
+        )
+    }
 
     return (
         props.allSpends.length > 0 ? (

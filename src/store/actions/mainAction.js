@@ -1,15 +1,26 @@
-import moment from "moment";
 
 export const ADD ='ADD'
 export const DEL = 'DEL'
 export const SET = 'SET'
 export const CLEAR = 'CLEAR'
+export const SPENDS = 'SPENDS'
+export const SPENDS_DONE = 'HIDE_SPENDS'
+
+
 
 import { firebase } from '../../firebase/config'
 
 import {NewItem} from "../../NewItem";
 import AsyncStorage from "@react-native-community/async-storage";
 
+
+export const toggleLoader = (t) => {
+    return (dispatch) => {
+        dispatch({
+            type: t
+        })
+    }
+}
 
 export const addMain = (NewItem) => {
     const {value, cost, cat, date} = NewItem
@@ -122,6 +133,7 @@ export const fetchMain = () => {
     const userId = user.uid
     const loaded = []
     return async (dispatch) => {
+        dispatch(toggleLoader(SPENDS))
         const mainRef = firebase.firestore().collection('data').where("authorID", "==", userId).orderBy('date', 'desc')
         const mainSnapshot = await mainRef.get().catch((error) => {
             alert(error)
@@ -145,6 +157,7 @@ export const fetchMain = () => {
         }
 
         dispatch({type: SET, payload: loaded})
+        dispatch(toggleLoader(SPENDS_DONE))
     }
 };
 

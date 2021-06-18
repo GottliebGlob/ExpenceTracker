@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Alert} from "react-native"
+import {Text, View, StyleSheet, TouchableOpacity, Dimensions, PixelRatio, Alert, Animated, Easing} from "react-native"
 
 import ProgressBar from 'react-native-progress/Bar'
 import {useTheme} from "@react-navigation/native";
@@ -52,7 +52,25 @@ const AimInfo = props => {
             { cancelable: false });
     }
 
+    let spinValue = new Animated.Value(0);
 
+// First set up animation
+    Animated.loop(
+        Animated.timing(
+            spinValue,
+            {
+                toValue: 1,
+                duration: 3000,
+                easing: Easing.linear, // Easing is an additional import from react-native
+                useNativeDriver: true  // To make use of native driver for performance
+            }
+        )).start()
+
+// Next, interpolate beginning and end values (in this case 0 and 1)
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
+    })
 
     const getTextColor = () => {
         if (isLimitReached) {
@@ -61,6 +79,17 @@ const AimInfo = props => {
         else {
             return { fontFamily: 'open-sans-bold', fontSize: getRightFontScale(20), marginLeft: 5, color: colors.confirm };
         }
+    }
+
+
+    if (aim === null) {
+        return (
+            <View style={{...styles.loader, borderBottomColor: colors.dark, backgroundColor: colors.primary, paddingHorizontal: Dimensions.get('window').width * 0.025, height: 70}}>
+                <Animated.Image
+                    style={{transform: [{rotate: spin}], width: 50, height: 50 }}
+                    source={require('../../assets/trans-icon.png')} />
+            </View>
+        )
     }
 
 if (aim === 0) {
@@ -117,6 +146,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textDecorationLine: 'underline',
 
+    },
+    loader: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%'
     },
     container: {
 

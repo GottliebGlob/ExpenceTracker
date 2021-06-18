@@ -15,8 +15,7 @@ export const setTheme = (c) => {
                 dispatch({type: UPDATE, payload: theme})
             }
             else {
-                const payl = c === 'dark' ? 'true' : 'false'
-                dispatch({type: UPDATE, payload: payl})
+                dispatch({type: UPDATE, payload: 'true'})
             }
 
         } catch(e) {

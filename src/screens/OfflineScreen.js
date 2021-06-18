@@ -37,13 +37,12 @@ export const OfflineScreen = ({navigation}) => {
     const [isFirst, setIsFirst] = useState(false)
     const isItFirst = async () => {
         const isFirstLaunch = await checkIfFirstLaunch('offline');
-        console.log(isFirstLaunch)
         setIsFirst(isFirstLaunch)
     }
 
     //Data getters
     const [value, setValue] = useState('')
-    const [limit, setLimit] = useState(0)
+    const [limit, setLimit] = useState(null)
     const [monthStartsFrom, setMonthStartsFrom] = useState(0)
     const [flatInfo, setFlatInfo] = useState(true)
 
@@ -52,6 +51,7 @@ export const OfflineScreen = ({navigation}) => {
         return bool ? moment().set('date', monthStartsFrom).subtract(1, 'months') : moment().set('date', monthStartsFrom)
     }
 
+    const {spendsDone} = useSelector(state => state.load)
     const spends = useSelector(state => state.main.main).sort((a,b) => moment(b.date).format('YYYYMMDD') - moment(a.date).format('YYYYMMDD'))
     const lastMonthSpends = spends.filter(e => moment(e.date) >= isOver())
 
@@ -154,7 +154,7 @@ export const OfflineScreen = ({navigation}) => {
                 limit > 0 ?  <AimInfo navigation={navigation} handleLimit={() => {}} whereIsCalled='offline' /> : null
             }
             <View style={{...styles.wrapper, backgroundColor: colors.background}}>
-                <SpendsSwitch allSpends={spends} lastMonthSpends={lastMonthSpends} flatInfo={flatInfo} setFlatInfo={setFlatInfo} value={val}/>
+                <SpendsSwitch allSpends={spends} lastMonthSpends={lastMonthSpends} flatInfo={flatInfo} setFlatInfo={setFlatInfo} value={val} isLoading={spendsDone}/>
             <AddButton show={showModalHandler}/>
 
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={false}/>
