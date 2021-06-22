@@ -1,8 +1,9 @@
 import React from 'react';
 import {
     View,
-    ActivityIndicator,
-    StyleSheet, Animated, Easing,
+    StyleSheet,
+    Animated,
+    Easing,
 
 } from 'react-native';
 

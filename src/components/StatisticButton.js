@@ -11,8 +11,6 @@ const StatisticButton = props => {
 
     const { colors } = useTheme();
 
-
-
     return (
         <View style={{...styles.button, height: getRightScale(80, 30)}}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Statistics', {data: data, monthData: lastMonthSpends, value: value, isFirstDay: props.isFirstDay})} style={styles.container1}>

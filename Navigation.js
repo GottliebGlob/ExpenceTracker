@@ -109,6 +109,7 @@ export default () => {
                 isOffline ? (<>
                     <Stack.Screen name="Offline" component={OfflineScreen} />
                     <Stack.Screen name="Statistics" component={Statistics} />
+
                 </>) : user ? (
                     <>
                         <Stack.Screen name="Main">

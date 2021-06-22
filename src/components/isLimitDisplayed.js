@@ -1,8 +1,6 @@
 import React from 'react'
 import AsyncStorage from "@react-native-community/async-storage";
 
-
-
 export const isLimitDisplayed = async (limitCheck) => {
     try {
         const isDisplayed = await AsyncStorage.getItem('limit')

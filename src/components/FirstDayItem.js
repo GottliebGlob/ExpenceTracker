@@ -7,9 +7,6 @@ import {useTheme} from "@react-navigation/native";
 const FirstDayItem = props => {
     const { colors } = useTheme();
 
-
-
-
     const conditionalStyles = () => {
 
         if (props.isActive === props.day) {
@@ -24,7 +21,6 @@ const FirstDayItem = props => {
         props.setModalVisible(false)
 
     }
-
 
     return (
         <TouchableOpacity onPress={() => confirmHandler()}>

@@ -18,16 +18,12 @@ import BottomBanner from "../components/BottomBanner";
 
 const CatModal = props => {
     const { colors } = useTheme();
-
     const cats = defaultColors.cats
-
     const transformedCats = []
 
     for (let key in cats) {
         transformedCats.push({cat: key, name: cats[key].name, color: cats[key].color, })
     }
-
-
 
     return (
         <Modal visible={props.catModalVisible} animationType="slide" onRequestClose={() => props.setCatModalVisible(false)}>

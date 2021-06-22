@@ -4,7 +4,6 @@ import { Dimensions } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
 import {Ionicons} from "@expo/vector-icons";
 import 'moment/locale/ru'
-import moment from 'moment';
 import {useTheme} from "@react-navigation/native";
 import AsideHeader from "../components/AsideHeader";
 import BottomBanner from "../components/BottomBanner";
@@ -12,6 +11,7 @@ import getRightScale, {getRightFontScale} from "../components/flex";
 import pieChartState from "../components/pieChart";
 import {lineChartState, lineChartLabels} from "../components/lineChart";
 import {getRightSignValue} from "../components/getValue";
+import {useNetInfo} from "@react-native-community/netinfo";
 
 
 export const Statistics = ({route, navigation}) => {
@@ -22,6 +22,7 @@ export const Statistics = ({route, navigation}) => {
 
 
     //Line chart stuff
+
 
     const linePrices = useMemo(() => lineChartState(data, isFirstDay), [data, isFirstDay])
     const lineLabels = useMemo(() =>  lineChartLabels(data, isFirstDay), [data, linePrices])
@@ -143,7 +144,9 @@ export const Statistics = ({route, navigation}) => {
                 }
 
             </ScrollView>
-            <BottomBanner />
+            {
+                useNetInfo().isConnected ? <BottomBanner /> : null
+            }
         </View>
     )
 }

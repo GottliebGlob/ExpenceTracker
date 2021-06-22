@@ -47,7 +47,6 @@ export const Settings = ({route, navigation}) => {
         }
     }
 
-
    //Value block
     const { userId, value, aim, isFirstDay } = route.params;
     const [curValue, setCurValue] = useState(value)
@@ -72,7 +71,6 @@ export const Settings = ({route, navigation}) => {
         }
 
     }
-
 
     //Sign out block
     const signOutModalHandler = () => {
@@ -194,9 +192,6 @@ return (
         </TouchableOpacity>
 
     <FirstDayModal setModalVisible={setModalVisible} modalVisible={modalVisible} isActive={isActive} setIsActive={setIsActive} setIsActiveChanged={setIsActiveChanged}/>
-
-
-
 
        <BottomBanner />
     </View>

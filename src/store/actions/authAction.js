@@ -1,6 +1,6 @@
 import { firebase } from '../../firebase/config'
-import {DEL} from "./mainAction";
 import {Alert} from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const errorHandler = (error) => {
 console.log('err' + error)
@@ -90,7 +90,17 @@ export const signup = (email, password, name) => {
 
 export const signOut = () => {
     return async () => {
-        firebase.auth().signOut().catch((error) => {
+        firebase.auth().signOut().then(
+            AsyncStorage.setItem('offlineData', '')
+        ).then(
+            AsyncStorage.setItem('localData', '')
+        ).then(
+            AsyncStorage.setItem('Value', JSON.stringify(0))
+            ).then(
+            AsyncStorage.setItem('Limit', JSON.stringify(null))
+        ).then(
+            AsyncStorage.setItem('MonthStartsFrom', JSON.stringify(0))
+        ).catch((error) => {
             alert(error)
         });
     }

@@ -1,14 +1,11 @@
-import React, {useState, useEffect, useMemo} from 'react'
+import React from 'react'
 import {
     View,
     Text,
     StyleSheet,
-    FlatList,
-    Alert,
-    StatusBar,
-    ActivityIndicator,
     TouchableOpacity,
-    Dimensions, Animated, Easing
+    Animated,
+    Easing
 } from 'react-native'
 import {getRightFontScale} from "./flex";
 import {useTheme} from "@react-navigation/native";
@@ -36,7 +33,6 @@ export const SpendsSwitch = (props) => {
         inputRange: [0, 1],
         outputRange: ['0deg', '360deg']
     })
-
 
 
     if (props.isLoading) {

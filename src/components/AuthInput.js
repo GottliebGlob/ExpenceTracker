@@ -21,7 +21,6 @@ const AuthInput = props => {
     const { onInputChange, type } = props;
 
 
-
     const inputCheckHandler = text => {
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (props.required && text.trim().length === 0) {
@@ -54,8 +53,6 @@ const AuthInput = props => {
         }
     };
 
-
-
     return (
         <View style={styles.main}>
             <Text style={{...styles.label, color: colors.text, fontSize:  20 / PixelRatio.getFontScale()}}>{props.label}</Text>
@@ -70,10 +67,6 @@ const AuthInput = props => {
                     secureTextEntry={isPassword}
                     autoCapitalize="none"
                     returnKeyType="next"
-
-
-
-
                 />
                         <Ionicons
                             style={styles.icon}
@@ -93,7 +86,6 @@ const AuthInput = props => {
                     autoCapitalize="none"
                     returnKeyType="next"
                     autoCompleteType='off'
-
                 />
             ) }
 

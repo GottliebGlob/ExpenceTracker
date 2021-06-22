@@ -7,7 +7,7 @@
     "android": {
       "userInterfaceStyle": "automatic",
       "package": "com.bananacoder.spender_money_tracker",
-      "versionCode": 1,
+      "versionCode": 2,
       "config": {
         "googleMobileAdsAppId":"ca-app-pub-2960656434741323~9451055786"
       },
@@ -18,7 +18,7 @@
 
       ]
     },
-    "version": "1.2.6",
+    "version": "1.3.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

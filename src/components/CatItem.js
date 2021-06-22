@@ -4,11 +4,8 @@ import RenderIcon from "./RenderIcon";
 import {useTheme} from "@react-navigation/native";
 
 
-
 const CatItem = props => {
     const { colors } = useTheme();
-
-
 
     return (
         <TouchableOpacity onPress={() => props.catHandler(props.cat)}>

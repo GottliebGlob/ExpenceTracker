@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-
 function setAppLaunched(key) {
     AsyncStorage.setItem(key, 'true');
 }

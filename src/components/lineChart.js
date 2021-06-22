@@ -1,9 +1,12 @@
 import React from 'react'
 import moment from 'moment';
 
-
 export const lineChartState = (data, isFirstDay) => {
     const newPrices = []
+
+    if (data.length === 0) {
+        return 0
+    }
 
     const newSum = () => {
 
@@ -48,6 +51,9 @@ export const lineChartState = (data, isFirstDay) => {
 
 export const lineChartLabels = (data, isFirstDay) => {
     const whatMonthIs = []
+    if (data.length === 0) {
+        return 0
+    }
 
     const newLabels = () => {
         let dayX = moment(data[data.length-1].date).set('date', isFirstDay).subtract(1, 'month').set('hour', 0)

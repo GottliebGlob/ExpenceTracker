@@ -6,7 +6,6 @@ import {signOut} from "../store/actions/authAction";
 import {useDispatch} from "react-redux";
 
 
-
 const Header = props => {
     const { colors } = useTheme();
     const dispatch = useDispatch()
@@ -29,7 +28,6 @@ const Header = props => {
 
     }
 
-
     return (
     <View style={styles.wrapper}>
 <View style={styles.container}>
@@ -38,7 +36,7 @@ const Header = props => {
     style={styles.image}
     source={require('../../assets/trans-icon.png')}
     />
-    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale()}}>Spender 1.2.6 </Text>
+    <Text style={{color: colors.headertext, fontFamily: 'open-sans-bold', fontSize: 20 / PixelRatio.getFontScale()}}>Spender </Text>
 </View>
     <TouchableOpacity style={styles.container} onPress={() => {signOutModalHandler()}}>
 

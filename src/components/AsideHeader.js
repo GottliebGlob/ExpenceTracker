@@ -3,12 +3,16 @@ import {Ionicons} from "@expo/vector-icons";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
 import {getRightFontScale} from "./flex";
+import {useNetInfo} from "@react-native-community/netinfo";
+
+
 
 
 const AsideHeader = props => {
     const { colors } = useTheme();
 
             let aim = 0
+            const isOnline = useNetInfo().isConnected
     const onNavigate = () => {
 
                 if (props.aim > 0) {
@@ -21,7 +25,9 @@ const AsideHeader = props => {
 
            const value = props.value
 
-        props.navigation.navigate('Main', {newAim: aim, newValue: value, newMonthDay: props.isActive})
+
+        isOnline ?  props.navigation.navigate('Main', {newAim: aim, newValue: value, newMonthDay: props.isActive}) : props.navigation.navigate('Offline')
+
     }
 
     return (

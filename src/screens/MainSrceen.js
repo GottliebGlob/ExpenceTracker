@@ -1,18 +1,15 @@
 import React, {useState, useEffect, useMemo} from 'react'
 import {
     View,
-    Easing,
     StyleSheet,
     FlatList,
     Alert,
     StatusBar,
-    ActivityIndicator,
-    Animated,
     Dimensions
 } from 'react-native'
 //Redux
 import {useDispatch, useSelector} from "react-redux";
-import {addMain, removeMain, fetchMain, toggleLoader, PREFS, PREFS_DONE} from "../store/actions/mainAction";
+import {addMain, removeMain, fetchMain} from "../store/actions/mainAction";
 import { firebase } from '../firebase/config'
 //Components
 import Header from "../components/Header";
@@ -34,8 +31,6 @@ import {getRightTextValue} from "../components/getValue";
 import {MainContext} from "../components/mainContext";
 import AsyncStorage from "@react-native-community/async-storage";
 import {SpendsSwitch} from "../components/SpendsSwitch";
-import {toggleTheme} from "../store/actions/themeAction";
-
 
 export const MainScreen = ({route, navigation}) => {
 
@@ -48,7 +43,7 @@ export const MainScreen = ({route, navigation}) => {
     const [value, setValue] = useState('')
     const [aim, setAim] = useState(null)
     const [isFirstDay, setIsFirstDay] = useState(0)
-    const user = firebase.auth().currentUser;
+    let user = firebase.auth().currentUser;
     const userId = user.uid
 
     const isOver = () => {
@@ -63,9 +58,6 @@ export const MainScreen = ({route, navigation}) => {
     const lastMonthSpends = useMemo(() => sortedAllSpends.filter(e => moment(e.date) >= isOver()), [allSpends, isFirstDay])
     const maxNumber = useMemo(() => Math.max(...allSpends.map(e => e.cost)).toString().length, [allSpends])
     const montMaxNumber = useMemo(() => Math.max(...lastMonthSpends.map(e => e.cost)).toString().length, [allSpends, isFirstDay])
-
-
-
 
     //Navigation params from Settings
     useEffect(
@@ -89,7 +81,6 @@ export const MainScreen = ({route, navigation}) => {
         [route.params],
     );
 
-
     //Modals state
     const [isFirst, setIsFirst] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
@@ -109,7 +100,7 @@ export const MainScreen = ({route, navigation}) => {
 
     const pushOffline = async (value, aim, day) => {
         await AsyncStorage.setItem('Value', value)
-        await AsyncStorage.setItem('Limit', aim)
+        await AsyncStorage.setItem('Limit', JSON.stringify(aim))
         await AsyncStorage.setItem('MonthStartsFrom', JSON.stringify(day))
     }
 
@@ -130,9 +121,9 @@ export const MainScreen = ({route, navigation}) => {
         setAim(0)
     }
 
-
     //Fetching user data
     useEffect(() => {
+
         //Check for the first visit
         isItFirst()
 
@@ -157,8 +148,6 @@ export const MainScreen = ({route, navigation}) => {
         }, [user]);
 
 
-
-
         //Connection check
     const isOnline = useNetInfo().isConnected
     const [isConnectionChecked, setIsConnectionChecked] = useState(false)
@@ -171,9 +160,6 @@ export const MainScreen = ({route, navigation}) => {
             }
         }
     }, [isOnline])
-
-
-
 
 
     //Spends handlers
@@ -195,8 +181,6 @@ export const MainScreen = ({route, navigation}) => {
                      }
         ],
             { cancelable: false });
-
-
     }
 
     //Modal handlers
@@ -206,8 +190,6 @@ export const MainScreen = ({route, navigation}) => {
     const hideModalHandler = () => {
         setModalVisible(false)
     }
-
-
 
 let val = getRightTextValue(value)
 
@@ -228,7 +210,6 @@ let val = getRightTextValue(value)
                   <View style={{paddingHorizontal: '5%'}}>
                         <SpendsSwitch allSpends={sortedAllSpends} lastMonthSpends={lastMonthSpends} flatInfo={flatInfo} setFlatInfo={setFlatInfo} value={val} isLoading={spendsDone}/>
                     </View>
-
 
                 <AddButton show={showModalHandler}/>
             <InputModal visible={modalVisible} onMainStateChange={mainStateHandler} onCancel={hideModalHandler} isConnected={true}/>

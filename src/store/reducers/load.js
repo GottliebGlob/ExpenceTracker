@@ -1,4 +1,4 @@
-import {PREFS, PREFS_DONE, SPENDS, SPENDS_DONE} from "../actions/mainAction";
+import { SPENDS, SPENDS_DONE} from "../actions/mainAction";
 
 const initialState = {
     spendsDone: false,

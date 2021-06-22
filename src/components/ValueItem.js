@@ -7,16 +7,11 @@ import {getRightTextValue} from "./getValue";
 const ValueItem = props => {
     const { colors } = useTheme();
 
-
-
-
     const conditionalStyles = () => {
 
         if (props.curValue === props.name) {
             return colors.confirm
         }
-
-
     }
 
     const confirmHandler = () => {

@@ -1,5 +1,4 @@
 
-
 export const getRightTextValue = (value) => {
     switch (value) {
         case 'RU': {

@@ -95,7 +95,7 @@ const AimInfo = props => {
 if (aim === 0) {
     return (
         <View style={{flexDirection: 'row', width: '100%'}}>
-            <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary, marginLeft: Dimensions.get('window').width * 0.025,}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
+            <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary, paddingLeft: Dimensions.get('window').width * 0.025,}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
 
                 <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(18)}}>
                    У вас пока нет лимита. Установить?
