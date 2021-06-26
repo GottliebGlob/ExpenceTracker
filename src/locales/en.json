@@ -1,0 +1,104 @@
+{
+  "main": {
+    "Limits": {
+      "noLimit": "You don't have a limit yet. Add?",
+      "limit": "Funds up to the limit:",
+      "overLimit": "The limit was exceeded by:"
+    },
+    "SpendsSwitch": {
+      "spent": "Spent ",
+      "month": "in a month: ",
+      "all": "the whole time: ",
+      "no": "You have no spending yet"
+    },
+    "Add": "ADD",
+    "Statistics": "STATISTICS"
+  },
+  "addModal": {
+    "addName": "Enter spending: ",
+    "addPrice": "Enter the amount to spend: ",
+    "addCat": "Select a category: ",
+    "place1": "New expense...",
+    "place2": "Expense amount...",
+    "cancel": "CANCEL",
+    "oops": "Oops!",
+    "error": "Please enter correct data",
+    "confirm": "CONFIRM",
+    "switchCat": "Select a category"
+  },
+  "settings": {
+    "header": "SETTINGS",
+    "theme": "Dark mode:",
+    "value": "Preferred currency: ",
+    "limit": "Spending limit for a month: ",
+    "start": "Month starts from the",
+    "day": "day",
+    "signOut": "Sign out",
+    "place": "limit"
+  },
+  "statistics": {
+    "header": "STATISTICS",
+    "line": "LAST MONTHS SPENDINGS",
+    "firstPie": "LAST MONTH SPENDINGS",
+    "secPie": "ALL TIME SPENDINGS",
+    "noSpends": "Alas, there is nothing to show you yet!",
+    "tryToAdd": "try adding at least one spending",
+    "lastMonth": "Alas, this month hasn't been spent yet!"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "password": "Password",
+    "name": "Name",
+    "noAccount": "Don't have an account? ",
+    "hasAccount": "Already have an account? ",
+    "doSignIn": "Sign in",
+    "doSignUp": "Sign up",
+    "forgotPass": "Forgot password?",
+    "oops": "Oops!",
+    "confirm": "Confirm",
+    "realName": "Please enter your real name!",
+    "validPass": "Password must contain at least 6 characters!",
+    "validEmail": "Please enter an existing email!",
+    "errorName": "Please enter your real name.",
+    "errorPass": "Please use the correct password.",
+    "errorEmail": "Please use your existing email address."
+  },
+  "authActions": {
+    "error": "Error!",
+    "confirm": "Confirm ",
+    "invalidPass": "Invalid password.",
+    "noUser": "There is no such user.",
+    "tryAgain": "Too many login attempts. Try again in a few seconds.",
+    "mailIsUsed": "This email is already in use by another account.",
+    "connectionFail": "Please check your internet connection.",
+    "usedEmail": "Check the email you entered.",
+    "unknown": "Oops! An unknown error has occurred!",
+    "forgot": "A password reset letter has been sent to your email."
+  },
+  "signOut": {
+    "sure": "Are you sure you want to log out?",
+    "cancel": "CANCEL",
+    "confirm": "CONFIRM"
+  },
+  "removeSpend": {
+    "sure": "Are you sure you want to delete a spending?",
+    "cancel": "CANCEL",
+    "confirm": "CONFIRM"
+  },
+  "firstOnline": {
+    "confirm": "ACCEPT"
+  },
+  "firstModal": {
+    "goBack": "BACK"
+  },
+  "money": {
+    "ru": "rub.",
+    "ua": "hrn.",
+    "us": "dol.",
+    "eu": "eur."
+  },
+
+  "hiOffline": "Attention! The application has been taken offline, but you can still add expenses and view statistics.",
+  "hiOnline": "Welcome! To add a waste, click on the \"Add\" button, to delete, press and hold on expense."
+}

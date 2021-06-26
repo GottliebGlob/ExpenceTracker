@@ -1,20 +1,21 @@
+import i18n from "../locales";
 
 export const getRightTextValue = (value) => {
     switch (value) {
         case 'RU': {
-            return "руб."
+            return i18n.t("money.ru")
             break
         }
         case 'US': {
-            return "дол."
+            return i18n.t("money.us")
             break
         }
         case 'EU': {
-            return "евр."
+            return i18n.t("money.eu")
             break
         }
         case 'UA': {
-            return "грн."
+            return i18n.t("money.ua")
             break
         }
         default: return ''

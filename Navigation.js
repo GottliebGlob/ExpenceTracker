@@ -93,6 +93,8 @@ export default () => {
         dispatch(setTheme(c))
     },[])
 
+
+
     if (loading || !fontsLoaded || !isOfflineChecked) {
 
         return (

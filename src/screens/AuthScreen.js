@@ -23,6 +23,7 @@ import {clearState} from "../store/actions/mainAction";
 
 import getRightScale from "../components/flex";
 import BottomBanner from "../components/BottomBanner";
+import i18n from "../locales";
 
 
 export const AuthScreen = ({  navigation }) => {
@@ -99,23 +100,23 @@ export const AuthScreen = ({  navigation }) => {
         if (isSignup) {
             if (name.length < 2) {
                error = true
-                Alert.alert("Упс!", 'Пожалуйста, введите ваше настоящее имя!', [
-                    { text: 'Принять', style: 'cancel' }
+                Alert.alert(i18n.t("auth.oops"), i18n.t("auth.realName"), [
+                    { text: i18n.t("auth.confirm"), style: 'cancel' }
                 ]);
             }
         }
 
-        if (password.length < 5) {
+        if (password.length <= 5) {
             error = true
-            Alert.alert("Упс!", 'Пароль не может быть короче 6 символов!', [
-                { text: 'Принять', style: 'cancel' }
+            Alert.alert(i18n.t("auth.oops"), i18n.t("auth.validPass"), [
+                { text: i18n.t("auth.confirm"), style: 'cancel' }
             ]);
         }
 
         if (email.length < 5) {
             error = true
-            Alert.alert("Упс!", 'Пожаулйста, укажите существующую почту!', [
-                { text: 'Принять', style: 'cancel' }
+            Alert.alert(i18n.t("auth.oops"), i18n.t("auth.validEmail"), [
+                { text: i18n.t("auth.confirm"), style: 'cancel' }
             ]);
         }
 
@@ -154,7 +155,7 @@ export const AuthScreen = ({  navigation }) => {
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <View style={styles.mainTextContainer}>
                 <Text style={{...styles.text, color: colors.headertext,
-                    fontSize:  19 / PixelRatio.getFontScale()}}>{` ${isSignup ? 'РЕГИСТРАЦИЯ' : 'ВХОД' }`}</Text>
+                    fontSize:  19 / PixelRatio.getFontScale()}}>{` ${isSignup ? i18n.t("auth.signUp") : i18n.t("auth.signIn") }`}</Text>
             </View>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%',}}
@@ -164,13 +165,13 @@ export const AuthScreen = ({  navigation }) => {
 
                         {isSignup ? <AuthInput
                             type="name"
-                            label="Имя"
+                            label={i18n.t("auth.name")}
                             keyboardType="default"
                             minLength={2}
                             maxLength={25}
                             autoCapitalize="words"
                             required
-                            errorText="Пожалуйста, введите настоящее имя."
+                            errorText={i18n.t("auth.errorName")}
                             onInputChange={nameHandler}
                             initialValue=""
                             initiallyValid={false}
@@ -185,20 +186,20 @@ export const AuthScreen = ({  navigation }) => {
                             maxLength={35}
                             required
                             autoCapitalize="none"
-                            errorText="Пожалуйста, используйте существующий e-mail."
+                            errorText={i18n.t("auth.errorEmail")}
                             onInputChange={emailHandler}
                             initialValue=""
                             value={email}
                         />
                         <AuthInput
                             type="password"
-                            label="Пароль"
+                            label={i18n.t("auth.password")}
                             keyboardType="default"
                             required
                             minLength={5}
                             maxLength={15}
                             autoCapitalize="none"
-                            errorText="Пожалуйста, используйте корректный пароль."
+                            errorText={i18n.t("auth.errorPass")}
                             onInputChange={passwordHandler}
                             initialValue=""
                             value={password}
@@ -207,7 +208,7 @@ export const AuthScreen = ({  navigation }) => {
 
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={{...styles.button1,  height: getRightScale(110, 16) }} onPress={() => onTouch()}>
-                                <Text style={{...styles.text, color: colors.headertext, fontSize:  18 / PixelRatio.getFontScale()}}>{` ${isSignup ? 'ЗАРЕГИСТРИРОВАТЬСЯ' : 'ВОЙТИ'}`}</Text>
+                                <Text style={{...styles.text, color: colors.headertext, fontSize:  18 / PixelRatio.getFontScale()}}>{` ${isSignup ? i18n.t("auth.signUp") : i18n.t("auth.signIn")}`}</Text>
                                 <View style={{width: 10}}>
                                 </View>
                                 {isLoading ? (
@@ -219,12 +220,12 @@ export const AuthScreen = ({  navigation }) => {
                         </View>
                         <View style={styles.footerView}>
                          <Text style={{...styles.footerText, color: colors.text,
-                             fontSize:  16 / PixelRatio.getFontScale()}}>{isSignup ? 'Есть аккаунт?  ' : 'Еще нет аккаунта?  '}
+                             fontSize:  16 / PixelRatio.getFontScale()}}>{isSignup ? i18n.t("auth.hasAccount") : i18n.t("auth.noAccount")}
                              <Text onPress={() => {setIsSignup(prevState => !prevState)}}
                               style={{...styles.footerLink,
                                         color: colors.sign,
                                         fontSize:  17 / PixelRatio.getFontScale()}}>
-                                    {isSignup ? 'Войти' : 'Зарегистрироваться'}
+                                    {isSignup ? i18n.t("auth.doSignIn") : i18n.t("auth.doSignUp")}
                              </Text>
                          </Text>
 
@@ -239,7 +240,7 @@ export const AuthScreen = ({  navigation }) => {
                                   style={{...styles.footerLink,
                                       color: colors.sign,
                                       fontSize:  17 / PixelRatio.getFontScale()}}>
-                                Забыли пароль?
+                                {i18n.t("auth.forgotPass")}
                             </Text>
                             <BottomBanner />
                         </View>

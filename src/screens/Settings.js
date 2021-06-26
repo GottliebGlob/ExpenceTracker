@@ -23,6 +23,7 @@ import {setIsLimitDisplayed} from "../components/isLimitDisplayed";
 import FirstDayModal from '../modals/FirstDayModal'
 import ValueModal from "../modals/ValueModal";
 import {getRightTextValue, getRightSignValue} from "../components/getValue";
+import i18n from "../locales";
 
 
 
@@ -74,12 +75,12 @@ export const Settings = ({route, navigation}) => {
 
     //Sign out block
     const signOutModalHandler = () => {
-        Alert.alert("Вы хотите выйти?", '', [
+        Alert.alert(i18n.t("signOut.sure"), '', [
                 {
-                    text: "ОТМЕНИТЬ",
+                    text: i18n.t("signOut.cancel"),
                     style: "cancel"
                 },
-                { text: "ПРИНЯТЬ", onPress: () => {signOutHandler()}
+                { text: i18n.t("signOut.confirm"), onPress: () => {signOutHandler()}
                 }
             ],
             { cancelable: false });
@@ -127,11 +128,11 @@ export const Settings = ({route, navigation}) => {
 
 return (
     <View style={styles.main}>
-        <AsideHeader navigation={navigation} placeholder="НАСТРОЙКИ" aim={limit} value={curValue} pushLimit={pushLimit} pushIsActive={pushIsActive} isActive={isActive} />
+        <AsideHeader navigation={navigation} placeholder={i18n.t("settings.header")} aim={limit} value={curValue} pushLimit={pushLimit} pushIsActive={pushIsActive} isActive={isActive} />
 
         <View style={styles.rows}>
             <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
-                Темная тема:
+                {i18n.t("settings.theme")}
             </Text>
         <Switch
             trackColor={{ false: colors.accent, true: colors.sign }}
@@ -144,7 +145,7 @@ return (
 
         <View style={styles.rows}>
             <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
-                Предпочитаемая валюта:
+                {i18n.t("settings.value")}
             </Text>
             <TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: colors.confirm}} onPress={() => setValueModalVisible(true)}>
                 <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
@@ -157,10 +158,10 @@ return (
 
         <View style={styles.rows}>
             <Text style={{...styles.rowText, color: colors.text, fontSize: getRightFontScale(19) }}>
-                Лимит трат на месяц:
+                {i18n.t("settings.limit")}
             </Text>
             <TextInput
-                placeholder="лимит"
+                placeholder={i18n.t("settings.place")}
                 placeholderTextColor={colors.text}
                 style={{...styles.input, borderBottomColor: colors.confirm, color: colors.text, fontSize: getRightFontScale(19) }}
                 onChangeText={handleLimit}
@@ -174,20 +175,20 @@ return (
 
         <TouchableOpacity style={styles.rows} onPress={() => {setModalVisible(true)}}>
 
-            <Text style={{...styles.rowText,color: colors.text, fontSize: getRightFontScale(19) }}>{'Месяц начинается с' + ""} </Text>
+            <Text style={{...styles.rowText,color: colors.text, fontSize: getRightFontScale(19) }}>{i18n.t("settings.start") + ""} </Text>
 
             <Text style={{...styles.rowText,color: colors.confirm, borderBottomColor: colors.confirm, borderBottomWidth: 1, fontSize: getRightFontScale(20) }}>
                 {isActive === 0 ? '1' : isActive}
             </Text>
             <Text style={{...styles.rowText,color: colors.text, fontSize: getRightFontScale(19) }}>
-                { " " + 'дня'}
+                { " " + i18n.t("settings.day")}
             </Text>
 
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.rows} onPress={() => {signOutModalHandler()}}>
 
-            <Text style={{...styles.rowText,color: colors.sign, fontSize: getRightFontScale(20) }}>ВЫХОД</Text>
+            <Text style={{...styles.rowText,color: colors.sign, fontSize: getRightFontScale(20) }}>{i18n.t("settings.signOut")}</Text>
 
         </TouchableOpacity>
 

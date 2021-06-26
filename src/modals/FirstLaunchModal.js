@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import {useTheme} from "@react-navigation/native";
 import getRightScale from "../components/flex";
+import i18n from "../locales";
 
 
 
@@ -26,7 +27,7 @@ export const FirstLaunchModal = props => {
                     <View style={{...styles.wrapper, backgroundColor: colors.background, borderColor: colors.primary, height: Dimensions.get('window').width * 0.52}}>
                         <Text style={{color: colors.text, fontFamily: 'open-sans-bold', fontSize: 14 / PixelRatio.getFontScale()}}>{props.text}</Text>
                         <TouchableOpacity style={{...styles.button1,  height: getRightScale(110, 16)}} onPress={() => props.setVisible(false)}>
-                            <Text style={{...styles.text, color: colors.headertext, fontSize:  14 / PixelRatio.getFontScale()}}>ПОНЯТНО</Text>
+                            <Text style={{...styles.text, color: colors.headertext, fontSize:  14 / PixelRatio.getFontScale()}}>{i18n.t("firstOnline.confirm")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

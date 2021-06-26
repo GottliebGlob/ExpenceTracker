@@ -21,6 +21,7 @@ import RenderIcon from "../components/RenderIcon";
 import {useTheme} from "@react-navigation/native";
 import BottomBanner from "../components/BottomBanner";
 import {Ionicons} from "@expo/vector-icons";
+import i18n from "../locales";
 
 const InputModal = props => {
     const { colors } = useTheme();
@@ -48,8 +49,8 @@ const InputModal = props => {
             setIsCatSet(false)
         }
         else{
-            Alert.alert("Упс!", 'Пожалуйста, введите корректные данные', [
-                { text: 'Принять', style: 'cancel' }
+            Alert.alert(i18n.t("addModal.oops"), i18n.t("addModal.error"), [
+                { text: i18n.t("addModal.confirm"), style: 'cancel' }
             ]);
         }
     }
@@ -97,9 +98,9 @@ const InputModal = props => {
                 <View style={{...styles.main, backgroundColor: colors.background}}>
                     <StatusBar barStyle="dark-content" backgroundColor='black' />
             <View style={styles.inputContainer}>
-                <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Введите трату: </Text>
+                <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>{i18n.t("addModal.addName")}</Text>
                 <TextInput
-                    placeholder="Новая трата..."
+                    placeholder={i18n.t("addModal.place1")}
                     placeholderTextColor={colors.text}
                     style={{...styles.input, borderBottomColor: colors.sign, color: colors.text,}}
                     onChangeText={InputHandler}
@@ -107,9 +108,9 @@ const InputModal = props => {
                     maxLenth={35}
                     blurOnSubmit
                 />
-                <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Введите сумму траты: </Text>
+                <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>{i18n.t("addModal.addPrice")}</Text>
                 <TextInput
-                    placeholder="Сумма траты..."
+                    placeholder={i18n.t("addModal.place2")}
                     placeholderTextColor={colors.text}
                     style={{...styles.input, borderBottomColor: colors.sign, color: colors.text}}
                     onChangeText={InputCostHandler}
@@ -122,7 +123,7 @@ const InputModal = props => {
 
 
                     <TouchableOpacity onPress={() => modalCatHandler()} style={{...styles.modal, paddingBottom: 10, borderBottomColor: colors.sign, borderBottomWidth: 2}}>
-                        <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>Выберите категорию: </Text>
+                        <Text style={{...styles.textAlign, color: colors.text, fontSize: 20 / PixelRatio.getFontScale()}}>{i18n.t("addModal.addCat")} </Text>
                         <View style={{...styles.catIcon, borderColor: colors.sign, marginTop: -3, width: isCatSet ? 40 : 36, height: isCatSet ? 40 : 36 }}>
                             {isCatSet ?  <RenderIcon category={enteredCat} /> :  <Ionicons name='ios-add' size={30} style={{ color: colors.text, marginLeft: 2}}/>}
 
@@ -133,8 +134,8 @@ const InputModal = props => {
                     <CatModal catModalVisible={catModalVisible} setCatModalVisible={setCatModalVisible} modalCatHandler={modalCatHandler} catHandler={catHandler} isConnected={props.isConnected}/>
 
                 <View style={styles.buttonContainer}>
- <Button title="ОТМЕНИТЬ" onPress={() => cancelHandler()} color={colors.error}/>
-<Button title="ПРИНЯТЬ " onPress={() => confirmHandler()} color={colors.confirm}/>
+ <Button title={i18n.t("addModal.cancel")} onPress={() => cancelHandler()} color={colors.error}/>
+<Button title={i18n.t("addModal.confirm")} onPress={() => confirmHandler()} color={colors.confirm}/>
                 </View>
 
                 </View>

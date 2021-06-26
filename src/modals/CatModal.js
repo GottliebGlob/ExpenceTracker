@@ -15,6 +15,7 @@ import CatItem from "../components/CatItem";
 import {defaultColors} from "../colors";
 import {useTheme} from "@react-navigation/native";
 import BottomBanner from "../components/BottomBanner";
+import i18n from "../locales";
 
 const CatModal = props => {
     const { colors } = useTheme();
@@ -30,7 +31,7 @@ const CatModal = props => {
 <View style={{...styles.main, backgroundColor: colors.background}}>
     <StatusBar barStyle="light-content" backgroundColor='black' />
     <Text style={{...styles.text, color: colors.text, fontSize: 22 / PixelRatio.getFontScale()}}>
-        Выберите категорию
+        {i18n.t("addModal.switchCat")}
     </Text>
     <FlatList
         style={{marginBottom: 50}}

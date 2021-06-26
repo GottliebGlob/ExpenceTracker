@@ -7,6 +7,7 @@ import {MainContext} from "./mainContext";
 import {getRightFontScale} from "./flex";
 import {Ionicons} from "@expo/vector-icons";
 import {getRightSignValue} from "./getValue";
+import i18n from "../locales";
 
 
 const AimInfo = props => {
@@ -98,7 +99,7 @@ if (aim === 0) {
             <TouchableOpacity style={{...styles.container, borderBottomColor: colors.dark, backgroundColor: colors.primary, paddingLeft: Dimensions.get('window').width * 0.025,}} onPress={() => props.navigation.navigate('Settings', {userId: userId, value: value})}>
 
                 <Text style={{...styles.text, color: colors.text, fontSize: getRightFontScale(18)}}>
-                   У вас пока нет лимита. Установить?
+                    {i18n.t("main.Limits.noLimit")}
                 </Text>
                 <Ionicons name='close' size={20} color={colors.text} style={{position: 'absolute', top: 10, right: 10}} onPress={cancelHandler}/>
 
@@ -113,7 +114,7 @@ if (aim === 0) {
             <View style={{flexDirection: 'row', width: '100%'}}>
 
             <Text style={{ fontFamily: 'open-sans-bold', fontSize: getRightFontScale(20), color: colors.text}}>
-                {isLimitReached ? 'Лимит был превышен на:' : 'Средств до лимита:'}
+                {isLimitReached ?  i18n.t("main.Limits.overLimit") : i18n.t("main.Limits.limit")}
             </Text>
 
             <Text style={getTextColor()}>

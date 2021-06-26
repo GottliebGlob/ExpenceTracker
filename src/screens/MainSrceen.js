@@ -31,6 +31,8 @@ import {getRightTextValue} from "../components/getValue";
 import {MainContext} from "../components/mainContext";
 import AsyncStorage from "@react-native-community/async-storage";
 import {SpendsSwitch} from "../components/SpendsSwitch";
+import i18n from "../locales";
+
 
 export const MainScreen = ({route, navigation}) => {
 
@@ -172,12 +174,12 @@ export const MainScreen = ({route, navigation}) => {
     };
 
     const removeHandler = (id) => {
-        Alert.alert("Вы точно хотите удалить трату?", '', [
+        Alert.alert(i18n.t("removeSpend.sure"), '', [
                 {
-                    text: "ОТМЕНИТЬ",
+                    text: i18n.t("removeSpend.cancel"),
                     style: "cancel"
                 },
-                { text: "ПРИНЯТЬ", onPress: () => {dispatch(removeMain(id))}
+                { text: i18n.t("removeSpend.confirm"), onPress: () => {dispatch(removeMain(id))}
                      }
         ],
             { cancelable: false });
@@ -200,7 +202,7 @@ let val = getRightTextValue(value)
         >
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends} text={"Добро пожаловать! Чтобы добавить трату нажмите на кнопку \"Добавить\", чтобы удалить- нажмите на трату и удерживайте."}/>
+            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={aim}  data={sortedAllSpends} text={i18n.t("hiOnline")}/>
     <Header navigation={navigation} name={name}/>
             {
                 shouldDisplayAim ?  <AimInfo navigation={navigation} handleLimit={handleLimit} whereIsCalled='main'/> : null

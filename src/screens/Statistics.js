@@ -12,6 +12,7 @@ import pieChartState from "../components/pieChart";
 import {lineChartState, lineChartLabels} from "../components/lineChart";
 import {getRightSignValue} from "../components/getValue";
 import {useNetInfo} from "@react-native-community/netinfo";
+import i18n from "../locales";
 
 
 export const Statistics = ({route, navigation}) => {
@@ -53,16 +54,16 @@ export const Statistics = ({route, navigation}) => {
     if(data.length === 0) {
         return (
             <View style={styles.main}>
-                   <AsideHeader navigation={navigation} placeholder="СТАТИСТИКА"/>
+                   <AsideHeader navigation={navigation} placeholder={i18n.t("statistics.header")}/>
                 <View style={styles.screen}>
                     <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
                 <Text style={{...styles.h1text, color: colors.text, textAlign: 'center'}}>
-                    Увы, пока нечего вам показать!
+                    {i18n.t("statistics.noSpends")}
                 </Text>
                     <View style={{height: '5%'}}>
                     </View>
                 <Text style={{...styles.h2text,  color: colors.text, textAlign: 'center'}}>
-                    попробуйте добавить хотя бы одну трату
+                    {i18n.t("statistics.tryToAdd")}
                 </Text>
 
                 </View>
@@ -73,11 +74,11 @@ export const Statistics = ({route, navigation}) => {
 
     return(
         <View style={styles.main}>
-            <AsideHeader navigation={navigation} placeholder={'СТАТИСТИКА'}/>
+            <AsideHeader navigation={navigation} placeholder={i18n.t("statistics.header")}/>
             <ScrollView style={{ paddingHorizontal: '2.5%'}}>
             <View style={{marginTop: 20, marginBottom: 10, alignItems: 'center', paddingBottom: 10, marginRight: '5%'}}>
                 <Text style={{...styles.headersText, color: colors.text, fontSize: getRightFontScale(17)}}>
-                    ТРАТЫ ЗА ПОСЛЕДНИЕ МЕСЯЦЫ
+                    {i18n.t("statistics.line")}
                 </Text>
             </View>
             <LineChart
@@ -93,14 +94,14 @@ export const Statistics = ({route, navigation}) => {
 
             <View style={{marginTop: 15, alignItems: 'center', marginRight: '5%'}}>
                 <Text style={{...styles.headersText, color: colors.text, fontSize: getRightFontScale(17)}}>
-                    ТРАТЫ ЗА ПОСЛЕДНИЙ МЕСЯЦ
+                    {i18n.t("statistics.firstPie")}
                 </Text>
             </View>
             { !monthlySpends.length > 0 ?
                 <View style={{alignItems: 'center', justifyContent: 'center', flex: 1, marginRight: '5%'}}>
                     <Ionicons name='md-alert' size={30} style={{marginRight: 0, paddingVertical: 10, color: colors.text}}/>
                     <Text style={{...styles.headersText, color: colors.text, textAlign: 'center'}}>
-                        Увы, в этом месяце пока не было трат!
+                        {i18n.t("statistics.lastMonth")}
                     </Text>
                     <View style={{height: '5%'}}>
                     </View>
@@ -123,7 +124,7 @@ export const Statistics = ({route, navigation}) => {
 
                 <View style={{marginTop: 15, alignItems: 'center', marginRight: '5%'}}>
                     <Text style={{...styles.headersText, color: colors.text, fontSize: getRightFontScale(17)}}>
-                        ТРАТЫ ЗА ВСЕ ВРЕМЯ
+                        {i18n.t("statistics.secPie")}
                     </Text>
                 </View>
                 { !allTimeSpends.length > 0 ? null

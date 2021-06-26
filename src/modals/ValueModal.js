@@ -15,6 +15,7 @@ import {
 import {useTheme} from "@react-navigation/native";
 import ValueItem from "../components/ValueItem";
 import getRightScale from "../components/flex";
+import i18n from "../locales";
 
 
 const ValueModal = props => {
@@ -43,7 +44,7 @@ const ValueModal = props => {
                         )}
                     />
                     <TouchableOpacity style={{...styles.button1,  height: getRightScale(110, 16)}} onPress={() => props.setValueModalVisible(false)}>
-                        <Text style={{...styles.text1, color: colors.headertext, fontSize:  14 / PixelRatio.getFontScale()}}>НАЗАД</Text>
+                        <Text style={{...styles.text1, color: colors.headertext, fontSize:  14 / PixelRatio.getFontScale()}}>{i18n.t("firstModal.goBack")}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment';
+import * as Localization from "expo-localization";
 
 export const lineChartState = (data, isFirstDay) => {
     const newPrices = []
@@ -48,6 +49,13 @@ export const lineChartState = (data, isFirstDay) => {
     return newPrices.slice(-6)
 }
 
+let lang = ""
+if (Localization.locale === ('ru-RU' || 'uk' || 'be')) {
+    lang = 'ru'
+}
+else {
+    lang = 'en'
+}
 
 export const lineChartLabels = (data, isFirstDay) => {
     const whatMonthIs = []
@@ -63,10 +71,10 @@ export const lineChartLabels = (data, isFirstDay) => {
 
             if (moment(t.date) >= dayX)  {
                     if (moment(t.date).date() < dayX.date()) {
-                        whatMonthIs.push(moment(t.date).subtract(1, "month").format('MMMM'))
+                        whatMonthIs.push(moment(t.date).subtract(1, "month").locale(lang).format('MMMM'))
                     }
                     else {
-                        whatMonthIs.push(moment(t.date).format('MMMM'))
+                        whatMonthIs.push(moment(t.date).locale(lang).format('MMMM'))
                     }
 
                 dayX.add(1, 'month')

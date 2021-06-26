@@ -1,51 +1,52 @@
 import { firebase } from '../../firebase/config'
 import {Alert} from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
+import i18n from "../../locales"
 
 const errorHandler = (error) => {
 console.log('err' + error)
     switch (error.toString()) {
 
         case 'Error: The password is invalid or the user does not have a password.': {
-            Alert.alert("Ошибка!", 'Неправильный пароль.', [
-                {text: 'Принять', style: 'cancel'}
+            Alert.alert(i18n.t("authActions.error"), i18n.t("authActions.invalidPass"), [
+                {text: i18n.t("authActions.confirm"), style: 'cancel'}
             ]);
             break
         }
         case 'Error: There is no user record corresponding to this identifier. The user may have been deleted.': {
-                Alert.alert("Ошибка!", 'Такого пользователя нет.', [
-                    {text: 'Принять', style: 'cancel'}
+                Alert.alert(i18n.t("authActions.error"), i18n.t("authActions.noUser"), [
+                    {text: i18n.t("authActions.confirm"), style: 'cancel'}
                 ]);
             break
             }
         case 'Error: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.': {
-                Alert.alert("Ошибка!", 'Слишком много попыток входа. Попробуйте через несколько секунд.', [
-                    {text: 'Принять', style: 'cancel'}
+                Alert.alert(i18n.t("authActions.error"), i18n.t("authActions.tryAgain"), [
+                    {text: i18n.t("authActions.confirm"), style: 'cancel'}
                 ]);
             break
             }
         case 'Error: The email address is already in use by another account.': {
-                Alert.alert("Ошибка!", 'Указанная почта уже используется другим аккаунтом.', [
-                    {text: 'Принять', style: 'cancel'}
+                Alert.alert(i18n.t("authActions.error"), i18n.t("authActions.mailIsUsed"), [
+                    {text: i18n.t("authActions.confirm"), style: 'cancel'}
                 ]);
             break
             }
         case 'Error: A network error (such as timeout, interrupted connection or unreachable host) has occurred.': {
-            Alert.alert("Ошибка!", 'Проверьте подключение к интернету.', [
-                {text: 'Принять', style: 'cancel'}
+            Alert.alert(i18n.t("authActions.error"), i18n.t("authActions.connectionFail"), [
+                {text: i18n.t("authActions.confirm"), style: 'cancel'}
             ]);
             break
         }
         case 'Error: The email address is badly formatted.': {
-            Alert.alert("Ошибка!", 'Проверьте введенный вами email.', [
-                {text: 'Принять', style: 'cancel'}
+            Alert.alert(i18n.t("authActions.error"), i18n.t("authActions.usedEmail"), [
+                {text: i18n.t("authActions.confirm"), style: 'cancel'}
             ]);
             break
         }
 
         default: {
-            Alert.alert("Ошибка!", 'Упс! Произошла неизвестная ошибка!', [
-                {text: 'Принять', style: 'cancel'}
+            Alert.alert(i18n.t("authActions.error"), i18n.t("authActions.unknown"), [
+                {text: i18n.t("authActions.confirm"), style: 'cancel'}
             ]);
             break
         }
@@ -140,7 +141,7 @@ export const forgotPassword = (email) => {
     return async () => {
         firebase.auth().sendPasswordResetEmail(email)
             .then(function (user) {
-                alert('На ваш email выслано письмо, которое поможет сбросить пароль')
+                alert(i18n.t("authActions.forgot"))
             }).catch(function (error) {
             errorHandler(error)
         })

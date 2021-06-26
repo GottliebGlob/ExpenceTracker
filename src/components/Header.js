@@ -4,6 +4,7 @@ import {useTheme} from "@react-navigation/native";
 import TextAvatar from "react-native-text-avatar";
 import {signOut} from "../store/actions/authAction";
 import {useDispatch} from "react-redux";
+import i18n from "../locales";
 
 
 const Header = props => {
@@ -11,12 +12,12 @@ const Header = props => {
     const dispatch = useDispatch()
 
     const signOutModalHandler = () => {
-        Alert.alert("Вы хотите сменить аккаунт?", '', [
+        Alert.alert(i18n.t("signOut.sure"), '', [
                 {
-                    text: "ОТМЕНИТЬ",
+                    text: i18n.t("signOut.cancel"),
                     style: "cancel"
                 },
-                { text: "ПРИНЯТЬ", onPress: () => {signOutHandler()}
+                { text: i18n.t("signOut.confirm"), onPress: () => {signOutHandler()}
                 }
             ],
             { cancelable: false });

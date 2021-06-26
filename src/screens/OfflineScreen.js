@@ -26,6 +26,7 @@ import getRightScale, {getRightFontScale} from "../components/flex";
 import {clearState} from "../store/actions/mainAction";
 import {getRightTextValue} from "../components/getValue";
 import {SpendsSwitch} from "../components/SpendsSwitch";
+import i18n from "../locales";
 
 
 export const OfflineScreen = ({navigation}) => {
@@ -120,12 +121,12 @@ export const OfflineScreen = ({navigation}) => {
 
 
     const removeHandler = (id) => {
-        Alert.alert("Вы точно хотите удалить трату?", '', [
+        Alert.alert(i18n.t("removeSpend.sure"), '', [
                 {
-                    text: "ОТМЕНИТЬ",
+                    text: i18n.t("removeSpend.cancel"),
                     style: "cancel"
                 },
-                { text: "ПРИНЯТЬ", onPress: () => {dispatch(removeOffline(id))}
+                { text: i18n.t("removeSpend.confirm"), onPress: () => {dispatch(removeOffline(id))}
                 }
             ],
             { cancelable: false });
@@ -141,7 +142,7 @@ export const OfflineScreen = ({navigation}) => {
         >
         <View style={{flex: 1}}>
             <StatusBar barStyle="light-content" backgroundColor='black' />
-            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={0}  data={[]} text={"Внимание! Приложение переведено в offline режим, но вы все также можете добавлять траты, а также просматривать статистику."}/>
+            <FirstLaunchModal visible={isFirst} setVisible={setIsFirst} aim={0}  data={[]} text={i18n.t("hiOffline")}/>
             <View style={styles.headerWrapper}>
                 <View style={styles.goBackIcon}>
                     <Ionicons name='md-wifi' size={25} style={{marginRight: 0, paddingVertical: 2, color: colors.error}}/>
