@@ -2,10 +2,7 @@
 
 ![alt-текст](https://github.com/GottliebGlob/ExpenceTracker/blob/main/add.png?raw=true "Текст заголовка логотипа 1")
 
-Spender is a clear and minimalistic solution for cost accounting.
-## About
-
-Auth Input is a React Native custom component, providing fields for entering name, password, phone number and email.
+Spender is a clear and minimalistic solution for cost accounting
 
 ## Why Spender?
 * Intuitiveness. There is nothing superfluous in the application - no need to deal with hundreds of unnecessary functions.
